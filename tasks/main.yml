@@ -5,4 +5,4 @@
     msg: "Running dummy task..."
   changed_when: false
   tags:
-    - tpl-install
+    - brew-install

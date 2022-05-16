@@ -1,9 +1,9 @@
 ---
 
 galaxy_info:
-  role_name: tpl
+  role_name: homebrew
   author: lotyp
-  description: Dummy template ansible role for wayofdev repositories.
+  description: Ansible role that uses loops and retries to install homebrew apps and casks.
   company: wayofdev
 
   license: MIT
