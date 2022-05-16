@@ -1,0 +1,8 @@
+---
+
+- name: Template | Debug task
+  ansible.builtin.debug:
+    msg: "Running dummy task..."
+  changed_when: false
+  tags:
+    - tpl-install
