@@ -1,39 +1,28 @@
 ---
 
-# homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
-# homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
-# homebrew_brew_bin_path: "{{ homebrew_prefix }}/bin"
-# brew_sudo_password: "{{ ansible_become_password }}"
-# brew_user: "{{ lookup('env', 'USER') }}"
-# brew_install_state: "latest" #  <latest | present>
-# remote_regular_user: "{{ ansible_user_id }}"
+brew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+brew_install_path: "{{ brew_prefix }}/Homebrew"
+brew_bin_path: "{{ brew_prefix }}/bin"
 
-brew:
-  prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+# Some casks may require sudo to complete their install
+brew_sudo_password: "{{ ansible_become_password }}"
 
-  install_path: "{{ brew.prefix }}/Homebrew"
+brew_install_state: "latest" # <latest | present>
 
-  bin_path: "{{ brew.prefix }}/bin"
+brew_folders:
+  - Cellar
+  - Homebrew
+  - Frameworks
+  - Caskroom
+  - bin
+  - etc
+  - include
+  - lib
+  - opt
+  - sbin
+  - share
+  - share/zsh
+  - share/zsh/site-functions
+  - var
 
-  # Some casks may require sudo to complete their install
-  sudo_password: "{{ ansible_become_password }}"
-
-  user: "{{ lookup('env', 'USER') }}"
-
-  install_state: "latest" # <latest | present>
-
-  folders:
-    - Cellar
-    - Homebrew
-    - Frameworks
-    - Caskroom
-    - bin
-    - etc
-    - include
-    - lib
-    - opt
-    - sbin
-    - share
-    - share/zsh
-    - share/zsh/site-functions
-    - var
+brew_current_user: "{{ lookup('env', 'USER') }}"

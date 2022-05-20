@@ -4,7 +4,7 @@ galaxy_info:
   role_name: homebrew
   namespace: wayofdev
   author: lotyp
-  description: Ansible role that uses loops and retries to install homebrew apps and casks.
+  description: Ansible role that uses loops and retries to install Homebrew apps and casks.
   company: wayofdev
 
   license: LGPLv3

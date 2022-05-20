@@ -2,7 +2,7 @@
 
 - name: Homebrew | Installing package - "{{ item }}"
   community.general.homebrew:
-    name: "{{ item }}"
+    name: "{{ brew.packages }}"
     state: "{{ brew_install_state }}"
     update_homebrew: true
   retries: "{{ brew.retries }}"
@@ -11,5 +11,6 @@
   until: install_package is not failed
   become: true
   become_user: "{{ brew_user }}"
+  when: brew.packages | length > 0
   tags:
     - brew-install-packages

@@ -12,21 +12,15 @@
 
 - name: Homebrew | Include | Tap custom repositories
   ansible.builtin.include_tasks: _partials/tap.yml
-  loop: "{{ brew.taps }}"
-  when: brew.taps | length > 0
   tags:
     - brew-tap
 
 - name: Homebrew | Include | Install packages
   ansible.builtin.include_tasks: _partials/package.yml
-  loop: "{{ brew.packages }}"
-  when: brew.packages | length > 0
   tags:
     - brew-install-packages
 
 - name: Homebrew | Include | Install casks
   ansible.builtin.include_tasks: _partials/cask.yml
-  loop: "{{ brew.casks }}"
-  when: brew.casks | length > 0
   tags:
     - brew-install-casks

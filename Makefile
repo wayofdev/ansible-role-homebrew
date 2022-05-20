@@ -16,6 +16,7 @@ inventory ?= inventory.yml
 reqs ?= requirements.yml
 poetry ?= poetry run
 
+
 ### Lint yaml files
 lint:
 	$(poetry) yamllint .
@@ -25,7 +26,7 @@ lint:
 
 ### Run tests
 test:
-	cd $(workdir) && $(poetry) ansible-playbook $(playbook)
+	cd $(workdir) && ansible-playbook $(playbook) --ask-become
 .PHONY: test
 
 ### List all hostnames

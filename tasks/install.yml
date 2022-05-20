@@ -14,7 +14,7 @@
 
 - name: Homebrew | Install | Ensure Homebrew directory exists.
   ansible.builtin.file:
-    path: "{{ brew.install_path }}"
+    path: "{{ brew_install_path }}"
     owner: "{{ brew_user }}"
     group: "{{ brew_group }}"
     state: directory
@@ -25,8 +25,8 @@
   ansible.builtin.git:
     repo: "{{ brew.repository }}"
     version: "{{ brew.branch }}"
-    dest: "{{ brew.install_path }}"
+    dest: "{{ brew_install_path }}"
     update: false
     depth: 1
   become: true
-  become_user: "{{ brew.user }}"
+  become_user: "{{ brew_current_user }}"

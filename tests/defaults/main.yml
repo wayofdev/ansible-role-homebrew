@@ -1,0 +1,22 @@
+---
+
+brew:
+  repository: https://github.com/Homebrew/brew
+  branch: master
+  upgrade_all: false
+
+  taps:
+    - homebrew/core
+    - denji/nginx
+
+  packages:
+    - ssh-copy-id  # from homebrew/core
+    - nginx-full  # from dengi/nginx
+
+  casks:
+    - firefox  # from hombrew/cask
+    - google-chrome  # from hombrew/cask
+
+  retries: 16
+  delay: 3
+  clear_cache: false

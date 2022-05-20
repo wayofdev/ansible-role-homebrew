@@ -2,7 +2,7 @@
 
 - name: Homebrew | Installing cask - "{{ item }}"
   community.general.homebrew_cask:
-    name: "{{ item }}"
+    name: "{{ brew.casks }}"
     state: present
     # Upgrades Disabled Here Due to: https://github.com/ansible-collections/community.general/issues/1647
     # update_homebrew: true
@@ -14,5 +14,6 @@
   until: install_cask is not failed
   become: true
   become_user: "{{ brew_user }}"
+  when: brew.casks | length > 0
   tags:
     - brew-install-casks

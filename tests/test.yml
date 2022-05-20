@@ -2,26 +2,8 @@
 - hosts: localhost
   connection: local
 
-  vars:
-    brew:
-      upgrade_all: false
-
-      taps:
-        - homebrew/core
-        - name: denji/nginx
-          url: 'https://github.com/denji/homebrew-nginx.git'
-
-      packages:
-        - ssh-copy-id  # from homebrew/core
-        - nginx-full  # from dengi/nginx
-
-      casks:
-        - firefox  # from hombrew/cask
-        - google-chrome  # from hombrew/cask
-
-      retries: 64
-      delay: 3
-      clear_cache: false
+  vars_files:
+    - ./defaults/main.yml
 
   roles:
     # - elliotweiser.osx-command-line-tools
