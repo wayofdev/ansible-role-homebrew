@@ -17,6 +17,27 @@ on:  # yamllint disable-line rule:truthy
         default: 'no'
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          set -eux
+          pipx install poetry
+          make install-deps
+
+      - name: Run linting tasks
+        run: make lint
+
   integration:
     name: Integration.
     runs-on: ${{ matrix.os }}
@@ -32,18 +53,41 @@ jobs:
       - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
+      - name: Try to find existing libintl
+        run: |
+          find / -name 'libintl*'
+
+      - name: Install gettext for poetry
+        run: |
+          curl -O https://ftp.gnu.org/gnu/gettext/gettext-0.20.1.tar.gz
+          tar xvfz gettext-0.20.1.tar.gz
+          cd gettext-0.20.1
+          ./configure --prefix=/usr/local/opt/gettext \
+            --disable-dependency-tracking \
+            --disable-silent-rules \
+            --disable-debug \
+            --disable-java \
+            --disable-csharp \
+            --without-git \
+            --without-cvs \
+            --without-xz \
+            --with-included-gettext
+          make
+          sudo make install
+
+      - name: Link compiled gettext libraries
+        run: tests/gettext-symlinks.sh
+
       - name: Set up Python 3
         uses: actions/setup-python@v3
         with:
           python-version: '3.9'
-        env:
-          ACTIONS_RUNNER_DEBUG: true
 
       - name: Install test dependencies
         run: |
           set -eux
           python --version
-          pip install poetry
+          pipx install poetry
           make install-deps
 
       - name: Test the playbook
