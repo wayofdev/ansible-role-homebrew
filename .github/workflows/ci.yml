@@ -53,10 +53,6 @@ jobs:
       - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
-      - name: Try to find existing libintl
-        run: |
-          find / -name 'libintl*'
-
       - name: Install gettext for poetry
         run: |
           curl -O https://ftp.gnu.org/gnu/gettext/gettext-0.20.1.tar.gz
