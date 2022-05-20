@@ -52,7 +52,7 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Uninstall built-in Homebrew
+      - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
       - name: Uninstall built-in browsers
@@ -60,7 +60,7 @@ jobs:
           sudo rm -rf /Applications/Firefox.app
           sudo rm -rf /Applications/Google\ Chrome.app
 
-      - name: Install gettext for Poetry
+      - name: Install gettext for poetry
         run: |
           curl -O https://ftp.gnu.org/gnu/gettext/gettext-0.20.1.tar.gz
           tar xvfz gettext-0.20.1.tar.gz
@@ -68,6 +68,7 @@ jobs:
           ./configure --prefix=/usr/local/gettext/0_20_1 \
             --disable-dependency-tracking \
             --disable-silent-rules \
+            --disable-debug \
             --disable-java \
             --disable-csharp \
             --without-git \
@@ -75,8 +76,8 @@ jobs:
             --without-xz \
             --with-included-gettext
           make
-          make install
-          tests/gettext-symlinks.sh
+          sudo make install
+          ./tests/gettext-symlinks.sh
           export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
           export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
           export ACLOCAL_PATH=/usr/local/share/aclocal/:$ACLOCAL_PATH
