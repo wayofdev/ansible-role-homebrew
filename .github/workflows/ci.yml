@@ -29,10 +29,12 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Install Poetry
+        uses: gi0baro/setup-poetry-bin@v1
+
       - name: Install dependencies
         run: |
           set -eux
-          pipx install poetry
           make install-deps
 
       - name: Run linting tasks
@@ -53,7 +55,7 @@ jobs:
       - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
-      - name: Install gettext for poetry
+      - name: Install back broken gettext without homebrew
         run: |
           curl -O https://ftp.gnu.org/gnu/gettext/gettext-0.20.1.tar.gz
           tar xvfz gettext-0.20.1.tar.gz
@@ -79,11 +81,13 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Install Poetry
+        uses: gi0baro/setup-poetry-bin@v1
+
       - name: Install test dependencies
         run: |
           set -eux
           python --version
-          pipx install poetry
           make install-deps
 
       - name: Test the playbook

@@ -6,7 +6,7 @@ authors = ["lotyp <lotyp7@gmail.com>"]
 license = "LGPLv3"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 ansible = "^5.8.0"
 
 [tool.poetry.dev-dependencies]
