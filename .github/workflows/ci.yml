@@ -72,7 +72,7 @@ jobs:
             --disable-csharp \
             --without-git \
             --without-cvs \
-            --without-xz
+            --without-xz \
             --with-included-gettext
           make
           make install
