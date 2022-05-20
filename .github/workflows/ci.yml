@@ -86,12 +86,9 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          sudo pip3 install --upgrade pip
-          sudo pip3 install ansible-core
+          pip install ssl ansible-core
           python --version; python -c "import ssl; print ssl.OPENSSL_VERSION"
           ansible-galaxy install -r requirements.yml
-          # set -eux
-          # make install-deps
 
       - name: Test the playbook
         run: ansible-playbook tests/test.yml --ask-become -vvv
