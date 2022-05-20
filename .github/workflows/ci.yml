@@ -55,38 +55,10 @@ jobs:
       - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
-      - name: Install back broken gettext without homebrew
-        run: |
-          curl -O https://ftp.gnu.org/gnu/gettext/gettext-0.20.1.tar.gz
-          tar xvfz gettext-0.20.1.tar.gz
-          cd gettext-0.20.1
-          ./configure --prefix=/usr/local/opt/gettext \
-            --disable-dependency-tracking \
-            --disable-silent-rules \
-            --disable-debug \
-            --disable-java \
-            --disable-csharp \
-            --without-git \
-            --without-cvs \
-            --without-xz \
-            --with-included-gettext
-          make
-          sudo make install
-
-      - name: Link compiled gettext libraries
-        run: tests/gettext-symlinks.sh
-
-      - name: Set up Python 3
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
-
-      - name: Install Poetry
-        uses: gi0baro/setup-poetry-bin@v1
-
       - name: Install test dependencies
         run: |
-          pip install ssl ansible-core
+          sudo pip3 install --upgrade pip
+          sudo pip3 install ansible-core
           python --version; python -c "import ssl; print ssl.OPENSSL_VERSION"
           ansible-galaxy install -r requirements.yml
 
