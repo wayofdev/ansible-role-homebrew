@@ -1,6 +1,14 @@
 ---
 
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: fix-encoding-pragma
+
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.26.3
     hooks:
@@ -21,3 +29,13 @@ repos:
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
+
+  - repo: https://github.com/robertdebock/pre-commit
+    rev: v1.4.5
+    hooks:
+      - id: ansible_role_find_unused_variable
+      - id: ansible_role_find_empty_files
+      - id: ansible_role_find_empty_directories
+      - id: ansible_role_fix_readability
+      - id: ansible_role_find_undefined_handlers
+      - id: ansible_role_find_unquoted_values

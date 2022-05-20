@@ -1,1 +1,9 @@
 ---
+
+- name: Homebrew | Clear homebrew cache
+  ansible.builtin.file:
+    path: "{{ homebrew_cache_path.stdout | trim }}"
+    state: absent
+  when: brew.clear_cache | bool
+  become: "{{ (brew.user != ansible_user_id) | bool }}"
+  become_user: "{{ brew.user }}"

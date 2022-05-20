@@ -1,0 +1,9 @@
+---
+
+- name: Ensure Homebrew parent directory has correct permissions (M1).
+  ansible.builtin.file:
+    path: "{{ brew.prefix }}"
+    owner: "{{ brew.user }}"
+    state: directory
+    mode: 0755
+  become: true

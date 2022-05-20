@@ -1,0 +1,13 @@
+---
+
+- name: Homebrew | Tapping Homebrew repository - "{{ item }}"
+  community.general.homebrew_tap:
+    name: "{{ item }}"
+  retries: "{{ brew.retries }}"
+  delay: "{{ brew.delay }}"
+  register: install_tap
+  until: install_tap is not failed
+  become: true
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-tap

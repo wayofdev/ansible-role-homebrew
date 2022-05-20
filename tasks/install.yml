@@ -1,0 +1,32 @@
+---
+
+- name: Homebrew | Include | Install Homebrew on arm64 (M1) machines
+  ansible.builtin.include_tasks: _partials/install-arm64.yml
+  when: ansible_machine == 'arm64'
+  tags:
+    - brew-install
+
+- name: Homebrew | Include | Install Homebrew on x86_64 (Intel) machines
+  ansible.builtin.include_tasks: _partials/install-x86.yml
+  when: ansible_machine == 'x86_64'
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Ensure Homebrew directory exists.
+  ansible.builtin.file:
+    path: "{{ brew.install_path }}"
+    owner: "{{ brew_user }}"
+    group: "{{ brew_group }}"
+    state: directory
+    mode: 0775
+  become: true
+
+- name: Homebrew | Install | Clone latest repository
+  ansible.builtin.git:
+    repo: "{{ brew.repository }}"
+    version: "{{ brew.branch }}"
+    dest: "{{ brew.install_path }}"
+    update: false
+    depth: 1
+  become: true
+  become_user: "{{ brew.user }}"

@@ -1,0 +1,15 @@
+---
+
+- name: Homebrew | Installing package - "{{ item }}"
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: "{{ brew_install_state }}"
+    update_homebrew: true
+  retries: "{{ brew.retries }}"
+  delay: "{{ brew.delay }}"
+  register: install_package
+  until: install_package is not failed
+  become: true
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-install-packages

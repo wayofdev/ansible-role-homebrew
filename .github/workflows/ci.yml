@@ -21,30 +21,21 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the codebase.
+      - name: Check out the codebase
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.
+      - name: Set up Python 3
         uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
-      - name: Install test dependencies.
+      - name: Install dependencies
         run: |
-          pip3 install yamllint
-          pip3 install ansible-lint
-          ansible-galaxy install -r requirements.yml
+          set -eux
+          make install-all-deps
 
-      - name: Run yamllint.
-        run: yamllint .
-
-      - name: Run ansible lint.
-        working-directory: tests
-        run: ansible-lint test.yml -c ../.ansible-lint
-
-      - name: Verify syntax
-        working-directory: tests
-        run: ansible-playbook test.yml --syntax-check
+      - name: Run linting tasks
+        run: make lint
 
   integration:
     name: Integration.
@@ -55,29 +46,27 @@ jobs:
           - macos-12
 
     steps:
-      - name: Check out the codebase.
+      - name: Check out the codebase
         uses: actions/checkout@v3
       - uses: actions/setup-python@v3
         with:
           python-version: 3.9
 
-      - name: Install dependencies.
+      - name: Install test dependencies
         run: |
           set -eux
-          pip install ansible
-          ansible-galaxy install -r requirements.yml
+          make install-all-deps
 
-      - name: Test the playbook.
-        run: |
-          ansible-playbook tests/test.yml
+      - name: Test the playbook
+        run: make test
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
 
-      - name: Idempotence check.
+      - name: Idempotence check
         run: |
           idempotence=$(mktemp)
-          ansible-playbook tests/test.yml | tee -a ${idempotence}
+          cd tests && poetry run ansible-playbook test.yml | tee -a ${idempotence}
           tail ${idempotence} \
             | grep -q 'changed=0.*failed=0' \
             && (echo 'Idempotence test: pass' && exit 0) \
@@ -95,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: galaxy
-        uses: robertdebock/galaxy-action@1.2.0
+      - name: Publish to Ansible Galaxy
+        uses: lotyp/galaxy-action@1.2.1
         with:
           galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}

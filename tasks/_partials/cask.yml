@@ -1,0 +1,18 @@
+---
+
+- name: Homebrew | Installing cask - "{{ item }}"
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: present
+    # Upgrades Disabled Here Due to: https://github.com/ansible-collections/community.general/issues/1647
+    # update_homebrew: true
+    accept_external_apps: true
+    sudo_password: "{{ brew_sudo_password }}"
+  retries: "{{ brew.retries }}"
+  delay: "{{ brew.delay }}"
+  register: install_cask
+  until: install_cask is not failed
+  become: true
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-install-casks
