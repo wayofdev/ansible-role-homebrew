@@ -52,10 +52,10 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Uninstall GitHub Actions' built-in Homebrew
+      - name: Uninstall built-in Homebrew
         run: tests/uninstall-homebrew.sh
 
-      - name: Uninstall GitHub Actions' built-in browser installs
+      - name: Uninstall built-in browsers
         run: |
           sudo rm -rf /Applications/Firefox.app
           sudo rm -rf /Applications/Google\ Chrome.app
@@ -63,7 +63,8 @@ jobs:
       - name: Install test dependencies
         run: |
           set -eux
-          pip install ansible
+          pip3 install --upgrade pip
+          pip3 install ansible-core
           ansible-galaxy install -r requirements.yml
 
       - name: Test the playbook
