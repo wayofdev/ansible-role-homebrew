@@ -41,16 +41,9 @@ check-syntax:
 
 ### Install ansible dependencies
 install-deps:
+	poetry install
 	$(poetry) ansible-galaxy install -r $(reqs)
 .PHONY: install-deps
-
-install-py-deps:
-	pip3 install poetry
-	poetry install
-.PHONY: install-py-deps
-
-install-all-deps: install-py-deps install-deps
-.PHONY: install-all-deps
 
 ### Git
 hooks:
