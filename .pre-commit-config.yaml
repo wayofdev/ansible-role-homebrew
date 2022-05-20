@@ -25,7 +25,7 @@ repos:
           - commit-msg
 
   - repo: https://github.com/ansible/ansible-lint
-    rev: v6.0.2
+    rev: v6.2.1
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$

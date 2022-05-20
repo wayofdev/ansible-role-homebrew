@@ -26,7 +26,7 @@ lint:
 
 ### Run tests
 test:
-	cd $(workdir) && ansible-playbook $(playbook) --ask-become
+	cd $(workdir) && $(poetry) ansible-playbook $(playbook) --ask-become
 .PHONY: test
 
 ### List all hostnames
