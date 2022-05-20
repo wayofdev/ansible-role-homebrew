@@ -27,14 +27,13 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v3
         with:
-          python-version: '3.x'
-
-      - name: Install Poetry
-        uses: gi0baro/setup-poetry-bin@v1
+          python-version: '3.9'
+          cache: 'poetry'
 
       - name: Install dependencies
         run: |
           set -eux
+          pipx install poetry
           make install-deps
 
       - name: Run linting tasks
@@ -60,16 +59,16 @@ jobs:
           sudo rm -rf /Applications/Firefox.app
           sudo rm -rf /Applications/Google\ Chrome.app
 
-      - uses: actions/setup-python@v3
+      - name: Set up Python 3
+        uses: actions/setup-python@v3
         with:
-          python-version: 3.9
-
-      - name: Install Poetry
-        uses: gi0baro/setup-poetry-bin@v1
+          python-version: '3.9'
+          cache: 'poetry'
 
       - name: Install test dependencies
         run: |
           set -eux
+          pipx install poetry
           make install-deps
 
       - name: Test the playbook
