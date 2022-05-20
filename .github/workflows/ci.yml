@@ -86,9 +86,12 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          set -eux
-          python --version
-          make install-deps
+          sudo pip3 install --upgrade pip
+          sudo pip3 install ansible-core
+          python --version; python -c "import ssl; print ssl.OPENSSL_VERSION"
+          ansible-galaxy install -r requirements.yml
+          # set -eux
+          # make install-deps
 
       - name: Test the playbook
         run: ansible-playbook tests/test.yml --ask-become -vvv
@@ -99,7 +102,7 @@ jobs:
       - name: Idempotence check
         run: |
           idempotence=$(mktemp)
-          cd tests && poetry ansible-playbook test.yml | tee -a ${idempotence}
+          ansible-playbook tests/test.yml --ask-become | tee -a ${idempotence}
           tail ${idempotence} \
             | grep -q 'changed=0.*failed=0' \
             && (echo 'Idempotence test: pass' && exit 0) \
