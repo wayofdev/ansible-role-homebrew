@@ -54,15 +54,3 @@ ln -s /usr/local/gettext/0_20_1/lib/libtextstyle.so /usr/local/lib/
 ln -s /usr/local/gettext/0_20_1/lib/libtextstyle.so.0 /usr/local/lib/
 ln -s /usr/local/gettext/0_20_1/lib/libtextstyle.so.0.0.0 /usr/local/lib/
 ln -s /usr/local/gettext/0_20_1/lib/preloadable_libintl.so /usr/local/lib/
-
-### /usr/local/share/aclocal
-ln -s /usr/local/gettext/0_20_1/share/aclocal/gettext.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/host-cpu-c-abi.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/iconv.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/intlmacosx.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/lib-ld.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/lib-link.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/lib-prefix.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/nls.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/po.m4 /usr/local/share/aclocal/
-ln -s /usr/local/gettext/0_20_1/share/aclocal/progtest.m4 /usr/local/share/aclocal/
