@@ -17,6 +17,6 @@ brew:
     - firefox  # from hombrew/cask
     - google-chrome  # from hombrew/cask
 
-  retries: 16
+  retries: 3
   delay: 3
   clear_cache: false

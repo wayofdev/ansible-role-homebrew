@@ -2,11 +2,11 @@
 ### Variables
 ###
 
-ANSIBLE_FORCE_COLOR = 1
+export ANSIBLE_FORCE_COLOR = 1
 
 # https://serverfault.com/questions/1031491/display-ansible-playbook-output-properly-formatted
 # https://stackoverflow.com/questions/50009505/ansible-stdout-formatting
-ANSIBLE_STDOUT_CALLBACK = unixy
+export ANSIBLE_STDOUT_CALLBACK = unixy
 
 
 ### Playbook name
@@ -26,7 +26,7 @@ lint:
 
 ### Run tests
 test:
-	cd $(workdir) && $(poetry) ansible-playbook $(playbook) --ask-become
+	cd $(workdir) && $(poetry) ansible-playbook $(playbook) --ask-become -vvv
 .PHONY: test
 
 ### List all hostnames
