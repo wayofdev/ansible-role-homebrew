@@ -17,27 +17,6 @@ on:  # yamllint disable-line rule:truthy
         default: 'no'
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v3
-
-      - name: Set up Python 3
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          set -eux
-          pipx install poetry
-          make install-deps
-
-      - name: Run linting tasks
-        run: make lint
-
   integration:
     name: Integration.
     runs-on: ${{ matrix.os }}
@@ -53,20 +32,18 @@ jobs:
       - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
-      - name: Uninstall built-in browsers
-        run: |
-          sudo rm -rf /Applications/Firefox.app
-          sudo rm -rf /Applications/Google\ Chrome.app
-
       - name: Set up Python 3
         uses: actions/setup-python@v3
         with:
           python-version: '3.9'
+        env:
+          ACTIONS_RUNNER_DEBUG: true
 
       - name: Install test dependencies
         run: |
           set -eux
-          pipx install poetry
+          python --version
+          pip install poetry
           make install-deps
 
       - name: Test the playbook
@@ -90,7 +67,7 @@ jobs:
   publish:
     if: github.event.inputs.shouldPublishImage == 'yes' || github.ref == 'refs/heads/master'
     needs:
-      - lint
+      # - lint
       - integration
     runs-on: ubuntu-latest
     steps:
