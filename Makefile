@@ -40,10 +40,18 @@ check-syntax:
 .PHONY: check-syntax
 
 ### Install ansible dependencies
+install: install-poetry install-deps
+.PHONY: install
+
 install-deps:
 	poetry install
 	$(poetry) ansible-galaxy install -r $(reqs)
 .PHONY: install-deps
+
+install-poetry:
+	sudo pip3 install --upgrade pip
+	sudo sh contrib/poetry-bin/install.sh
+.PHONY: install-poetry
 
 ### Git
 hooks:

@@ -2,4 +2,5 @@
 
 # https://ansible-lint.readthedocs.io/en/latest/configuring/
 
-skip_list: []
+skip_list:
+  - no-handler

@@ -2,27 +2,27 @@
 
 brew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
 brew_install_path: "{{ brew_prefix }}/Homebrew"
-# brew_bin_path: "{{ brew_prefix }}/bin"
+brew_bin_path: "{{ brew_prefix }}/bin"
 
 # Some casks may require sudo to complete their install
 brew_sudo_password: "{{ ansible_become_password }}"
 
 brew_install_state: "latest" # <latest | present>
 
-# brew_folders:
-#   - Cellar
-#   - Homebrew
-#   - Frameworks
-#   - Caskroom
-#   - bin
-#   - etc
-#   - include
-#   - lib
-#   - opt
-#   - sbin
-#   - share
-#   - share/zsh
-#   - share/zsh/site-functions
-#   - var
+brew_folders:
+  - Cellar
+  - Homebrew
+  - Frameworks
+  - Caskroom
+  - bin
+  - etc
+  - include
+  - lib
+  - opt
+  - sbin
+  - share
+  - share/zsh
+  - share/zsh/site-functions
+  - var
 
 brew_current_user: "{{ lookup('env', 'USER') }}"

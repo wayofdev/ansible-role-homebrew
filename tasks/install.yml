@@ -12,7 +12,7 @@
   tags:
     - brew-install
 
-- name: Homebrew | Install | Ensure Homebrew directory exists.
+- name: Homebrew | Install | Ensure Homebrew directory exists
   ansible.builtin.file:
     path: "{{ brew_install_path }}"
     owner: "{{ brew_user }}"
@@ -20,6 +20,8 @@
     state: directory
     mode: 0775
   become: true
+  tags:
+    - brew-install
 
 - name: Homebrew | Install | Clone latest repository
   ansible.builtin.git:
@@ -30,3 +32,56 @@
     depth: 1
   become: true
   become_user: "{{ brew_current_user }}"
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Ensure proper permissions and ownership on "{{ brew_bin_path }}"r
+  ansible.builtin.file:
+    path: "{{ brew_bin_path }}"
+    owner: "{{ brew_user }}"
+    group: "{{ brew_group }}"
+    state: directory
+    mode: 0775
+  become: true
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Ensure proper ownership on "{{ brew_install_path }}" dir and it's sub dirs.
+  ansible.builtin.file:
+    path: "{{ brew_install_path }}"
+    owner: "{{ brew_user }}"
+    group: "{{ brew_group }}"
+    state: directory
+    recurse: true
+  become: true
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Check if binary is already in place
+  ansible.builtin.stat: "path={{ brew_bin_path }}/brew"
+  register: brew_binary
+  check_mode: false
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Symlink brew to {{ brew_bin_path }}.
+  ansible.builtin.file:
+    src: "{{ brew_install_path }}/bin/brew"
+    dest: "{{ brew_bin_path }}/brew"
+    state: link
+  when: not brew_binary.stat.exists
+  become: true
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Ensure proper folders are in place.
+  ansible.builtin.file:
+    path: "{{ brew_prefix }}/{{ item }}"
+    owner: "{{ brew_user }}"
+    group: "{{ brew_group }}"
+    state: directory
+    mode: 0775
+  become: true
+  loop: "{{ brew_folders }}"
+  tags:
+    - brew-install

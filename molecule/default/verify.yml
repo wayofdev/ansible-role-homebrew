@@ -1,0 +1,15 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Molecule | Check if binary is already in place
+      ansible.builtin.stat: "path={{ brew_bin_path }}/brew"
+      register: brew_binary
+
+    - name: Fail if brew binary does not exist
+      ansible.builtin.fail:
+        msg: Brew binary does not exist in system!
+      when: not brew_binary.stat.exists

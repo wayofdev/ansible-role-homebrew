@@ -17,3 +17,5 @@
   when: brew.casks | length > 0
   tags:
     - brew-install-casks
+  notify:
+    - Clear homebrew cache

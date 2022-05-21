@@ -9,9 +9,15 @@ brew:
 
   taps: []
 
+  # Homebrew packages that should be removed
+  packages_remove: []
+
   # Homebrew Packages, Installed to the default homebrew location
   # (Usually /usr/local, but depends on your homebrew install configuration.)
   packages: []
+
+  # Casks that should be removed
+  casks_remove: []
 
   # Standard /Applications Installed Brew Casks
   casks: []

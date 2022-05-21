@@ -14,3 +14,5 @@
   when: brew.packages | length > 0
   tags:
     - brew-install-packages
+  notify:
+    - Clear homebrew cache
