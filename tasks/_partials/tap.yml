@@ -1,6 +1,6 @@
 ---
 
-- name: Homebrew | Tapping Homebrew repository - "{{ item }}"
+- name: Homebrew | Tapping Homebrew repositories"
   community.general.homebrew_tap:
     name: "{{ brew.taps }}"
   retries: "{{ brew.retries }}"

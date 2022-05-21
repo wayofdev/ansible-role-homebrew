@@ -1,6 +1,6 @@
 ---
 
-- name: Homebrew | Clear cache
+- name: brew-clear-cache
   ansible.builtin.file:
     path: "{{ brew_cache_path.stdout | trim }}"
     state: absent

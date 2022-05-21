@@ -3,7 +3,7 @@
   connection: local
 
   vars_files:
-    - ./default/main.yml
+    - ./defaults/main.yml
 
   roles:
     # - elliotweiser.osx-command-line-tools

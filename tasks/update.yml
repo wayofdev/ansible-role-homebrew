@@ -2,7 +2,7 @@
 
 - name: Force update brew after installation.
   ansible.builtin.command: "{{ brew_bin_path }}/brew update --force"
-  when: not homebrew_binary.stat.exists
+  when: not brew_binary.stat.exists
   tags:
     - brew-update
 

@@ -1,6 +1,6 @@
 ---
 
-- name: Homebrew | Installing cask - "{{ item }}"
+- name: Homebrew | Installing casks"
   community.general.homebrew_cask:
     name: "{{ brew.casks }}"
     state: present
@@ -18,4 +18,4 @@
   tags:
     - brew-install-casks
   notify:
-    - Clear homebrew cache
+    - brew-clear-cache

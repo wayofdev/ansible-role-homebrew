@@ -27,7 +27,7 @@
 
 <br>
 
-# Ansible Role: Template
+# Ansible Role: Homebrew
 
 Ansible role that uses loops and retries to install homebrew apps and casks.
 
@@ -37,7 +37,7 @@ If you **like/use** this role, please consider **starring** it. Thanks!
 
 ## 📑 Requirements
 
-  - **Homebrew**: Requires `homebrew` already installed (you can use `geerlingguy.mac.homebrew` to install it on your Mac).
+None.
 
 <br>
 
@@ -59,8 +59,10 @@ brew:
 
 ## 📦 Dependencies
 
-  - `geerlingguy.homebrew` (Soft dependency)
-  - `ansible.community.general` – installation handled by `Makefile` and it is defined in `requirements.yml`
+Installation handled by `Makefile` and it is defined in `requirements.yml`
+
+  - [elliotweiser.osx-command-line-tools](https://galaxy.ansible.com/elliotweiser/osx-command-line-tools/)
+  - [ansible.community.general](https://docs.ansible.com/ansible/latest/collections/community/general/index.html)
 
 <br>
 
@@ -135,4 +137,3 @@ This role has been tested on these systems:
 ## 🙆🏼‍♂️ Author Information
 
 This role was created in **2022** by [lotyp / wayofdev](https://github.com/wayofdev).
-

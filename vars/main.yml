@@ -5,7 +5,7 @@ brew_install_path: "{{ brew_prefix }}/Homebrew"
 brew_bin_path: "{{ brew_prefix }}/bin"
 
 # Some casks may require sudo to complete their install
-brew_sudo_password: "{{ ansible_become_password }}"
+brew_sudo_password: "{{ ansible_become_password | default(omit) }}"
 
 brew_install_state: "latest" # <latest | present>
 
