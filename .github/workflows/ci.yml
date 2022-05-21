@@ -55,18 +55,16 @@ jobs:
       - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
-      - name: Install test dependencies
+      - name: Uninstall built-in browsers
         run: |
-          sudo pip3 install --upgrade pip
-          sudo pip3 install ansible-core
-          python --version; python -c "import ssl; print ssl.OPENSSL_VERSION"
-          ansible-galaxy install -r requirements.yml
+          sudo rm -rf /Applications/Firefox.app
+          sudo rm -rf /Applications/Google\ Chrome.app
 
-      - name: Install Poetry
-        uses: gi0baro/setup-poetry-bin@v1
+      - name: Install test dependencies
+        run: make install
 
       - name: Test the playbook
-        run: ansible-playbook tests/test.yml --ask-become -vvv
+        run: poetry ansible-playbook tests/test.yml --ask-become -vvv
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
@@ -74,7 +72,7 @@ jobs:
       - name: Idempotence check
         run: |
           idempotence=$(mktemp)
-          ansible-playbook tests/test.yml --ask-become | tee -a ${idempotence}
+          poetry ansible-playbook tests/test.yml --ask-become | tee -a ${idempotence}
           tail ${idempotence} \
             | grep -q 'changed=0.*failed=0' \
             && (echo 'Idempotence test: pass' && exit 0) \
