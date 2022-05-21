@@ -25,4 +25,4 @@ brew_folders:
   - share/zsh/site-functions
   - var
 
-brew_current_user: "{{ lookup('env', 'USER') }}"
+# brew_current_user: "{{ lookup('env', 'USER') }}"

@@ -18,14 +18,14 @@
 - name: Homebrew | Include | Tap custom repositories
   ansible.builtin.include_tasks: _partials/tap.yml
   tags:
-    - brew-tap
+    - brew-taps
 
 - name: Homebrew | Include | Install packages
   ansible.builtin.include_tasks: _partials/package.yml
   tags:
-    - brew-install-packages
+    - brew-packages
 
 - name: Homebrew | Include | Install casks
   ansible.builtin.include_tasks: _partials/cask.yml
   tags:
-    - brew-install-casks
+    - brew-casks

@@ -1,6 +1,13 @@
 ---
 
-- name: Homebrew | Installing packages"
+- name: Homebrew | Removing packages
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ brew.packages_remove }}"
+  when: brew.packages_remove | lenght > 0
+
+- name: Homebrew | Installing packages
   community.general.homebrew:
     name: "{{ brew.packages }}"
     state: "{{ brew_install_state }}"
@@ -9,10 +16,10 @@
   delay: "{{ brew.delay }}"
   register: install_package
   until: install_package is not failed
-  become: true
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
   when: brew.packages | length > 0
   tags:
-    - brew-install-packages
+    - brew-packages
   notify:
     - brew-clear-cache

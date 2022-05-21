@@ -13,14 +13,15 @@
 
 <div align="center">
 <a href="https://actions-badge.atrox.dev/wayofdev/ansible-role-homebrew/goto"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fwayofdev%2Fansible-role-homebrew%2Fbadge&style=flat-square"/></a>
-<a href="https://galaxy.ansible.com/lotyp/homebrew"><img alt="Ansible Role" src="https://img.shields.io/ansible/role/59205?style=flat-square"/></a>
+<a href="https://galaxy.ansible.com/lotyp/homebrew"><img alt="Ansible Role" src="https://img.shields.io/ansible/role/59250?style=flat-square"/></a>
 <a href="https://github.com/wayofdev/ansible-role-homebrew/tags"><img src="https://img.shields.io/github/v/tag/wayofdev/ansible-role-homebrew?sort=semver&style=flat-square" alt="Latest Version"></a>
 <a href="https://galaxy.ansible.com/lotyp/homebrew">
-<img alt="Ansible Quality Score" src="https://img.shields.io/ansible/quality/59205?style=flat-square"/></a>
+<img alt="Ansible Quality Score" src="https://img.shields.io/ansible/quality/59250?style=flat-square"/></a>
 <a href="https://galaxy.ansible.com/lotyp/homebrew">
-<img alt="Ansible Role" src="https://img.shields.io/ansible/role/d/59205?style=flat-square"/></a>
-<a href="LICENSE"><img src="https://img.shields.io/badge/License-LGPL%20v3-green.svg?style=flat-square" alt="Software License"/></a>
+<img alt="Ansible Role" src="https://img.shields.io/ansible/role/d/59250?style=flat-square"/></a>
+<a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/ansible-role-homebrew.svg?style=flat-square&color=blue" alt="Software License"/></a>
 </div>
+
 
 
 
@@ -111,7 +112,21 @@ For local testing you can use these comands to test whole role or separate tasks
 ```bash
 # run all tasks in role
 $ make test
+
+# or test-tag without any parameters
+$ make test-tag
+
+# run tasks that ensures brew installation on macos
+$ export TASK_TAGS="brew-install" make test-tag
+
+# run tasks that tries to update brew
+$ export TASK_TAGS="brew-update" make test-tag
+
+# run tasks that tries to update brew and then run taps and casks
+$ export TASK_TAGS="brew-update brew-taps brew-casks" make test-tag
 ```
+
+Full list of commands can be seen in `Makefile`.
 
 <br>
 
@@ -130,7 +145,7 @@ This role has been tested on these systems:
 
 ## 🤝 License
 
-[![Licence](https://img.shields.io/badge/License-LGPL%20v3-green.svg?style=for-the-badge)](./LICENSE)
+[![Licence](https://img.shields.io/github/license/wayofdev/ansible-role-homebrew?style=for-the-badge&color=blue)](./LICENSE)
 
 <br>
 

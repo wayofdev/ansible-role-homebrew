@@ -1,14 +1,21 @@
 ---
 
-- name: Homebrew | Tapping Homebrew repositories"
+- name: Homebrew | Removing taps
+  community.general.homebrew_tap:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ brew.taps_remove }}"
+  when: brew.taps_remove | lenght > 0
+
+- name: Homebrew | Tapping Homebrew repositories
   community.general.homebrew_tap:
     name: "{{ brew.taps }}"
   retries: "{{ brew.retries }}"
   delay: "{{ brew.delay }}"
   register: install_tap
   until: install_tap is not failed
-  become: true
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
   when: brew.taps | length > 0
   tags:
-    - brew-tap
+    - brew-taps

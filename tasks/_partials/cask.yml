@@ -1,6 +1,13 @@
 ---
 
-- name: Homebrew | Installing casks"
+- name: Homebrew | Removing casks
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ brew.casks_remove }}"
+  when: brew.casks_remove | lenght > 0
+
+- name: Homebrew | Installing casks
   community.general.homebrew_cask:
     name: "{{ brew.casks }}"
     state: present
@@ -12,10 +19,10 @@
   delay: "{{ brew.delay }}"
   register: install_cask
   until: install_cask is not failed
-  become: true
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
   when: brew.casks | length > 0
   tags:
-    - brew-install-casks
+    - brew-casks
   notify:
     - brew-clear-cache

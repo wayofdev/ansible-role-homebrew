@@ -31,11 +31,11 @@
     update: false
     depth: 1
   become: true
-  become_user: "{{ brew_current_user }}"
+  become_user: "{{ brew_user }}"
   tags:
     - brew-install
 
-- name: Homebrew | Install | Ensure proper permissions and ownership on "{{ brew_bin_path }}"r
+- name: Homebrew | Install | Ensure proper permissions and ownership on "{{ brew_bin_path }}" directory
   ansible.builtin.file:
     path: "{{ brew_bin_path }}"
     owner: "{{ brew_user }}"
@@ -46,7 +46,7 @@
   tags:
     - brew-install
 
-- name: Homebrew | Install | Ensure proper ownership on "{{ brew_install_path }}" dir and it's sub dirs.
+- name: Homebrew | Install | Ensure proper ownership on "{{ brew_install_path }}" directory and it's contents
   ansible.builtin.file:
     path: "{{ brew_install_path }}"
     owner: "{{ brew_user }}"
@@ -58,7 +58,8 @@
     - brew-install
 
 - name: Homebrew | Install | Check if binary is already in place
-  ansible.builtin.stat: "path={{ brew_bin_path }}/brew"
+  ansible.builtin.stat:
+    path: "{{ brew_bin_path }}/brew"
   register: brew_binary
   check_mode: false
   tags:

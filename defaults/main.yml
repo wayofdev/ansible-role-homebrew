@@ -7,6 +7,9 @@ brew:
   # Run task to upgrade all packages
   upgrade_all: false
 
+  # Homebrew taps to remove
+  taps_remove: []
+
   taps: []
 
   # Homebrew packages that should be removed

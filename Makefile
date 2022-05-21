@@ -3,40 +3,44 @@
 ###
 
 export ANSIBLE_FORCE_COLOR = 1
+export ANSIBLE_JINJA2_NATIVE = true
 
 # https://serverfault.com/questions/1031491/display-ansible-playbook-output-properly-formatted
 # https://stackoverflow.com/questions/50009505/ansible-stdout-formatting
 export ANSIBLE_STDOUT_CALLBACK = unixy
 
-
-### Playbook name
-playbook ?= test.yml
-workdir ?= ./tests
-inventory ?= inventory.yml
-reqs ?= requirements.yml
-poetry ?= poetry run
+TASK_TAGS ?= "brew-install brew-update brew-taps brew-packages brew-casks"
+PLAYBOOK ?= test.yml
+WORKDIR ?= ./tests
+INVENTORY ?= inventory.yml
+REQS ?= requirements.yml
+POETRY ?= poetry run
 
 
 ### Lint yaml files
 lint:
-	$(poetry) yamllint .
-	cd $(workdir) && $(poetry) ansible-lint $(playbook) -c ../.ansible-lint
-	cd $(workdir) && $(poetry) ansible-playbook $(playbook) --syntax-check
+	$(POETRY) yamllint .
+	cd $(WORKDIR) && $(POETRY) ansible-lint $(PLAYBOOK) -c ../.ansible-lint
+	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --syntax-check
 .PHONY: lint
 
 ### Run tests
 test:
-	cd $(workdir) && $(poetry) ansible-playbook $(playbook) --ask-become
+	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become
 .PHONY: test
+
+test-tag:
+	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become --tags $(TASK_TAGS)
+.PHONY: test-tag
 
 ### List all hostnames
 ls-host:
-	cd $(workdir) && $(poetry) ansible all -i $(inventory) -m shell -a "hostname;"
+	cd $(WORKDIR) && $(POETRY) ansible all -i $(INVENTORY) -m shell -a "hostname;"
 .PHONY: ls-host
 
 ### Check playbook syntax
 check-syntax:
-	cd $(workdir) && $(poetry) ansible-playbook $(playbook) -i $(inventory) --syntax-check
+	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) --syntax-check
 .PHONY: check-syntax
 
 ### Install ansible dependencies
@@ -45,7 +49,7 @@ install: install-poetry install-deps
 
 install-deps:
 	poetry install
-	$(poetry) ansible-galaxy install -r $(reqs)
+	$(POETRY) ansible-galaxy install -r $(REQS)
 .PHONY: install-deps
 
 install-poetry:
