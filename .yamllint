@@ -2,6 +2,9 @@
 
 extends: default
 
+ignore: |
+    contrib
+
 # Overwrite above default rules
 rules:
   braces:

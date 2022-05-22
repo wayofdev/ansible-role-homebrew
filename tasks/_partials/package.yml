@@ -1,17 +1,10 @@
 ---
 
-- name: Homebrew | Removing packages
+- name: Homebrew | Installing, updating and deleting packages
   community.general.homebrew:
-    name: "{{ item }}"
-    state: absent
-  loop: "{{ brew.packages_remove }}"
-  when: brew.packages_remove | lenght > 0
-
-- name: Homebrew | Installing packages
-  community.general.homebrew:
-    name: "{{ brew.packages }}"
-    state: "{{ brew_install_state }}"
-    update_homebrew: true
+    name: "{{ item.name | default(item) }}"
+    state: "{{ item.state | default(brew_install_state) }}"
+    update_homebrew: "{{ brew.accept_external_casks }}"  # Update is handled by separate task, do we need to disable this?
   retries: "{{ brew.retries }}"
   delay: "{{ brew.delay }}"
   register: install_package
@@ -19,6 +12,7 @@
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
   when: brew.packages | length > 0
+  loop: "{{ brew.packages }}"
   tags:
     - brew-packages
   notify:

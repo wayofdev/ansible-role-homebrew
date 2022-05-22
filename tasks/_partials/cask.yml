@@ -1,16 +1,10 @@
 ---
 
-- name: Homebrew | Removing casks
+- name: Homebrew | Installing, updating and deleting casks
   community.general.homebrew_cask:
-    name: "{{ item }}"
-    state: absent
-  loop: "{{ brew.casks_remove }}"
-  when: brew.casks_remove | lenght > 0
-
-- name: Homebrew | Installing casks
-  community.general.homebrew_cask:
-    name: "{{ brew.casks }}"
-    state: present
+    name: "{{ item.name | default(item) }}"
+    state: "{{ item.state | default(brew_cask_install_state) }}"
+    options: "{{ item.options | default('appdir=' + brew.cask_appdir) }}"
     # Upgrades Disabled Here Due to: https://github.com/ansible-collections/community.general/issues/1647
     # update_homebrew: true
     accept_external_apps: true
@@ -22,6 +16,7 @@
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
   when: brew.casks | length > 0
+  loop: "{{ brew.casks }}"
   tags:
     - brew-casks
   notify:

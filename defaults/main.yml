@@ -31,3 +31,5 @@ brew:
 
   # Clear homebrew cache after installing packages / casks
   clear_cache: false
+
+  cask_appdir: /Applications

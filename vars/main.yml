@@ -7,7 +7,11 @@ brew_bin_path: "{{ brew_prefix }}/bin"
 # Some casks may require sudo to complete their install
 brew_sudo_password: "{{ ansible_become_password | default(omit) }}"
 
-brew_install_state: "latest" # <latest | present>
+# Default install state if no state was provided with package name
+brew_install_state: "latest" # <absent | head | installed | latest | linked | present | removed | uninstalled | unlinked | upgraded>
+
+# Default install state if no state was provided with cask name
+brew_cask_install_state: "present" # <absent | installed | latest | present | removed | uninstalled | upgraded>
 
 brew_folders:
   - Cellar

@@ -44,7 +44,7 @@ None.
 
 ## 🔧 Role Variables
 
-Available variables are listed below, along with example values (see `defaults/main.yml`):
+Available variables are listed below, along with example values (see `defaults/main.yml`). Section shows all possible variants of installing, updating and removing applications / casks and taps.
 
 ### → Structure
 

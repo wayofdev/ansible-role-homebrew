@@ -10,11 +10,6 @@
   tags:
     - brew-install
 
-- name: Homebrew | Include | Update homebrew packages
-  ansible.builtin.include_tasks: update.yml
-  tags:
-    - brew-update
-
 - name: Homebrew | Include | Tap custom repositories
   ansible.builtin.include_tasks: _partials/tap.yml
   tags:
@@ -29,3 +24,8 @@
   ansible.builtin.include_tasks: _partials/cask.yml
   tags:
     - brew-casks
+
+- name: Homebrew | Include | Update homebrew packages
+  ansible.builtin.include_tasks: update.yml
+  tags:
+    - brew-update
