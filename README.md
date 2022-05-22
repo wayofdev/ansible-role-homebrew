@@ -26,6 +26,7 @@
 
 
 
+
 <br>
 
 # Ansible Role: Homebrew
@@ -62,7 +63,7 @@ brew:
 ```yaml
 brew:
   taps:
-  	# just tap
+    # just tap
     - name: homebrew/core
 
     # tap from custom repository
@@ -78,8 +79,8 @@ brew:
 
 ```yaml
 brew:
-	taps:
-		# define state: absent to delete taps
+  taps:
+    # define state: absent to delete taps
     - name: homebrew/cask-fonts
       state: absent
 
@@ -87,93 +88,89 @@ brew:
       state: absent
 ```
 
-<br>
-
-### → Installing, updating and removing packages
+### → Packages: Installing, updating and removing
 
 **Adding** packages in simple way:
 
 ```yaml
 brew:
-	packages:
-		- wget
-		- curl
-		- nano
+  packages:
+    - wget
+    - curl
+    - nano
 ```
 
 **Adding** packages in advanced way, defining state, path, and other options:
 
 ```yaml
 brew:
-	packages:
-		# install to custom path
-		- name: wget
-		  state: present
+  packages:
+    # install to custom path
+    - name: wget
+      state: present
 ```
 
 **Updating** packages:
 
 ```yaml
 brew:
-	packages:
+  packages:
     # update homebrew first and install formula wget with 'brew' in default path
-		- name: wget
-		  state: present
-			update_homebrew: true
+    - name: wget
+      state: present
+      update_homebrew: true
 
     # update homebrew first and upgrade formula curl to latest available with 'brew' in default path
-		- name: curl
-		  state: latest
-			update_homebrew: true
+    - name: curl
+      state: latest
+      update_homebrew: true
 ```
 
 **Removing** packages:
 
 ```yaml
 brew:
-	packages:
-		- name: wget
-		  state: absent
-		- name: curl
-		  state: absent
+  packages:
+    - name: wget
+      state: absent
+    - name: curl
+      state: absent
 ```
 
-<br>
-
-### → Installing, updating and removing casks
+### → Casks: installing, updating and removing
 
 **Adding** casks in simple way:
 
 ```yaml
 brew:
-	casks:
-		# Installing list of casks
-		- firefox
-		- google-chrome
-		- alfred
-		- 1password
+  casks:
+    # Installing list of casks
+    - firefox
+    - google-chrome
+    - alfred
+    - 1password
 ```
 
 **Adding** casks with advanced options:
 
 ```yaml
 brew:
-	casks:
-		# Installing firefox cask
-		- name: firefox
-			state: present
+  casks:
+    # Installing firefox cask
+    - name: firefox
+      state: present
 ```
 
 **Removing** casks:
 
 ```yaml
 brew:
-	casks:
+  casks:
     # define state: absent to delete
-		- name: firefox
-		  state: absent
-		- name: google-chrome
-		  state: absent
+    - name: firefox
+      state: absent
+    - name: google-chrome
+      state: absent
 ```
 
 <br>
@@ -216,7 +213,7 @@ Installation handled by `Makefile` and it is defined in `requirements.yml`
       cask_greedy_mode: false
 
   roles:
-		- elliotweiser.osx-command-line-tools
+    - elliotweiser.osx-command-line-tools
     - lotyp.homebrew
 ```
 
