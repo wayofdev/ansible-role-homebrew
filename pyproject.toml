@@ -3,7 +3,7 @@ name = "ansible-role-homebrew"
 version = "0.0.0"
 description = "Ansible role that uses loops and retries to install homebrew apps and casks."
 authors = ["lotyp <lotyp7@gmail.com>"]
-license = "LGPL-3.0-only"
+license = "GPL-3.0-only"
 
 [tool.poetry.dependencies]
 python = "^3.8"

@@ -7,29 +7,31 @@ brew:
   # Run task to upgrade all packages
   upgrade_all: false
 
-  # Homebrew taps to remove
-  taps_remove: []
-
   taps: []
-
-  # Homebrew packages that should be removed
-  packages_remove: []
 
   # Homebrew Packages, Installed to the default homebrew location
   # (Usually /usr/local, but depends on your homebrew install configuration.)
   packages: []
 
-  # Casks that should be removed
-  casks_remove: []
-
   # Standard /Applications Installed Brew Casks
   casks: []
 
+  # How much times to retry, if installation of package / tap / cask fails ? This can happen during network problems.
   retries: 64
 
+  # Delay between each retry attempt.
   delay: 3
 
   # Clear homebrew cache after installing packages / casks
   clear_cache: false
 
   cask_appdir: /Applications
+
+  # Allow external apps.
+  # Default brew value: false
+  accept_external_casks: true
+
+  # Upgrade casks that auto update.
+  # Passes –greedy to brew cask outdated when checking if an installed cask has a newer version available.
+  # Default: false
+  cask_greedy_mode: false

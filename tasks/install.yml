@@ -86,3 +86,11 @@
   loop: "{{ brew_folders }}"
   tags:
     - brew-install
+
+- name: Homebrew | Install | Register cache location
+  ansible.builtin.command: "{{ brew_bin_path }}/brew --cache"
+  register: brew_cache_path
+  changed_when: false
+  check_mode: false
+  tags:
+    - brew-install

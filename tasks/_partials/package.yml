@@ -4,7 +4,8 @@
   community.general.homebrew:
     name: "{{ item.name | default(item) }}"
     state: "{{ item.state | default(brew_install_state) }}"
-    update_homebrew: "{{ brew.accept_external_casks }}"  # Update is handled by separate task, do we need to disable this?
+    path: "{{ item.path | default(omit) }}"
+    update_homebrew: "{{ item.update_homebrew | default(omit) }}"
   retries: "{{ brew.retries }}"
   delay: "{{ brew.delay }}"
   register: install_package

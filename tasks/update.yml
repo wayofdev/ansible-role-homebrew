@@ -2,21 +2,13 @@
 
 - name: Homebrew | Update block
   block:
-    - name: Homebrew | Update | Register cache location
-      ansible.builtin.command: "{{ brew_bin_path }}/brew --cache"
-      register: brew_cache_path
-      changed_when: false
-      check_mode: false
-      tags:
-        - brew-update
-
     - name: Homebrew | Update | Fetch the newest version of Homebrew and all formulae from GitHub using git
       ansible.builtin.command: "{{ brew_bin_path }}/brew update --force"
       when: not brew_binary.stat.exists
       tags:
         - brew-update
 
-    - name: Homebrew | Upgrade all homebrew packages (if configured)
+    - name: Homebrew | Update homebrew itself and upgrade all homebrew packages (if configured)
       community.general.homebrew:
         update_homebrew: true
         upgrade_all: true

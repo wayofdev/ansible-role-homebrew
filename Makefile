@@ -15,7 +15,7 @@ WORKDIR ?= ./tests
 INVENTORY ?= inventory.yml
 REQS ?= requirements.yml
 POETRY ?= poetry run
-
+PYTHON_PATH = $(shell which python3)
 
 ### Lint yaml files
 lint:
@@ -53,8 +53,14 @@ install-deps:
 .PHONY: install-deps
 
 install-poetry:
+ifeq ($(PYTHON_PATH),/usr/bin/python)
+	echo "Native macOS python binary detected at /usr/bin/python"
 	sudo pip3 install --upgrade pip
 	sudo sh contrib/poetry-bin/install.sh
+else
+	echo "External python binary detected at " $(PYTHON_PATH)
+	sudo sh contrib/poetry-bin/install.sh
+endif
 .PHONY: install-poetry
 
 ### Git

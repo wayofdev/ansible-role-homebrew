@@ -5,6 +5,7 @@
     name: "{{ item.name | default(item) }}"
     state: "{{ item.state | default(brew_cask_install_state) }}"
     options: "{{ item.options | default('appdir=' + brew.cask_appdir) }}"
+    greedy: "{{ brew.cask_greedy_mode }}"
     # Upgrades Disabled Here Due to: https://github.com/ansible-collections/community.general/issues/1647
     # update_homebrew: true
     accept_external_apps: true

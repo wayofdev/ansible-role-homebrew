@@ -10,6 +10,7 @@ brew:
   taps:
     - homebrew/core
     - denji/nginx
+    - homebrew/cask-fonts
 
   # Homebrew Packages, Installed to the default homebrew location.
   # (Usually /usr/local, but depends on your homebrew install configuration.)
@@ -23,7 +24,7 @@ brew:
     - google-chrome  # from hombrew/cask
 
   # How much times to retry, if installation of package / tap / cask fails ? This can happen during network problems.
-  retries: 16
+  retries: 64
 
   # Delay between each retry attempt.
   delay: 3
