@@ -2,7 +2,7 @@
 
 - name: Homebrew | Ensure parent directory has correct permissions (Intel)
   ansible.builtin.file:
-    path: "{{ brew_prefix }}"
+    path: "{{ homebrew_prefix }}"
     owner: root
     group: wheel
     state: directory

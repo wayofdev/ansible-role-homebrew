@@ -1,37 +1,39 @@
 ---
 
-brew:
-  repository: https://github.com/Homebrew/brew
-  branch: master
+# From which repository should we install homebrew?
+homebrew_repository: https://github.com/Homebrew/brew
 
-  # Run task to upgrade all packages
-  upgrade_all: false
+# Which branch should we take?
+homebrew_branch: master
 
-  taps: []
+# Run task to upgrade all packages
+homebrew_upgrade_all: false
 
-  # Homebrew Packages, Installed to the default homebrew location
-  # (Usually /usr/local, but depends on your homebrew install configuration.)
-  packages: []
+homebrew_taps: []
 
-  # Standard /Applications Installed Brew Casks
-  casks: []
+# Homebrew Packages, Installed to the default homebrew location
+# (Usually /usr/local or /opt/homebrew, but depends on your homebrew install configuration.)
+homebrew_packages: []
 
-  # How much times to retry, if installation of package / tap / cask fails ? This can happen during network problems.
-  retries: 64
+# Standard /Applications Installed Brew Casks
+homebrew_casks: []
 
-  # Delay between each retry attempt.
-  delay: 3
+# How much times to retry, if installation of package / tap / cask fails ? This can happen during network problems.
+homebrew_retries: 64
 
-  # Clear homebrew cache after installing packages / casks
-  clear_cache: false
+# Delay between each retry attempt.
+homebrew_delay: 3
 
-  cask_appdir: /Applications
+# Clear homebrew cache after installing packages / casks
+homebrew_clear_cache: false
 
-  # Allow external apps.
-  # Default brew value: false
-  accept_external_casks: true
+homebrew_cask_appdir: /Applications
 
-  # Upgrade casks that auto update.
-  # Passes –greedy to brew cask outdated when checking if an installed cask has a newer version available.
-  # Default: false
-  cask_greedy_mode: false
+# Allow external apps.
+# Default brew value: false
+homebrew_accept_external_casks: true
+
+# Upgrade casks that auto update.
+# Passes –greedy to brew cask outdated when checking if an installed cask has a newer version available.
+# Default: false
+homebrew_cask_greedy_mode: false

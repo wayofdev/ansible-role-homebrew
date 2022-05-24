@@ -18,20 +18,23 @@ POETRY ?= poetry run
 PYTHON_PATH = $(shell which python3)
 
 ### Lint yaml files
-lint:
+lint: check-syntax
 	$(POETRY) yamllint .
 	cd $(WORKDIR) && $(POETRY) ansible-lint $(PLAYBOOK) -c ../.ansible-lint
-	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --syntax-check
 .PHONY: lint
 
 ### Run tests
 test:
-	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become
+	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become -vvv
 .PHONY: test
 
 test-tag:
-	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become --tags $(TASK_TAGS)
+	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become --tags $(TASK_TAGS) -vvv
 .PHONY: test-tag
+
+check:
+	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become --check -vvv
+.PHONY: check
 
 ### List all hostnames
 ls-host:

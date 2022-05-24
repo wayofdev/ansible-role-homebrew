@@ -1,23 +1,69 @@
 ---
 
-- name: Homebrew | Installing, updating and deleting casks
+- name: Homebrew | Get casks to delete
+  ansible.builtin.set_fact:
+    casks_to_remove: "{{ homebrew_casks | selectattr('state', 'defined') | list |
+     union( homebrew_casks | selectattr('state', 'defined') | selectattr('state', 'equalto', 'absent') | list ) }}"
+  tags:
+    - brew-casks
+
+- name: Homebrew | Show casks for removal
+  ansible.builtin.debug:
+    msg:
+      - "Casks selected for removal:"
+      - "{{ casks_to_remove }}"
+  when: casks_to_remove | length > 0
+  tags:
+    - brew-casks
+
+- name: Homebrew | Deleting casks
   community.general.homebrew_cask:
-    name: "{{ item.name | default(item) }}"
-    state: "{{ item.state | default(brew_cask_install_state) }}"
-    options: "{{ item.options | default('appdir=' + brew.cask_appdir) }}"
-    greedy: "{{ brew.cask_greedy_mode }}"
+    name: "{{ cask_item.name | default(cask_item) }}"
+    state: absent
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  when: casks_to_remove | length > 0
+  loop: "{{ casks_to_remove }}"
+  loop_control:
+    loop_var: cask_item
+  tags:
+    - brew-casks
+
+- name: Homebrew | Get Homebrew casks to install or update
+  ansible.builtin.set_fact:
+    casks_to_install: "{{ homebrew_casks | rejectattr('state', 'defined') | list |
+     union( homebrew_casks | selectattr('state', 'defined') | selectattr('state', 'ne', 'absent') | list ) }}"
+  tags:
+    - brew-casks
+
+- name: Homebrew | Show casks for tapping
+  ansible.builtin.debug:
+    msg:
+      - "Casks selected for install:"
+      - "{{ casks_to_install }}"
+  tags:
+    - brew-casks
+
+- name: Homebrew | Installing or updating casks
+  community.general.homebrew_cask:
+    name: "{{ cask_item.name | default(cask_item) }}"
+    state: "{{ cask_item.state | default(homebrew_cask_install_state) }}"
+    options: "{{ cask_item.options | default('appdir=' + homebrew_cask_appdir) }}"
+    greedy: "{{ homebrew_cask_greedy_mode }}"
     # Upgrades Disabled Here Due to: https://github.com/ansible-collections/community.general/issues/1647
     # update_homebrew: true
-    accept_external_apps: true
-    sudo_password: "{{ brew_sudo_password }}"
-  retries: "{{ brew.retries }}"
-  delay: "{{ brew.delay }}"
+    accept_external_apps: "{{ homebrew_accept_external_casks }}"
+    sudo_password: "{{ homebrew_sudo_password }}"
+  retries: "{{ homebrew_retries }}"
+  delay: "{{ homebrew_delay }}"
   register: install_cask
   until: install_cask is not failed
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
-  when: brew.casks | length > 0
-  loop: "{{ brew.casks }}"
+  when: casks_to_install | length > 0
+  loop: "{{ casks_to_install }}"
+  loop_control:
+    loop_var: cask_item
   tags:
     - brew-casks
   notify:

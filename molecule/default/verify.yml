@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Molecule | Check if binary is already in place
-      ansible.builtin.stat: "path={{ brew_bin_path }}/brew"
+      ansible.builtin.stat: "path={{ homebrew_bin_path }}/brew"
       register: brew_binary
 
     - name: Fail if brew binary does not exist

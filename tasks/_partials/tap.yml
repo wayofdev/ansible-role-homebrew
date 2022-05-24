@@ -1,17 +1,63 @@
 ---
 
+- name: Homebrew | Get repositories to un-tap
+  ansible.builtin.set_fact:
+    taps_to_remove: "{{ homebrew_taps | selectattr('state', 'defined') | list |
+     union( homebrew_taps | selectattr('state', 'defined') | selectattr('state', 'equalto', 'absent') | list ) }}"
+  tags:
+    - brew-taps
+
+- name: Homebrew | Show taps for removal
+  ansible.builtin.debug:
+    msg:
+      - "Taps selected for removal:"
+      - "{{ taps_to_remove }}"
+  when: taps_to_remove | length > 0
+  tags:
+    - brew-taps
+
+- name: Homebrew | Un-tapping Homebrew repositories
+  community.general.homebrew_tap:
+    name: "{{ tap_item.name | default(tap_item) }}"
+    state: absent
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  when: taps_to_remove | length > 0
+  loop: "{{ taps_to_remove }}"
+  loop_control:
+    loop_var: tap_item
+  tags:
+    - brew-taps
+
+- name: Homebrew | Get Homebrew repositories to tap
+  ansible.builtin.set_fact:
+    taps_to_tap: "{{ homebrew_taps | rejectattr('state', 'defined') | list |
+     union( homebrew_taps | selectattr('state', 'defined') | selectattr('state', 'ne', 'absent') | list ) }}"
+  tags:
+    - brew-taps
+
+- name: Homebrew | Show taps for tapping
+  ansible.builtin.debug:
+    msg:
+      - "Taps selected for tapping:"
+      - "{{ taps_to_tap }}"
+  tags:
+    - brew-taps
+
 - name: Homebrew | Tapping Homebrew repositories
   community.general.homebrew_tap:
-    name: "{{ item.name | default(item) }}"
-    state: "{{ item.state | default('present') }}"
-    url: "{{ item.url | default(omit) }}"
-  retries: "{{ brew.retries }}"
-  delay: "{{ brew.delay }}"
+    name: "{{ tap_item.name | default(tap_item) }}"
+    state: "{{ tap_item.state | default('present') }}"
+    url: "{{ tap_item.url | default(omit) }}"
+  retries: "{{ homebrew_retries }}"
+  delay: "{{ homebrew_delay }}"
   register: install_tap
   until: install_tap is not failed
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
-  when: brew.taps | length > 0
-  loop: "{{ brew.taps }}"
+  when: taps_to_tap | length > 0
+  loop: "{{ taps_to_tap }}"
+  loop_control:
+    loop_var: tap_item
   tags:
     - brew-taps

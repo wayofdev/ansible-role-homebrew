@@ -2,7 +2,7 @@
 
 galaxy_info:
   role_name: homebrew
-  author: lotyp
+  author: wayofdev
   description: Ansible role that uses loops and retries to install Homebrew apps and casks.
   company: wayofdev
 
@@ -25,4 +25,4 @@ dependencies: []
 
 # Ensure that custom Ansible plugins and modules included in the main MacOps
 # collection are available to roles in other collections.
-collections: ["lotyp.macops"]
+collections: ["wayofdev.macops"]

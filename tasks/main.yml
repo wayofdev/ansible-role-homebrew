@@ -4,6 +4,12 @@
   ansible.builtin.set_fact:
     brew_user: "{{ brew_user | default(ansible_user_id) }}"
     brew_group: "{{ brew_group | default(ansible_user_gid) }}"
+  tags:
+    - brew-install
+    - brew-taps
+    - brew-packages
+    - brew-casks
+    - brew-update
 
 - name: Homebrew | Include | Install homebrew itself on system
   ansible.builtin.include_tasks: install.yml

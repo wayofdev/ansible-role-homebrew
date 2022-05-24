@@ -1,19 +1,19 @@
 ---
 
-brew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
-brew_install_path: "{{ brew_prefix }}/Homebrew"
-brew_bin_path: "{{ brew_prefix }}/bin"
+homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
+homebrew_bin_path: "{{ homebrew_prefix }}/bin"
 
 # Some casks may require sudo to complete their install
-brew_sudo_password: "{{ ansible_become_password | default(omit) }}"
+homebrew_sudo_password: "{{ ansible_become_password | default(omit) }}"
 
 # Default install state if no state was provided with package name
-brew_install_state: "latest" # <absent | head | installed | latest | linked | present | removed | uninstalled | unlinked | upgraded>
+homebrew_install_state: "present" # <absent | head | installed | latest | linked | present | removed | uninstalled | unlinked | upgraded>
 
 # Default install state if no state was provided with cask name
-brew_cask_install_state: "present" # <absent | installed | latest | present | removed | uninstalled | upgraded>
+homebrew_cask_install_state: "present" # <absent | installed | latest | present | removed | uninstalled | upgraded>
 
-brew_folders:
+homebrew_folders:
   - Cellar
   - Homebrew
   - Frameworks
@@ -29,4 +29,4 @@ brew_folders:
   - share/zsh/site-functions
   - var
 
-# brew_current_user: "{{ lookup('env', 'USER') }}"
+# homebrew_current_user: "{{ lookup('env', 'USER') }}"

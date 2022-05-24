@@ -4,6 +4,6 @@
   ansible.builtin.file:
     path: "{{ brew_cache_path.stdout | trim }}"
     state: absent
-  when: brew.clear_cache | bool
+  when: homebrew_clear_cache | bool
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"

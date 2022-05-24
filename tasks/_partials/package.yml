@@ -1,19 +1,63 @@
 ---
 
-- name: Homebrew | Installing, updating and deleting packages
+- name: Homebrew | Get packages to delete
+  ansible.builtin.set_fact:
+    packages_to_remove: "{{ homebrew_packages | selectattr('state', 'defined') | list |
+     union( homebrew_packages | selectattr('state', 'defined') | selectattr('state', 'equalto', 'absent') | list ) }}"
+  tags:
+    - brew-packages
+
+- name: Homebrew | Show packages for removal
+  ansible.builtin.debug:
+    msg:
+      - "Packages selected for removal:"
+      - "{{ packages_to_remove }}"
+  when: packages_to_remove | length > 0
+  tags:
+    - brew-packages
+
+- name: Homebrew | Deleting packages
+  community.general.homebrew:
+    name: "{{ package_item.name | default(package_item) }}"
+    state: absent
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  when: packages_to_remove | length > 0
+  loop: "{{ packages_to_remove }}"
+  loop_control:
+    loop_var: package_item
+  tags:
+    - brew-packages
+
+- name: Homebrew | Get Homebrew packages to install or update
+  ansible.builtin.set_fact:
+    packages_to_install: "{{ homebrew_packages | rejectattr('state', 'defined') | list |
+     union( homebrew_packages | selectattr('state', 'defined') | selectattr('state', 'ne', 'absent') | list ) }}"
+  tags:
+    - brew-packages
+
+- name: Homebrew | Show packages for tapping
+  ansible.builtin.debug:
+    msg:
+      - "Packages selected for install:"
+      - "{{ packages_to_install }}"
+  tags:
+    - brew-packages
+
+- name: Homebrew | Installing or updating packages
   community.general.homebrew:
     name: "{{ item.name | default(item) }}"
-    state: "{{ item.state | default(brew_install_state) }}"
+    state: "{{ item.state | default(homebrew_install_state) }}"
     path: "{{ item.path | default(omit) }}"
     update_homebrew: "{{ item.update_homebrew | default(omit) }}"
-  retries: "{{ brew.retries }}"
-  delay: "{{ brew.delay }}"
+  retries: "{{ homebrew_retries }}"
+  delay: "{{ homebrew_delay }}"
   register: install_package
   until: install_package is not failed
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
-  when: brew.packages | length > 0
-  loop: "{{ brew.packages }}"
+  when: packages_to_install | length > 0
+  loop: "{{ packages_to_install }}"
   tags:
     - brew-packages
   notify:

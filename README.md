@@ -52,40 +52,38 @@ Available variables are listed below, along with example values (see `defaults/m
 **Adding** (tapping) repositories
 
 ```yaml
-brew:
-  taps:
-    - homebrew/core
-    - denji/nginx
+homebrew_taps:
+  - homebrew/core
+  - homebrew/cask-versions
+  - homebrew/cask-fonts
 ```
 
 **Adding** (tapping) repositories, in more verbose way, defining urls and states:
 
 ```yaml
-brew:
-  taps:
-    # just tap
-    - name: homebrew/core
+homebrew_taps:
+  # just tap
+  - name: homebrew/core
 
-    # tap from custom repository
-    - name: denji/nginx
-      url: https://github.com/denji/homebrew-nginx
+  # tap from custom repository
+  - name: denji/nginx
+    url: https://github.com/denji/homebrew-nginx
 
-    # tap with defined custom state
-    - name: homebrew/cask-fonts
-      state: present
+  # tap with defined custom state
+  - name: homebrew/cask-fonts
+    state: present
 ```
 
 **Removing** taps:
 
 ```yaml
-brew:
-  taps:
-    # define state: absent to delete taps
-    - name: homebrew/cask-fonts
-      state: absent
+homebrew_taps:
+  # define state: absent to delete taps
+  - name: homebrew/cask-fonts
+    state: absent
 
-    - name: denji/nginx
-      state: absent
+  - name: denji/nginx
+    state: absent
 ```
 
 ### → Packages: Installing, updating and removing
@@ -93,48 +91,45 @@ brew:
 **Adding** packages in simple way:
 
 ```yaml
-brew:
-  packages:
-    - wget
-    - curl
-    - nano
+homebrew_packages:
+  - wget
+  - curl
+  - nano
 ```
 
 **Adding** packages in advanced way, defining state, path, and other options:
 
 ```yaml
-brew:
-  packages:
-    # install to custom path
-    - name: wget
-      state: present
+homebrew_packages:
+  # install to custom path
+  - name: wget
+    state: present
+    path: /opt/custom/path/bin
 ```
 
 **Updating** packages:
 
 ```yaml
-brew:
-  packages:
-    # update homebrew first and install formula wget with 'brew' in default path
-    - name: wget
-      state: present
-      update_homebrew: true
+homebrew_packages:
+  # update homebrew first and install formula wget with 'brew' in default path
+  - name: wget
+    state: present
+    update_homebrew: true
 
-    # update homebrew first and upgrade formula curl to latest available with 'brew' in default path
-    - name: curl
-      state: latest
-      update_homebrew: true
+  # update homebrew first and upgrade formula curl to latest available with 'brew' in default path
+  - name: curl
+    state: latest
+    update_homebrew: true
 ```
 
 **Removing** packages:
 
 ```yaml
-brew:
-  packages:
-    - name: wget
-      state: absent
-    - name: curl
-      state: absent
+homebrew_packages:
+  - name: wget
+    state: absent
+  - name: curl
+    state: absent
 ```
 
 ### → Casks: installing, updating and removing
@@ -142,35 +137,32 @@ brew:
 **Adding** casks in simple way:
 
 ```yaml
-brew:
-  casks:
-    # Installing list of casks
-    - firefox
-    - google-chrome
-    - alfred
-    - 1password
+homebrew_casks:
+  # Installing list of casks
+  - firefox
+  - google-chrome
+  - alfred
+  - 1password
 ```
 
 **Adding** casks with advanced options:
 
 ```yaml
-brew:
-  casks:
-    # Installing firefox cask
-    - name: firefox
-      state: present
+homebrew_casks:
+  # Installing firefox cask
+  - name: firefox
+    state: present
 ```
 
 **Removing** casks:
 
 ```yaml
-brew:
-  casks:
-    # define state: absent to delete
-    - name: firefox
-      state: absent
-    - name: google-chrome
-      state: absent
+homebrew_casks:
+  # define state: absent to delete
+  - name: firefox
+    state: absent
+  - name: google-chrome
+    state: absent
 ```
 
 <br>
@@ -191,30 +183,25 @@ Installation handled by `Makefile` and it is defined in `requirements.yml`
 - hosts: localhost
 
   vars:
-    brew:
-      repository: https://github.com/Homebrew/brew
-      branch: master
-      upgrade_all: false
-      taps:
-        - homebrew/core
-        - hombrew/cask
-        - denji/nginx
-      packages:
-        - ssh-copy-id
-        - nginx-full
-      casks:
-        - firefox
-        - google-chrome
-      retries: 64
-      delay: 3
-      clear_cache: false
-      cask_appdir: /Applications
-      accept_external_casks: true
-      cask_greedy_mode: false
+		homebrew_taps:
+      - homebrew/core
+      - hombrew/cask
+      - homebrew/cask-fonts
+      - yt-dlp/taps
+    homebrew_packages:
+      - ssh-copy-id  # from homebrew/core
+      - yt-dlp  # from yt-dlp/taps
+    homebrew_casks:
+      - firefox
+      - google-chrome
+      - font-fira-code-nerd-font  # from homebrew/cask-fonts
+    homebrew_retries: 12
+    homebrew_delay: 3
+    homebrew_clear_cache: false
 
   roles:
     - elliotweiser.osx-command-line-tools
-    - lotyp.homebrew
+    - wayofdev.homebrew
 ```
 
 <br>
@@ -263,13 +250,13 @@ $ make test
 $ make test-tag
 
 # run tasks that ensures brew installation on macos
-$ export TASK_TAGS="brew-install" make test-tag
+$ export TASK_TAGS="brew-install"; make test-tag
 
 # run tasks that tries to update brew
-$ export TASK_TAGS="brew-update" make test-tag
+$ export TASK_TAGS="brew-update"; make test-tag
 
 # run tasks that tries to update brew and then run taps and casks
-$ export TASK_TAGS="brew-update brew-taps brew-casks" make test-tag
+$ export TASK_TAGS="brew-update brew-taps brew-casks"; make test-tag
 ```
 
 Full list of commands can be seen in `Makefile`.
@@ -301,5 +288,5 @@ This role was created in **2022** by [lotyp / wayofdev](https://github.com/wayof
 
 Inspired by:
 
-	* [role-homebrew-retry](https://github.com/osx-provisioner/role-homebrew-retry) by [@niall-byrne](https://github.com/niall-byrne)
-	* homebrew role created by [@geerlingguy](https://github.com/geerlingguy) as a part of [ansible-collection-mac](https://github.com/geerlingguy/ansible-collection-mac).
+* [role-homebrew-retry](https://github.com/osx-provisioner/role-homebrew-retry) by [@niall-byrne](https://github.com/niall-byrne)
+* homebrew role created by [@geerlingguy](https://github.com/geerlingguy) as a part of [ansible-collection-mac](https://github.com/geerlingguy/ansible-collection-mac).
