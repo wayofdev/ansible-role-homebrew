@@ -69,7 +69,7 @@ jobs:
           ansible-galaxy install -r requirements.yml
 
       - name: Test the playbook
-        run: cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become -vvv
+        run: cd tests && ansible-playbook test.yml --ask-become -vvv
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
