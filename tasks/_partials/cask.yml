@@ -54,8 +54,8 @@
     # update_homebrew: true
     accept_external_apps: "{{ homebrew_accept_external_casks }}"
     sudo_password: "{{ homebrew_sudo_password }}"
-  retries: 6
-  delay: 3
+  retries: "{{ homebrew_retries }}"
+  delay: "{{ homebrew_delay }}"
   register: install_cask
   until: install_cask is not failed
   become: "{{ (brew_user != ansible_user_id) | bool }}"

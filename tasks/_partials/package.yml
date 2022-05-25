@@ -50,10 +50,8 @@
     state: "{{ item.state | default(homebrew_install_state) }}"
     path: "{{ item.path | default(omit) }}"
     update_homebrew: "{{ item.update_homebrew | default(omit) }}"
-  # retries: "{{ homebrew_retries }}"
-  # delay: "{{ homebrew_delay }}"
-  retries: 6
-  delay: 3
+  retries: "{{ homebrew_retries }}"
+  delay: "{{ homebrew_delay }}"
   register: install_package
   until: install_package is not failed
   become: "{{ (brew_user != ansible_user_id) | bool }}"
