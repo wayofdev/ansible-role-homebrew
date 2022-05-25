@@ -57,13 +57,14 @@ jobs:
       - name: Uninstall built-in homebrew
         run: tests/uninstall-homebrew.sh
 
-      - name: Uninstall built-in browsers
-        run: |
-          sudo rm -rf /Applications/Firefox.app
-          sudo rm -rf /Applications/Google\ Chrome.app
+      - name: Install Poetry
+        uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install test dependencies
-        run: make install
+        run: |
+          make update-pip
+          make install-deps
+          poetry add ansible==5.7.1
 
       - name: Test the playbook
         run: make test

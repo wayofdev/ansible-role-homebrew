@@ -47,7 +47,7 @@ check-syntax:
 .PHONY: check-syntax
 
 ### Install ansible dependencies
-install: install-poetry install-deps
+install: update-pip install-poetry install-deps
 .PHONY: install
 
 install-deps:
@@ -56,15 +56,18 @@ install-deps:
 .PHONY: install-deps
 
 install-poetry:
+	sudo sh contrib/poetry-bin/install.sh
+.PHONY: install-poetry
+
+update-pip:
 ifeq ($(PYTHON_PATH),/usr/bin/python)
 	echo "Native macOS python binary detected at /usr/bin/python"
 	sudo pip3 install --upgrade pip
-	sudo sh contrib/poetry-bin/install.sh
 else
-	echo "External python binary detected at " $(PYTHON_PATH)
-	sudo sh contrib/poetry-bin/install.sh
+	echo "External python binary detected at "$(PYTHON_PATH)
+	exit 0
 endif
-.PHONY: install-poetry
+.PHONY: update-pip
 
 ### Git
 hooks:
