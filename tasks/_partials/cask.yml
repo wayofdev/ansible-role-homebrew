@@ -1,6 +1,6 @@
 ---
 
-- name: Homebrew | Get casks to delete
+- name: Homebrew | Get casks to remove
   ansible.builtin.set_fact:
     casks_to_remove: "{{ homebrew_casks | selectattr('state', 'defined') | list |
      union( homebrew_casks | selectattr('state', 'defined') | selectattr('state', 'equalto', 'absent') | list ) }}"
@@ -16,7 +16,7 @@
   tags:
     - brew-casks
 
-- name: Homebrew | Deleting casks
+- name: Homebrew | Removing casks
   community.general.homebrew_cask:
     name: "{{ cask_item.name | default(cask_item) }}"
     state: absent
@@ -29,14 +29,14 @@
   tags:
     - brew-casks
 
-- name: Homebrew | Get Homebrew casks to install or update
+- name: Homebrew | Get casks to install or update
   ansible.builtin.set_fact:
     casks_to_install: "{{ homebrew_casks | rejectattr('state', 'defined') | list |
      union( homebrew_casks | selectattr('state', 'defined') | selectattr('state', 'ne', 'absent') | list ) }}"
   tags:
     - brew-casks
 
-- name: Homebrew | Show casks for tapping
+- name: Homebrew | Show casks for installing
   ansible.builtin.debug:
     msg:
       - "Casks selected for install:"
