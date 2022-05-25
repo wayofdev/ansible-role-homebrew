@@ -58,7 +58,7 @@ install-deps:
 install-poetry:
 ifeq ($(PYTHON_PATH),/usr/bin/python)
 	echo "Native macOS python binary detected at /usr/bin/python"
-	# sudo pip3 install --upgrade pip
+	sudo pip3 install --upgrade pip
 	sudo sh contrib/poetry-bin/install.sh
 else
 	echo "External python binary detected at " $(PYTHON_PATH)
