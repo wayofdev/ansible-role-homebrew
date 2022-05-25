@@ -49,8 +49,10 @@
     name: "{{ tap_item.name | default(tap_item) }}"
     state: "{{ tap_item.state | default('present') }}"
     url: "{{ tap_item.url | default(omit) }}"
-  retries: "{{ homebrew_retries }}"
-  delay: "{{ homebrew_delay }}"
+  # retries: "{{ homebrew_retries }}"
+  # delay: "{{ homebrew_delay }}"
+  retries: 6
+  delay: 3
   register: install_tap
   until: install_tap is not failed
   become: "{{ (brew_user != ansible_user_id) | bool }}"

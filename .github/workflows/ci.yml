@@ -63,13 +63,10 @@ jobs:
           sudo rm -rf /Applications/Google\ Chrome.app
 
       - name: Install test dependencies
-        run: |
-          sudo pip3 install --upgrade pip
-          sudo pip3 install ansible
-          ansible-galaxy install -r requirements.yml
+        run: make install
 
       - name: Test the playbook
-        run: cd tests && ansible-playbook test.yml --ask-become -vvv
+        run: make test
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
@@ -77,7 +74,7 @@ jobs:
       - name: Idempotence check
         run: |
           idempotence=$(mktemp)
-          ansible-playbook tests/test.yml --ask-become | tee -a ${idempotence}
+          poetry run ansible-playbook tests/test.yml --ask-become | tee -a ${idempotence}
           tail ${idempotence} \
             | grep -q 'changed=0.*failed=0' \
             && (echo 'Idempotence test: pass' && exit 0) \
