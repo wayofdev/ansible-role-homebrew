@@ -25,8 +25,11 @@ homebrew_packages:
 
 # Standard /Applications Installed Brew Casks
 homebrew_casks:
-  - firefox  # from hombrew/cask
-  - iterm2-beta  # homebrew/cask-versions
+  - font-fira-code-nerd-font
+  - iterm2-beta
+  - 1password
+  # - firefox  # from hombrew/cask
+  # - iterm2-beta  # homebrew/cask-versions
 
 # How much times to retry, if installation of package / tap / cask fails ?
 # This can happen during network problems.
