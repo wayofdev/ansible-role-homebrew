@@ -64,7 +64,6 @@ jobs:
         run: |
           make update-pip
           make install-deps
-          poetry add ansible==5.7.1
 
       - name: Test the playbook
         run: make test
