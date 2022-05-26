@@ -93,6 +93,27 @@
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --cache"
   register: brew_cache_path
   changed_when: false
-  check_mode: false
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Get installed version
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew --version"
+  register: brew_version
+  changed_when: false
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Get config
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew --config"
+  register: brew_config
+  changed_when: false
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Version debug
+  ansible.builtin.debug:
+    msg:
+      - "{{ brew_version }}"
+      - "{{ brew_config }}"
   tags:
     - brew-install
