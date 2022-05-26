@@ -58,7 +58,7 @@ jobs:
           submodules: true
 
       - name: Uninstall built-in homebrew
-        run: uninstall-homebrew.sh
+        run: sh uninstall-homebrew.sh
 
       - name: Install test dependencies
         run: |
