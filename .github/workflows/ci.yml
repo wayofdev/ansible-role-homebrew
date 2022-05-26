@@ -59,19 +59,20 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          pip3 install ansible
+          sudo python3 -m pip install --upgrade pip
+          sudo python3 -m pip install ansible
 
-      - name: Debug - get ansible version
+      - name: Debug - Get ansible version
         run: ansible --version
         env:
           ANSIBLE_FORCE_COLOR: '1'
 
-      - name: Debug - get ansible config
+      - name: Debug - Get ansible config
         run: ansible-config dump --only-changed -t all
         env:
           ANSIBLE_FORCE_COLOR: '1'
 
-      - name: Debug - get python info
+      - name: Debug - Get python info
         run: |
           python3 --version
           which python3
