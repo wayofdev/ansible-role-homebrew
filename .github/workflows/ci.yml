@@ -43,6 +43,9 @@ jobs:
   integration:
     name: Integration.
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./tests
     strategy:
       matrix:
         os:
@@ -55,12 +58,13 @@ jobs:
           submodules: true
 
       - name: Uninstall built-in homebrew
-        run: tests/uninstall-homebrew.sh
+        run: uninstall-homebrew.sh
 
       - name: Install test dependencies
         run: |
           sudo python3 -m pip install --upgrade pip
           sudo python3 -m pip install ansible
+          ansible-galaxy install -r ../requirements.yml
 
       - name: Debug - Get ansible version
         run: ansible --version
@@ -80,7 +84,7 @@ jobs:
           ANSIBLE_FORCE_COLOR: '1'
 
       - name: Test the playbook
-        run: cd tests && ansible-playbook test.yml --ask-become -vvv
+        run: ansible-playbook test.yml --ask-become -vvv
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
@@ -88,7 +92,7 @@ jobs:
       - name: Idempotence check
         run: |
           idempotence=$(mktemp)
-          cd tests ansible-playbook test.yml --ask-become | tee -a ${idempotence}
+          ansible-playbook test.yml --ask-become | tee -a ${idempotence}
           tail ${idempotence} \
             | grep -q 'changed=0.*failed=0' \
             && (echo 'Idempotence test: pass' && exit 0) \
