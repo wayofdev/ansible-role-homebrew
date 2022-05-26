@@ -57,13 +57,13 @@ jobs:
         with:
           submodules: true
 
-      - name: Uninstall built-in homebrew
-        run: sh uninstall-homebrew.sh
+      # - name: Uninstall built-in homebrew
+      #   run: sh uninstall-homebrew.sh
 
       - name: Install test dependencies
         run: |
-          sudo -H python3 -m pip install --upgrade pip
-          sudo -H python3 -m pip install ansible
+          python -m pip install --upgrade pip
+          python -m pip install ansible
           ansible-galaxy install -r ../requirements.yml
 
       - name: Debug - Get ansible version
