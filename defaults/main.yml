@@ -3,9 +3,6 @@
 # From which repository should we install homebrew?
 homebrew_repository: https://github.com/Homebrew/brew
 
-# Which branch should we take?
-homebrew_branch: "3.4.11"
-
 # Run task to upgrade all packages
 homebrew_upgrade_all: false
 
