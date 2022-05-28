@@ -26,14 +26,16 @@
 - name: Homebrew | Install | Get latest release tag
   community.general.github_release:
     user: Homebrew
+    repo: brew
     action: latest_release
-    repo: Homebrew/brew
   register: brew_latest_release
+  tags:
+    - brew-install
 
 - name: Homebrew | Install | Cloning latest release to "{{ homebrew_install_path }}"
   ansible.builtin.git:
     repo: "{{ homebrew_repository }}"
-    version: "{{ brew_latest_release[tag] }}"
+    version: "{{ brew_latest_release.tag }}"
     dest: "{{ homebrew_install_path }}"
     update: false
     depth: 1
