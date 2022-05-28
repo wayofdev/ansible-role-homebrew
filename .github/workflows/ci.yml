@@ -62,31 +62,10 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          sudo python3 -m pip install --upgrade pip
-          sudo python3 -m pip install ansible
+          sudo pip3 install --upgrade pip
+          sudo pip3 install github3.py
+          sudo pip3 install ansible
           ansible-galaxy install -r ../requirements.yml
-
-      - name: Debug - Get ansible version
-        run: ansible --version
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
-
-      - name: Debug - Get ansible config
-        run: ansible-config dump --only-changed -t all
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
-
-      - name: Debug - Collection list
-        run: ansible-galaxy collection list community.general
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
-
-      - name: Debug - Get python info
-        run: |
-          python3 --version
-          which python3
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
 
       - name: Test the playbook
         run: ansible-playbook test.yml --ask-become -vvv

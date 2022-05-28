@@ -8,6 +8,7 @@ license = "GPL-3.0-only"
 [tool.poetry.dependencies]
 python = "^3.8"
 ansible = "^5.8.0"
+github.py = "^3.2.0"
 
 [tool.poetry.dev-dependencies]
 molecule = "^3.6.1"
