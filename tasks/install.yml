@@ -29,13 +29,14 @@
     repo: brew
     action: latest_release
   register: brew_latest_release
+  when: not homebrew_repository_use_master | bool
   tags:
     - brew-install
 
 - name: Homebrew | Install | Cloning latest release to "{{ homebrew_install_path }}"
   ansible.builtin.git:
     repo: "{{ homebrew_repository }}"
-    version: "{{ brew_latest_release.tag }}"
+    version: "{{ brew_latest_release.tag if homebrew_repository_use_master == false else 'master' }}"
     dest: "{{ homebrew_install_path }}"
     update: false
     depth: 1

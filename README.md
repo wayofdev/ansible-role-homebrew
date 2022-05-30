@@ -1,8 +1,8 @@
 <br>
 
 <div align="center">
-<img width="456" src="./assets/logo.gh-light-mode-only.png#gh-light-mode-only">
-<img width="456" src="./assets/logo.gh-dark-mode-only.png#gh-dark-mode-only">
+<img width="456" src="https://raw.githubusercontent.com/wayofdev/ansible-role-homebrew/master/assets/logo.gh-light-mode-only.png#gh-light-mode-only">
+<img width="456" src="https://raw.githubusercontent.com/wayofdev/ansible-role-homebrew/master/assets/logo.gh-dark-mode-only.png#gh-dark-mode-only">
 </div>
 
 
@@ -21,12 +21,6 @@
 <img alt="Ansible Role" src="https://img.shields.io/ansible/role/d/59331?style=flat-square"/></a>
 <a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/ansible-role-homebrew.svg?style=flat-square&color=blue" alt="Software License"/></a>
 </div>
-
-
-
-
-
-
 <br>
 
 # Ansible Role: Homebrew
@@ -45,7 +39,58 @@ None.
 
 ## 🔧 Role Variables
 
-Available variables are listed below, along with example values (see `defaults/main.yml`). Section shows all possible variants of installing, updating and removing applications / casks and taps.
+Available variables are listed below, along with example values (see `defaults/main.yml`). Additional variables are stored in `vars/main.yml`.
+
+### → Structure
+
+Github repository variable for Homebrew core. By default role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
+
+```yaml
+# From which repository should we install homebrew?
+homebrew_repository: https://github.com/Homebrew/brew
+
+# Set to true if you want to use master branch instead of release auto detect,
+# or you use custom fork specified in homebrew_repository
+homebrew_repository_use_master: false
+```
+
+When set to true, will update Homebrew itself and upgrade all homebrew packages:
+
+```yaml
+# Run task to upgrade all packages
+homebrew_upgrade_all: false
+```
+
+Variables controls retry times and delay to wait between retries, if `homebrew install` task failed:
+
+```yaml
+# How much times to retry, if installation of package / tap / cask fails ?
+# This can happen during network problems.
+homebrew_retries: 32
+
+# Delay between each retry attempt.
+homebrew_delay: 3
+```
+
+Set to `true` to remove the Hombrew cache after any new software is installed or updated.
+
+```yaml
+homebrew_clear_cache: false
+```
+
+Directory where applications installed via `cask` should be installed.
+
+```yaml
+homebrew_cask_appdir: /Applications
+```
+
+If set to `true`, passes `--greedy` to brew cask outdated when checking if an installed cask has a newer version available.
+
+```yaml
+homebrew_cask_greedy_mode: false
+```
+
+<br>
 
 ### → Tapping repositories
 
@@ -85,6 +130,8 @@ homebrew_taps:
   - name: denji/nginx
     state: absent
 ```
+
+<br>
 
 ### → Packages: Installing, updating and removing
 
@@ -131,6 +178,8 @@ homebrew_packages:
   - name: curl
     state: absent
 ```
+
+<br>
 
 ### → Casks: installing, updating and removing
 
@@ -183,7 +232,7 @@ Installation handled by `Makefile` and it is defined in `requirements.yml`
 - hosts: localhost
 
   vars:
-		homebrew_taps:
+    homebrew_taps:
       - homebrew/core
       - hombrew/cask
       - homebrew/cask-fonts

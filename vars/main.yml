@@ -11,7 +11,7 @@ homebrew_sudo_password: "{{ ansible_become_password | default(omit) }}"
 homebrew_install_state: "present" # <absent | head | installed | latest | linked | present | removed | uninstalled | unlinked | upgraded>
 
 # Default install state if no state was provided with cask name
-homebrew_cask_install_state: "latest" # <absent | installed | latest | present | removed | uninstalled | upgraded>
+homebrew_cask_install_state: "present" # <absent | installed | latest | present | removed | uninstalled | upgraded>
 
 homebrew_folders:
   - Cellar
@@ -28,5 +28,3 @@ homebrew_folders:
   - share/zsh
   - share/zsh/site-functions
   - var
-
-# homebrew_current_user: "{{ lookup('env', 'USER') }}"

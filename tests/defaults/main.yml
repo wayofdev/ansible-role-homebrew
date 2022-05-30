@@ -3,6 +3,10 @@
 # From which repository should we install homebrew?
 homebrew_repository: https://github.com/Homebrew/brew
 
+# Set to true if you want to use master branch instead of release auto detect,
+# or you use custom fork specified in homebrew_repository
+homebrew_repository_use_master: false
+
 # Run task to upgrade all packages
 homebrew_upgrade_all: false
 
@@ -43,6 +47,7 @@ homebrew_cask_appdir: /Applications
 homebrew_accept_external_casks: true
 
 # Upgrade casks that auto update.
-# Passes –greedy to brew cask outdated when checking if an installed cask has a newer version available.
+# https://stackoverflow.com/questions/31968664/upgrade-all-the-casks-installed-via-homebrew-cask
+# Passes --greedy to brew cask outdated when checking if an installed cask has a newer version available.
 # Default: false
 homebrew_cask_greedy_mode: false
