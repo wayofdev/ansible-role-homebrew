@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.0.0...v1.1.0) (2022-05-30)
+
+
+### Features
+
+* get latest release instead of master branch ([ad9beba](https://github.com/wayofdev/ansible-role-homebrew/commit/ad9bebad1f5c497642dab8efa138769a3b03001e))
+* get latest release of homebrew ([46c09ab](https://github.com/wayofdev/ansible-role-homebrew/commit/46c09abf3e6ff71512ade14972e3770ba05e067d))
+* path variable in packages, readme file, makefile now correctly installs deps ([d1e4566](https://github.com/wayofdev/ansible-role-homebrew/commit/d1e45660a4d2493730829efa725fc9343456e858))
+* refactoring to flat structure; uninstall does not need retries ([a837eb1](https://github.com/wayofdev/ansible-role-homebrew/commit/a837eb1969f53273c5b31833733175f011cccee4))
+
+
+### Bug Fixes
+
+* fixes in namespace ([8d70ef8](https://github.com/wayofdev/ansible-role-homebrew/commit/8d70ef848c67af0f8e75064e20a015ab240eb9ac))
+* should be present instead of latest for casks, readme changes ([bc7326d](https://github.com/wayofdev/ansible-role-homebrew/commit/bc7326dc0418e7b2928220de7336b2925e545ef5))
+
 ## 1.0.0 (2022-05-22)
 
 
