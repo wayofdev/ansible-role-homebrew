@@ -34,15 +34,15 @@ lint: check-syntax
 
 ### Run tests
 test:
-	cd $(WORKDIR) && @$(TEST_PLAYBOOK)
+	cd $(WORKDIR) && $(TEST_PLAYBOOK)
 .PHONY: test
 
 test-idempotent:
-	cd $(WORKDIR) && @$(TEST_IDEMPOTENT)
+	cd $(WORKDIR) && $(TEST_IDEMPOTENT)
 .PHONY: test-idempotent
 
 test-tag:
-	cd $(WORKDIR) && @$(TEST_PLAYBOOK) --tags $(TASK_TAGS)
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS)
 .PHONY: test-tag
 
 debug-version:
