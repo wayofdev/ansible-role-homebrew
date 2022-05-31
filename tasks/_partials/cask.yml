@@ -7,15 +7,6 @@
   tags:
     - brew-casks
 
-- name: Homebrew | Show casks for removal
-  ansible.builtin.debug:
-    msg:
-      - "Casks selected for removal:"
-      - "{{ casks_to_remove }}"
-  when: casks_to_remove | length > 0
-  tags:
-    - brew-casks
-
 - name: Homebrew | Removing casks
   community.general.homebrew_cask:
     name: "{{ cask_item.name | default(cask_item) }}"
@@ -33,14 +24,6 @@
   ansible.builtin.set_fact:
     casks_to_install: "{{ homebrew_casks | rejectattr('state', 'defined') | list |
      union( homebrew_casks | selectattr('state', 'defined') | selectattr('state', 'ne', 'absent') | list ) }}"
-  tags:
-    - brew-casks
-
-- name: Homebrew | Show casks for installing
-  ansible.builtin.debug:
-    msg:
-      - "Casks selected for install:"
-      - "{{ casks_to_install }}"
   tags:
     - brew-casks
 

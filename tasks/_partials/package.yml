@@ -7,15 +7,6 @@
   tags:
     - brew-packages
 
-- name: Homebrew | Show packages for removal
-  ansible.builtin.debug:
-    msg:
-      - "Packages selected for removal:"
-      - "{{ packages_to_remove }}"
-  when: packages_to_remove | length > 0
-  tags:
-    - brew-packages
-
 - name: Homebrew | Deleting packages
   community.general.homebrew:
     name: "{{ package_item.name | default(package_item) }}"
@@ -33,14 +24,6 @@
   ansible.builtin.set_fact:
     packages_to_install: "{{ homebrew_packages | rejectattr('state', 'defined') | list |
      union( homebrew_packages | selectattr('state', 'defined') | selectattr('state', 'ne', 'absent') | list ) }}"
-  tags:
-    - brew-packages
-
-- name: Homebrew | Show packages for tapping
-  ansible.builtin.debug:
-    msg:
-      - "Packages selected for install:"
-      - "{{ packages_to_install }}"
   tags:
     - brew-packages
 
