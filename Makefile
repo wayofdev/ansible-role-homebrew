@@ -23,7 +23,7 @@ PY_PATH ?= $(shell which python3)
 # -vvv - enable connection debugging
 DEBUG_VERBOSITY ?= -v
 
-TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) --ask-become $(DEBUG_VERBOSITY)
+TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY)
 TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
 
 ### Lint yaml files
@@ -34,7 +34,7 @@ lint: check-syntax
 
 ### Run tests
 test:
-	cd $(WORKDIR) && $(TEST_PLAYBOOK)
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --ask-become
 .PHONY: test
 
 test-idempotent:
@@ -42,7 +42,7 @@ test-idempotent:
 .PHONY: test-idempotent
 
 test-tag:
-	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS)
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS) --ask-become
 .PHONY: test-tag
 
 debug-version:
