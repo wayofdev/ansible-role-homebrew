@@ -11,7 +11,7 @@ on:  # yamllint disable-line rule:truthy
       - master
   workflow_dispatch:
     inputs:
-      shouldPublishImage:
+      shouldPublish:
         description: 'Should publish image to Ansible Galaxy? (yes/no)'
         required: false
         default: 'no'
@@ -33,12 +33,10 @@ jobs:
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install dependencies
-        run: |
-          set -eux
-          make install-deps
+        run: set -eux; make install-deps
 
       - name: Run linting tasks
-        run: make lint
+        run: set -eux; make lint
 
   integration:
     name: Integration.
@@ -46,6 +44,7 @@ jobs:
     strategy:
       matrix:
         os:
+          - macos-11
           - macos-12
 
     steps:
@@ -62,26 +61,14 @@ jobs:
 
       - name: Test the playbook
         run: make test
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
 
       - name: Idempotence check
-        run: |
-          idempotence=$(mktemp)
-          poetry run ansible-playbook tests/test.yml --ask-become | tee -a ${idempotence}
-          tail ${idempotence} \
-            | grep -q 'changed=0.*failed=0' \
-            && (echo 'Idempotence test: pass' && exit 0) \
-            || (echo 'Idempotence test: fail' && exit 1)
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
+        run: make test-idempotent
 
   publish:
-    if: github.event.inputs.shouldPublishImage == 'yes' || github.ref == 'refs/heads/master'
+    if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
     needs:
-      # - lint
+      - lint
       - integration
     runs-on: ubuntu-latest
     steps:

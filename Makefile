@@ -15,7 +15,16 @@ WORKDIR ?= ./tests
 INVENTORY ?= inventory.yml
 REQS ?= requirements.yml
 POETRY ?= poetry run
-PYTHON_PATH = $(shell which python3)
+MACOS_NATIVE_PY_PATH ?= /usr/bin/python
+PY_PATH ?= $(shell which python3)
+
+# -v - verbose;
+# -vvv - more details
+# -vvv - enable connection debugging
+DEBUG_VERBOSITY ?= -v
+
+TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY)
+TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
 
 ### Lint yaml files
 lint: check-syntax
@@ -25,15 +34,23 @@ lint: check-syntax
 
 ### Run tests
 test:
-	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become -vvv
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --ask-become
 .PHONY: test
 
+test-idempotent:
+	cd $(WORKDIR) && $(TEST_IDEMPOTENT)
+.PHONY: test-idempotent
+
 test-tag:
-	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become --tags $(TASK_TAGS) -vvv
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS) --ask-become
 .PHONY: test-tag
 
+debug-version:
+	ansible --version
+.PHONY: debug-version
+
 check:
-	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) --ask-become --check -vvv
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --check
 .PHONY: check
 
 ### List all hostnames
@@ -43,7 +60,7 @@ ls-host:
 
 ### Check playbook syntax
 check-syntax:
-	cd $(WORKDIR) && $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) --syntax-check
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --syntax-check
 .PHONY: check-syntax
 
 ### Install ansible dependencies
@@ -60,11 +77,11 @@ install-poetry:
 .PHONY: install-poetry
 
 update-pip:
-ifeq ($(PYTHON_PATH),/usr/bin/python)
-	echo "Native macOS python binary detected at /usr/bin/python"
+ifeq ($(PY_PATH),$(MACOS_NATIVE_PY_PATH))
+	echo "Native macOS python binary detected at" $(MACOS_NATIVE_PY_PATH)
 	sudo pip3 install --upgrade pip
 else
-	echo "External python binary detected at "$(PYTHON_PATH)
+	echo "External python binary detected at" $(PY_PATH)
 	exit 0
 endif
 .PHONY: update-pip

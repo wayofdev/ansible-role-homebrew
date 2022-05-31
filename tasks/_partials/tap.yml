@@ -7,15 +7,6 @@
   tags:
     - brew-taps
 
-- name: Homebrew | Show taps for removal
-  ansible.builtin.debug:
-    msg:
-      - "Taps selected for removal:"
-      - "{{ taps_to_remove }}"
-  when: taps_to_remove | length > 0
-  tags:
-    - brew-taps
-
 - name: Homebrew | Un-tapping Homebrew repositories
   community.general.homebrew_tap:
     name: "{{ tap_item.name | default(tap_item) }}"
@@ -33,14 +24,6 @@
   ansible.builtin.set_fact:
     taps_to_tap: "{{ homebrew_taps | rejectattr('state', 'defined') | list |
      union( homebrew_taps | selectattr('state', 'defined') | selectattr('state', 'ne', 'absent') | list ) }}"
-  tags:
-    - brew-taps
-
-- name: Homebrew | Show taps for tapping
-  ansible.builtin.debug:
-    msg:
-      - "Taps selected for tapping:"
-      - "{{ taps_to_tap }}"
   tags:
     - brew-taps
 
