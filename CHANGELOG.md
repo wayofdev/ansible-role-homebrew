@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.2.0...v1.3.0) (2022-06-01)
+
+
+### Features
+
+* ability to turn off analytics, code cleanup ([c296112](https://github.com/wayofdev/ansible-role-homebrew/commit/c296112461c028274f4bc8bbe96235ab03756d59))
+
 ## [1.2.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.1.0...v1.2.0) (2022-06-01)
 
 
