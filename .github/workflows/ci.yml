@@ -70,9 +70,13 @@ jobs:
 
       - name: Test the playbook
         run: make test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Idempotence check
         run: make test-idempotent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'

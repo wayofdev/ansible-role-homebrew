@@ -25,6 +25,7 @@
 
 - name: Homebrew | Install | Get latest release tag
   community.general.github_release:
+    token: "{{ lookup('env', 'GITHUB_TOKEN') | default(omit) }}"
     user: Homebrew
     repo: brew
     action: latest_release
