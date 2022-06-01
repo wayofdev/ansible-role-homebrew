@@ -99,6 +99,21 @@
   tags:
     - brew-install
 
+- name: Homebrew | Install | Analytics | Get current status
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics"
+  register: brew_analytics
+  changed_when: false
+  tags:
+    - brew-install
+    - brew-analytics
+
+- name: Homebrew | Install | Analytics | Trigger analytics status – set to "{{ homebrew_collect_analytics | ternary('on', 'off') }}"
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics {{ homebrew_collect_analytics | ternary('on', 'off') }}"
+  when: brew_analytics.stdout != homebrew_analytics_vars[homebrew_collect_analytics]
+  tags:
+    - brew-install
+    - brew-analytics
+
 - name: Homebrew | Install | Register cache location
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --cache"
   register: brew_cache_path
@@ -110,20 +125,5 @@
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --version"
   register: brew_version
   changed_when: false
-  tags:
-    - brew-install
-
-- name: Homebrew | Install | Get config
-  ansible.builtin.command: "{{ homebrew_bin_path }}/brew --config"
-  register: brew_config
-  changed_when: false
-  tags:
-    - brew-install
-
-- name: Homebrew | Install | Version debug
-  ansible.builtin.debug:
-    msg:
-      - "{{ brew_version }}"
-      - "{{ brew_config }}"
   tags:
     - brew-install

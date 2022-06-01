@@ -6,6 +6,7 @@
     brew_group: "{{ brew_group | default(ansible_user_gid) }}"
   tags:
     - brew-install
+    - brew-analytics
     - brew-taps
     - brew-packages
     - brew-casks
@@ -15,6 +16,7 @@
   ansible.builtin.include_tasks: install.yml
   tags:
     - brew-install
+    - brew-analytics
 
 - name: Homebrew | Include | Tap custom repositories
   ansible.builtin.include_tasks: _partials/tap.yml

@@ -22,7 +22,7 @@ PY_PATH ?= $(shell which python3)
 # -v - verbose;
 # -vvv - more details
 # -vvv - enable connection debugging
-DEBUG_VERBOSITY ?= -vvv
+DEBUG_VERBOSITY ?= -v
 
 TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY)
 TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)

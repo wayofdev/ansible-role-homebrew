@@ -28,3 +28,7 @@ homebrew_folders:
   - share/zsh
   - share/zsh/site-functions
   - var
+
+homebrew_analytics_vars:
+  true: Analytics are enabled.
+  false: Analytics are disabled.

@@ -41,6 +41,8 @@ None.
 
 Available variables are listed below, along with example values (see `defaults/main.yml`). Additional variables are stored in `vars/main.yml`.
 
+<br>
+
 ### → Structure
 
 Github repository variable for Homebrew core. By default role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
@@ -89,6 +91,14 @@ If set to `true`, passes `--greedy` to brew cask outdated when checking if an in
 ```yaml
 homebrew_cask_greedy_mode: false
 ```
+
+Turn off homebrew analytics, which are collected by default.
+
+```yaml
+homebrew_collect_analytics: false
+```
+
+
 
 <br>
 
@@ -247,6 +257,7 @@ Installation handled by `Makefile` and it is defined in `requirements.yml`
     homebrew_retries: 12
     homebrew_delay: 3
     homebrew_clear_cache: false
+    homebrew_collect_analytics: false
 
   roles:
     - elliotweiser.osx-command-line-tools
@@ -294,6 +305,9 @@ For local testing you can use these comands to test whole role or separate tasks
 ```bash
 # run all tasks in role
 $ make test
+
+# run idempotency check
+$ make test-idempotent
 
 # or test-tag without any parameters
 $ make test-tag

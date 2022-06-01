@@ -51,3 +51,9 @@ homebrew_accept_external_casks: true
 # Passes --greedy to brew cask outdated when checking if an installed cask has a newer version available.
 # Default: false
 homebrew_cask_greedy_mode: false
+
+# Homebrew Analytics
+# https://www.macobserver.com/tips/quick-tip/disable-homebrew-analytics/
+# Should we disable analytics collection?
+# Default: true
+homebrew_collect_analytics: false

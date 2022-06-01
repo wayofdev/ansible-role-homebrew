@@ -13,13 +13,15 @@ galaxy_info:
   platforms:
     - name: macOS
       versions:
-        - all
+        - any
 
   galaxy_tags:
     - osx
     - mac
     - brew
     - homebrew
+    - provisioning
+    - mdm
 
 dependencies: []
 
