@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.1.0...v1.2.0) (2022-06-01)
+
+
+### Features
+
+* new, improved Makefile ([#4](https://github.com/wayofdev/ansible-role-homebrew/issues/4)) ([a603d1b](https://github.com/wayofdev/ansible-role-homebrew/commit/a603d1baafb659faf81f6f674349f6e1aba3e5f9))
+
+
+### Bug Fixes
+
+* add retry for poetry install script ([c5f0249](https://github.com/wayofdev/ansible-role-homebrew/commit/c5f0249646b14cc1d4fe33ded4213c8babf0b8af))
+* add retry for poetry install script ([bebbbd6](https://github.com/wayofdev/ansible-role-homebrew/commit/bebbbd6aa19ddf42570e4accea2941956f77a314))
+* add retry for poetry install script ([e1461dd](https://github.com/wayofdev/ansible-role-homebrew/commit/e1461dd49d91f86f87992911b2f99e0fa22d472c))
+
 ## [1.1.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.0.0...v1.1.0) (2022-05-30)
 
 
