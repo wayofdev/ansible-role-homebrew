@@ -59,6 +59,12 @@ jobs:
       - name: Install test dependencies
         run: make install
 
+      - name: Show curl version
+        run: curl --version
+
+      - name: Show curl version
+        run: curl --help all
+
       - name: Test the playbook
         run: make test
 
