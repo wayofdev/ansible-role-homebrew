@@ -22,7 +22,7 @@ PY_PATH ?= $(shell which python3)
 # -v - verbose;
 # -vvv - more details
 # -vvv - enable connection debugging
-DEBUG_VERBOSITY ?= -v
+DEBUG_VERBOSITY ?= -vvv
 
 TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY)
 TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
@@ -88,7 +88,7 @@ ifeq ($(PY_PATH),$(MACOS_NATIVE_PY_PATH))
 	sudo pip3 install --upgrade pip
 else
 	@echo "External python binary detected at" $(PY_PATH)
-	exit 0
+	@exit 0
 endif
 .PHONY: update-pip
 
