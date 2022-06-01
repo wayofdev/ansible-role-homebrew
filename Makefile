@@ -14,6 +14,7 @@ PLAYBOOK ?= test.yml
 WORKDIR ?= ./tests
 INVENTORY ?= inventory.yml
 REQS ?= requirements.yml
+INSTALL_POETRY ?= true
 POETRY ?= poetry run
 MACOS_NATIVE_PY_PATH ?= /usr/bin/python
 PY_PATH ?= $(shell which python3)
@@ -73,15 +74,20 @@ install-deps:
 .PHONY: install-deps
 
 install-poetry:
+ifeq ($(INSTALL_POETRY),true)
 	sudo sh contrib/poetry-bin/install.sh
+else
+	@echo "Poetry installation disabled by global variable! Exiting..."
+	@exit 0
+endif
 .PHONY: install-poetry
 
 update-pip:
 ifeq ($(PY_PATH),$(MACOS_NATIVE_PY_PATH))
-	echo "Native macOS python binary detected at" $(MACOS_NATIVE_PY_PATH)
+	@echo "Native macOS python binary detected at" $(MACOS_NATIVE_PY_PATH)
 	sudo pip3 install --upgrade pip
 else
-	echo "External python binary detected at" $(PY_PATH)
+	@echo "External python binary detected at" $(PY_PATH)
 	exit 0
 endif
 .PHONY: update-pip

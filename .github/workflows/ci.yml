@@ -56,8 +56,11 @@ jobs:
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
+      - name: Install Poetry
+        uses: gi0baro/setup-poetry-bin@v1
+
       - name: Install test dependencies
-        run: make install
+        run: export INSTALL_POETRY=false; make install
 
       - name: Show curl version
         run: curl --version
