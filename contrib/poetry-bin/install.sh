@@ -394,7 +394,7 @@ downloader() {
     if [ "$1" = --check ]; then
         need_cmd "$_dld"
     elif [ "$_dld" = curl ]; then
-        _err=$(curl --silent --show-error --fail --retry 5 --retry-delay 0 --retry-all-errors --location "$1" --output "$2" 2>&1)
+        _err=$(curl --silent --show-error --fail --retry 5 --retry-delay 0 --location "$1" --output "$2" 2>&1)
         _status=$?
         if [ -n "$_err" ]; then
             echo "$_err" >&2
@@ -432,7 +432,7 @@ fetcher() {
     if [ "$1" = --check ]; then
         need_cmd "$_dld"
     elif [ "$_dld" = curl ]; then
-        _res=$(curl --silent --show-error --fail --retry 5 --retry-delay 0 --retry-all-errors --location "$1")
+        _res=$(curl --silent --show-error --fail --retry 5 --retry-delay 0 --location "$1")
         echo "$_res"
         return
     elif [ "$_dld" = wget ]; then
