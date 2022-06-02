@@ -9,7 +9,7 @@ export ANSIBLE_JINJA2_NATIVE = true
 # https://stackoverflow.com/questions/50009505/ansible-stdout-formatting
 export ANSIBLE_STDOUT_CALLBACK = unixy
 
-TASK_TAGS ?= "brew-install brew-update brew-taps brew-packages brew-casks"
+TASK_TAGS ?= "brew-install brew-analytics brew-update brew-taps brew-packages brew-casks"
 PLAYBOOK ?= test.yml
 WORKDIR ?= ./tests
 INVENTORY ?= inventory.yml
@@ -24,8 +24,8 @@ PY_PATH ?= $(shell which python3)
 # -vvv - enable connection debugging
 DEBUG_VERBOSITY ?= -v
 
-TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY)
-TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
+TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY) --ask-become
+TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | tee /dev/tty | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
 
 ### Lint yaml files
 lint: check-syntax
@@ -35,7 +35,7 @@ lint: check-syntax
 
 ### Run tests
 test:
-	cd $(WORKDIR) && $(TEST_PLAYBOOK) --ask-become
+	cd $(WORKDIR) && $(TEST_PLAYBOOK)
 .PHONY: test
 
 test-idempotent:
@@ -43,7 +43,7 @@ test-idempotent:
 .PHONY: test-idempotent
 
 test-tag:
-	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS) --ask-become
+	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS)
 .PHONY: test-tag
 
 debug-version:
