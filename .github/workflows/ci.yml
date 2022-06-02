@@ -62,12 +62,6 @@ jobs:
       - name: Install test dependencies
         run: export INSTALL_POETRY=false; make install
 
-      - name: Show curl version
-        run: curl --version
-
-      - name: Show curl version
-        run: curl --help all
-
       - name: Test the playbook
         run: make test
         env:
