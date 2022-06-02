@@ -13,7 +13,7 @@ galaxy_info:
   platforms:
     - name: macOS
       versions:
-        - any
+        - all
 
   galaxy_tags:
     - osx
