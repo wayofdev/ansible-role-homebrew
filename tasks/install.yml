@@ -26,13 +26,12 @@
 - name: Homebrew | Install | Get latest release tag
   community.general.github_release:
     action: latest_release
-    token: "{{ lookup('env', 'GITHUB_TOKEN') | default(omit) }}"
     user: Homebrew
     repo: brew
   register: brew_latest_release
   when: not homebrew_repository_use_master | bool
   until: brew_latest_release is not failed
-  retries: 32
+  retries: 64
   delay: 6
   tags:
     - brew-install
