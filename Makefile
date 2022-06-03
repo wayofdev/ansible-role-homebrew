@@ -42,6 +42,24 @@ test-idempotent:
 	cd $(WORKDIR) && $(TEST_IDEMPOTENT)
 .PHONY: test-idempotent
 
+test-install: TASK_TAGS="brew-install"
+test-install: test-tag
+
+test-analytics: TASK_TAGS="brew-analytics"
+test-analytics: test-tag
+
+test-update: TASK_TAGS="brew-update"
+test-update: test-tag
+
+test-taps: TASK_TAGS="brew-taps"
+test-taps: test-tag
+
+test-packages: TASK_TAGS="brew-packages"
+test-packages: test-tag
+
+test-casks: TASK_TAGS="brew-casks"
+test-casks:  test-tag
+
 test-tag:
 	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS)
 .PHONY: test-tag

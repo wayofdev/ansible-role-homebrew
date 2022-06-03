@@ -320,6 +320,14 @@ $ export TASK_TAGS="brew-update"; make test-tag
 
 # run tasks that tries to update brew and then run taps and casks
 $ export TASK_TAGS="brew-update brew-taps brew-casks"; make test-tag
+
+# run by tag
+$ make test-install
+$ make test-analytics
+$ make test-update
+$ make test-taps
+$ make test-packages
+$ make test-casks
 ```
 
 Full list of commands can be seen in `Makefile`.
