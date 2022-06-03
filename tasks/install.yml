@@ -31,8 +31,8 @@
   register: brew_latest_release
   when: not homebrew_repository_use_master | bool
   until: brew_latest_release is not failed
-  retries: 64
-  delay: 6
+  retries: 1024
+  delay: 16
   tags:
     - brew-install
 
