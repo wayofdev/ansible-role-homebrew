@@ -16,7 +16,7 @@ INVENTORY ?= inventory.yml
 REQS ?= requirements.yml
 INSTALL_POETRY ?= true
 POETRY ?= poetry run
-MACOS_NATIVE_PY_PATH ?= /usr/bin/python
+MACOS_NATIVE_PY_PATH ?= /usr/bin/python3
 PY_PATH ?= $(shell which python3)
 
 # -v - verbose;
