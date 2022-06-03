@@ -68,12 +68,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Idempotence check
-        # This `shell` line is required to get around a known issue: https://github.com/actions/runner/issues/241#issuecomment-745902718
-        shell: script -q -e -c "bash {0}"
-        run: make test-idempotent
+        run: |
+          IDEMPOTENCE=$(mktemp)
+          cd tests && poetry run ansible-playbook test.yml | tee -a ${IDEMPOTENCE}
+          tail ${IDEMPOTENCE} \
+            | grep -q 'changed=0.*failed=0' \
+            && (echo 'Idempotence test: pass' && exit 0) \
+            || (echo 'Idempotence test: fail' && exit 1)
         env:
+          ANSIBLE_FORCE_COLOR: '1'
+          ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE_COLOR: 1
 
   publish:
     if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
