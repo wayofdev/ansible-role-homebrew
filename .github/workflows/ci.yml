@@ -119,6 +119,7 @@ jobs:
         shell: 'script -q -e -c "bash {0}"'
         run: make test-idempotent
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     if: github.event.inputs.shouldPublishImage == 'yes' || github.ref == 'refs/heads/master'
