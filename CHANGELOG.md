@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.3.0...v1.4.0) (2022-06-03)
+
+
+### Features
+
+* Makefile test by tag, retries for github3.py ([054288a](https://github.com/wayofdev/ansible-role-homebrew/commit/054288aaecb7a047a4f186c50bc5989404dd22c7))
+* Makefile test by tag, retries for github3.py ([8a54a40](https://github.com/wayofdev/ansible-role-homebrew/commit/8a54a40f0e053ead7c4b40fb8c2957e5b613f923))
+* Makefile test by tag, retries for github3.py ([9f887d6](https://github.com/wayofdev/ansible-role-homebrew/commit/9f887d64bba668b5f2c61b79cd142ed6ba3672ff))
+
+
+### Bug Fixes
+
+* fixes in meta platforms, updating deps ([f13cc57](https://github.com/wayofdev/ansible-role-homebrew/commit/f13cc57b78c8dce97b03385ac1e033752dcc6a40))
+* Makefile problems in github actions ([e237c59](https://github.com/wayofdev/ansible-role-homebrew/commit/e237c596968de704bf39dcf0a7b767f92629c574))
+* Makefile problems in github actions ([90dbbd0](https://github.com/wayofdev/ansible-role-homebrew/commit/90dbbd0c6e1c47ac96f04186d18b39e1c3cc21fe))
+* Makefile problems in github actions ([d92aa5f](https://github.com/wayofdev/ansible-role-homebrew/commit/d92aa5f5b0a25a2d2a0102d6609b835a35f089a9))
+* Makefile problems in github actions ([ec8af0f](https://github.com/wayofdev/ansible-role-homebrew/commit/ec8af0fda011672858fd55151bdde8b59fac0ec7))
+
 ## [1.3.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.2.0...v1.3.0) (2022-06-01)
 
 
