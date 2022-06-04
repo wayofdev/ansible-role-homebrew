@@ -38,8 +38,8 @@ jobs:
       - name: Run linting tasks
         run: set -eux; make lint
 
-  integration:
-    name: Integration.
+  integration-macos:
+    name: Integration check on macOS
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -84,11 +84,48 @@ jobs:
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  integration-linux:
+    name: Integration check on Linux
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install Poetry
+        uses: gi0baro/setup-poetry-bin@v1
+
+      - name: Install test dependencies
+        run: export INSTALL_POETRY=false; make install
+
+      - name: Test the playbook
+        run: make test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Idempotence check
+        # This `shell` line is required to get around a known issue: https://github.com/actions/runner/issues/241#issuecomment-745902718
+        shell: 'script -q -e -c "bash {0}"'
+        run: make test-idempotent
+        env:
+
   publish:
     if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
     needs:
       - lint
-      - integration
+      - integration-macos
+      - integration-linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

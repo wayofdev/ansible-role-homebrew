@@ -1,4 +1,5 @@
 ---
+
 - hosts: localhost
   connection: local
 
@@ -6,6 +7,4 @@
     - ./defaults/main.yml
 
   roles:
-    # - elliotweiser.osx-command-line-tools
-    # - geerlingguy.mac.homebrew
     - ../../

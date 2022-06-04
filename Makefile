@@ -5,6 +5,11 @@
 export ANSIBLE_FORCE_COLOR = 1
 export ANSIBLE_JINJA2_NATIVE = true
 
+export PYTHONIOENCODING = UTF-8
+export LC_CTYPE = en_US.UTF-8
+export LANG = en_US.UTF-8
+export LC_ALL = en_US.UTF-8
+
 # https://serverfault.com/questions/1031491/display-ansible-playbook-output-properly-formatted
 # https://stackoverflow.com/questions/50009505/ansible-stdout-formatting
 export ANSIBLE_STDOUT_CALLBACK = unixy
