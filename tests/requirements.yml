@@ -2,6 +2,7 @@
 
 roles:
   - name: elliotweiser.osx-command-line-tools
+  - name: geerlingguy.git
 
 collections:
   - name: community.general

@@ -1,29 +1,26 @@
 ---
+
 dependency:
   name: galaxy
-  options:
-    role-file: requirements.yml
-    requirements-file: requirements.yml
-
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-
 driver:
   name: docker
 
 platforms:
-  - name: instance
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2204}-ansible:latest"
-    privileged: true
-    pre_build_image: true
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
+  - name: debian-based-instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    pre_build_image: true
+    privileged: true
 
 provisioner:
   name: ansible
 
 verifier:
   name: ansible
+
+# Linting handled by Makefile and separate CI tasks
+# lint: |
+#   set -e
+#   yamllint .
+#   ansible-lint .

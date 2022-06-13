@@ -14,11 +14,22 @@ galaxy_info:
     - name: macOS
       versions:
         - all
+    - name: Debian
+      versions:
+        - bullseye
+        - buster
+    - name: Ubuntu
+      versions:
+        - jammy
+        - focal
+        - bionic
 
   galaxy_tags:
     - homebrew
     - brew
     - mac
+    - linux
+    - linuxbrew
     - osx
     - mdm
     - provisioning

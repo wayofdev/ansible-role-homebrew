@@ -1,6 +1,9 @@
 ---
 
-homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+homebrew_prefix_linux: /home/linuxbrew/.linuxbrew
+homebrew_prefix_macos: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+homebrew_prefix: "{{ (ansible_system == 'Linux') | ternary(homebrew_prefix_linux, homebrew_prefix_macos) }}"
+
 homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
 homebrew_bin_path: "{{ homebrew_prefix }}/bin"
 
@@ -32,3 +35,15 @@ homebrew_folders:
 homebrew_analytics_vars:
   true: Analytics are enabled.
   false: Analytics are disabled.
+
+homebrew_linux_reqs:
+  generic:
+    - file
+    - curl
+
+  yum:
+    - procps-ng  # Includes ps, free, skill, pkill, pgrep, snice, tload, top, uptime, vmstat, pidof, pmap, slabtop, w, watch, pwdx and pidwait
+
+  apt:
+    - build-essential
+    - procps  # Sames as procps-ng on yum

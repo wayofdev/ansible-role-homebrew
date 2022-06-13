@@ -1,5 +1,11 @@
 ---
 
+- name: Homebrew | Include | Install pre-requisites for Linux systems
+  ansible.builtin.include_tasks: _partials/install-reqs.yml
+  when: ansible_system == 'Linux'
+  tags:
+    - brew-install
+
 - name: Homebrew | Include | Install Homebrew on arm64 (M1) machines
   ansible.builtin.include_tasks: _partials/install-arm64.yml
   when: ansible_machine == 'arm64'
@@ -31,8 +37,8 @@
   register: brew_latest_release
   when: not homebrew_repository_use_master | bool
   until: brew_latest_release is not failed
-  retries: 1024
-  delay: 16
+  retries: 3
+  delay: 3
   tags:
     - brew-install
 
@@ -65,6 +71,7 @@
     owner: "{{ brew_user }}"
     group: "{{ brew_group }}"
     state: directory
+    mode: 0775
     recurse: true
   become: true
   tags:
@@ -78,7 +85,7 @@
   tags:
     - brew-install
 
-- name: Homebrew | Install | Symlink brew to {{ homebrew_bin_path }}.
+- name: Homebrew | Install | Symlink brew to {{ homebrew_bin_path }}
   ansible.builtin.file:
     src: "{{ homebrew_install_path }}/bin/brew"
     dest: "{{ homebrew_bin_path }}/brew"
@@ -88,7 +95,17 @@
   tags:
     - brew-install
 
-- name: Homebrew | Install | Ensure proper folders are in place.
+- name: Homebrew | Install | Add bin dir to system-wide $PATH
+  ansible.builtin.copy:
+    dest: /etc/profile.d/custom-path.sh
+    content: 'PATH=$PATH:{{ homebrew_bin_path }}'
+  when:
+    - ansible_env.PATH is not search(homebrew_bin_path)
+    - ansible_system == 'Linux'
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Ensure proper folders are in place
   ansible.builtin.file:
     path: "{{ homebrew_prefix }}/{{ folder_item }}"
     owner: "{{ brew_user }}"
@@ -102,10 +119,21 @@
   tags:
     - brew-install
 
+- name: Homebrew | Install | Dump
+  ansible.builtin.debug:
+    msg:
+      - "Brew user: {{ brew_user }}"
+      - Ansible user — "{{ ansible_user_id }}"
+  tags:
+    - brew-install
+    - brew-analytics
+
 - name: Homebrew | Install | Analytics | Get current status
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics"
   register: brew_analytics
   changed_when: false
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
   tags:
     - brew-install
     - brew-analytics
@@ -113,6 +141,8 @@
 - name: Homebrew | Install | Analytics | Trigger analytics status – set to "{{ homebrew_collect_analytics | ternary('on', 'off') }}"
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics {{ homebrew_collect_analytics | ternary('on', 'off') }}"
   when: brew_analytics.stdout != homebrew_analytics_vars[homebrew_collect_analytics]
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
   tags:
     - brew-install
     - brew-analytics
@@ -120,6 +150,8 @@
 - name: Homebrew | Install | Register cache location
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --cache"
   register: brew_cache_path
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
   changed_when: false
   tags:
     - brew-install
@@ -127,6 +159,8 @@
 - name: Homebrew | Install | Get installed version
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --version"
   register: brew_version
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
   changed_when: false
   tags:
     - brew-install

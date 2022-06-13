@@ -1,9 +1,7 @@
 ---
 
-- name: Homebrew | Set ownership variables
-  ansible.builtin.set_fact:
-    brew_user: "{{ brew_user | default(ansible_user_id) }}"
-    brew_group: "{{ brew_group | default(ansible_user_gid) }}"
+- name: Homebrew | Include | Get facts
+  ansible.builtin.include_tasks: pre-facts.yml
   tags:
     - brew-install
     - brew-analytics
@@ -30,6 +28,7 @@
 
 - name: Homebrew | Include | Install casks
   ansible.builtin.include_tasks: _partials/cask.yml
+  when: ansible_os_family == 'Darwin'
   tags:
     - brew-casks
 

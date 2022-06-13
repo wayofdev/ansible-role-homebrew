@@ -2,9 +2,22 @@
 
 - name: Converge
   hosts: all
-  gather_facts: true
+
+  vars:
+    homebrew_user: linuxbrew
+    homebrew_group: linuxbrew
 
   tasks:
-    - name: "Include wayofdev.homebrew"
+    - name: Include elliotweiser.osx-command-line-tools
       ansible.builtin.include_role:
-        name: "wayofdev.homebrew"
+        name: elliotweiser.osx-command-line-tools
+      when: ansible_os_family == 'Darwin'
+
+    - name: Include elliotweiser.osx-command-line-tools
+      ansible.builtin.include_role:
+        name: geerlingguy.git
+      when: ansible_system == 'Linux'
+
+    - name: Include ansible-role-homebrew
+      ansible.builtin.include_role:
+        name: ansible-role-homebrew
