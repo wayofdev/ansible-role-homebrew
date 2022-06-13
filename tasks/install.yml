@@ -71,7 +71,7 @@
     owner: "{{ brew_user }}"
     group: "{{ brew_group }}"
     state: directory
-    mode: 0775
+    mode: 0755
     recurse: true
   become: true
   tags:

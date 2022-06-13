@@ -11,6 +11,7 @@ ansible = "^5.8.0"
 "github3.py" = "^3.2.0"
 
 [tool.poetry.dev-dependencies]
+docker = "^5.0.3"
 molecule = {extras = ["docker"], version = "4.0.0a0"}
 ansible-compat = "^2.1.0"
 ansible-lint = "^6.2.1"
