@@ -104,13 +104,23 @@ jobs:
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install test dependencies
-        run: export INSTALL_POETRY=false; make install
+        run: pip3 install ansible molecule[docker] docker
 
-      - name: Test with molecule
-        shell: 'script -q -e -c "bash {0}"'
-        run: make m-test
+      - name: Run Molecule tests.
+        run: molecule test
         env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          # - name: Install test dependencies
+          #   run: export INSTALL_POETRY=false; make install
+
+          # - name: Test with molecule
+          #   shell: 'script -q -e -c "bash {0}"'
+          #   run: make m-test
+          #   env:
+          #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     if: github.event.inputs.shouldPublishImage == 'yes' || github.ref == 'refs/heads/master'
