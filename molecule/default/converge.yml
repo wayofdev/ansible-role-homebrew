@@ -2,6 +2,7 @@
 
 - name: Converge
   hosts: all
+  become: true
 
   vars:
     homebrew_user: linuxbrew

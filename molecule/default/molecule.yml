@@ -8,6 +8,7 @@ driver:
 platforms:
   - name: debian-based-instance
     image: geerlingguy/docker-ubuntu2204-ansible:latest
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     pre_build_image: true
@@ -15,12 +16,12 @@ platforms:
 
 provisioner:
   name: ansible
+  options:
+    vvv: true
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 
 verifier:
   name: ansible
-
-# Linting handled by Makefile and separate CI tasks
-# lint: |
-#   set -e
-#   yamllint .
-#   ansible-lint .
+  options:
+    vvv: true
