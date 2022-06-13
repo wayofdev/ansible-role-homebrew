@@ -24,12 +24,12 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v3
 
-      - name: Set up Python 3
+      - name: Setup python3
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install Poetry
+      - name: Install poetry
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install dependencies
@@ -57,7 +57,7 @@ jobs:
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
-      - name: Install Poetry
+      - name: Install poetry
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install test dependencies
@@ -92,12 +92,15 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v3
 
-      - name: Set up Python 3
+      - name: Setup docker
+        uses: docker-practice/actions-setup-docker@master
+
+      - name: Setup python3
         uses: actions/setup-python@v3
         with:
           python-version: '3.9'
 
-      - name: Install Poetry
+      - name: Install poetry
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install test dependencies
