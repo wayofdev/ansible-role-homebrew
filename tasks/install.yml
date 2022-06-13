@@ -73,6 +73,7 @@
     state: directory
     mode: 0755
     recurse: true
+  # fix idempotence and remove changed_when: false
   changed_when: false
   become: true
   tags:
@@ -117,17 +118,10 @@
   loop: "{{ homebrew_folders }}"
   loop_control:
     loop_var: folder_item
+  # fix idempotence and remove changed_when: false
+  changed_when: false
   tags:
     - brew-install
-
-- name: Homebrew | Install | Dump
-  ansible.builtin.debug:
-    msg:
-      - "Brew user: {{ brew_user }}"
-      - Ansible user — "{{ ansible_user_id }}"
-  tags:
-    - brew-install
-    - brew-analytics
 
 - name: Homebrew | Install | Analytics | Get current status
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics"
