@@ -73,6 +73,7 @@
     state: directory
     mode: 0755
     recurse: true
+  changed_when: false
   become: true
   tags:
     - brew-install
