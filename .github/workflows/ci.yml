@@ -85,7 +85,7 @@ jobs:
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  integration-linux:
+  integration-molecule:
     name: Integration check on Linux with Molecule
     runs-on: ubuntu-latest
     steps:
@@ -116,7 +116,7 @@ jobs:
     needs:
       - lint
       - integration-macos
-      - integration-linux
+      - integration-molecule
     runs-on: ubuntu-latest
     steps:
       - name: Publish to Ansible Galaxy

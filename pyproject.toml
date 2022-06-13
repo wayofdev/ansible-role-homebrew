@@ -12,7 +12,7 @@ ansible = "^5.8.0"
 
 [tool.poetry.dev-dependencies]
 docker = "^5.0.3"
-molecule = {extras = ["docker"], version = "4.0.0a0"}
+molecule = {extras = ["docker"], version = "^3.6.1"}
 ansible-compat = "^2.1.0"
 ansible-lint = "^6.2.1"
 yamllint = "^1.26.3"
