@@ -5,6 +5,7 @@
 export ANSIBLE_FORCE_COLOR = 1
 export ANSIBLE_JINJA2_NATIVE = true
 
+export PY_COLORS = 1
 export PYTHONIOENCODING = UTF-8
 export LC_CTYPE = en_US.UTF-8
 export LANG = en_US.UTF-8
@@ -69,7 +70,7 @@ test-tag:
 .PHONY: test-tag
 
 m-test:
-	poetry run molecule test -- -v
+	poetry run molecule test -- -vvv
 .PHONY: m-test
 
 login-deb:
