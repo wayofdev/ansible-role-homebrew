@@ -68,6 +68,10 @@ test-tag:
 	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS)
 .PHONY: test-tag
 
+m-test:
+	poetry run molecule test -- -v
+.PHONY: m-test
+
 login-deb:
 	molecule login --host debian-based-instance
 .PHONY: login-deb
