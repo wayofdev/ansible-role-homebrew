@@ -104,7 +104,9 @@ jobs:
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install test dependencies
-        run: pip3 install ansible molecule[docker] docker
+        run: |
+          pip3 install ansible molecule[docker] docker
+          ansible-galaxy install -r requirements.yml
 
       - name: Run Molecule tests.
         run: molecule test
