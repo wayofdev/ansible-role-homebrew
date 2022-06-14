@@ -2,10 +2,16 @@
 
 - name: Verify
   hosts: all
-  gather_facts: false
+
+  vars:
+    homebrew_search_paths:
+      - /usr/local/bin
+      - /opt/homebrew/bin
+      - /home/linuxbrew/.linuxbrew/bin
+
   tasks:
-  - name: Install Formulae
-    community.general.homebrew:
-      path: "{{ homebrew_search_paths | join(':') }}"
-      name: run
-      state: present
+    - name: Install Formulae
+      community.general.homebrew:
+        path: "{{ homebrew_search_paths | join(':') }}"
+        name: run
+        state: present
