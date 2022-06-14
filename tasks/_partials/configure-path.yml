@@ -10,7 +10,7 @@
   tags:
     - brew-install
 
-- name: Homebrew | Install | Add bin dir to system-wide $PATH on RedHat family Linux
+- name: Homebrew | Install | Add bin dir to system-wide $PATH on Debian family Linux
   ansible.builtin.lineinfile:
     dest: /etc/environment
     state: present

@@ -4,6 +4,7 @@
   hosts: all
 
   vars:
+    homebrew_user: linuxbrew
     homebrew_search_paths:
       - /usr/local/bin
       - /opt/homebrew/bin
@@ -15,3 +16,5 @@
         path: "{{ homebrew_search_paths | join(':') }}"
         name: run
         state: present
+      become: "{{ (homebrew_user != ansible_user_id) | bool }}"
+      become_user: "{{ homebrew_user }}"
