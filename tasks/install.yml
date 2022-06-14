@@ -97,13 +97,8 @@
   tags:
     - brew-install
 
-- name: Homebrew | Install | Add bin dir to system-wide $PATH
-  ansible.builtin.copy:
-    dest: /etc/profile.d/custom-path.sh
-    content: 'PATH=$PATH:{{ homebrew_bin_path }}'
-  when:
-    - ansible_env.PATH is not search(homebrew_bin_path)
-    - ansible_system == 'Linux'
+- name: Homebrew | Include | Install Homebrew on x86_64 (Intel) machines
+  ansible.builtin.include_tasks: _partials/configure-path.yml
   tags:
     - brew-install
 

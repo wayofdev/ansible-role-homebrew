@@ -1,0 +1,23 @@
+---
+
+- name: Homebrew | Install | Add bin dir to system-wide $PATH on RedHat family Linux
+  ansible.builtin.copy:
+    content: 'export PATH=$PATH:{{ homebrew_bin_path }}'
+    dest: /etc/profile.d/brew.sh
+  when:
+    - ansible_env.PATH is not search(homebrew_bin_path)
+    - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
+  tags:
+    - brew-install
+
+- name: Homebrew | Install | Add bin dir to system-wide $PATH on RedHat family Linux
+  ansible.builtin.lineinfile:
+    dest: /etc/environment
+    state: present
+    backrefs: true
+    regexp: PATH=(["]*)((?!.*?{{ homebrew_bin_path }}).*?)(["]*)$
+    line: PATH=\1\2:{{ homebrew_bin_path }}\3
+  when:
+    - ansible_os_family == 'Debian'
+  tags:
+    - brew-install

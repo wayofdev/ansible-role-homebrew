@@ -5,6 +5,19 @@
   become: true
 
   vars:
+    homebrew_taps:
+      - homebrew/cask-fonts
+      - homebrew/cask-versions
+      - lotyp/homebrew-formulae
+      - name: denji/nginx
+        url: https://github.com/denji/homebrew-nginx
+
+    homebrew_packages:
+      - name: ssh-copy-id  # from homebrew/core
+      - curl
+      - nano
+
+    homebrew_collect_analytics: false
     homebrew_user: linuxbrew
     homebrew_group: linuxbrew
 

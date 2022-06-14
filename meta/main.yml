@@ -34,6 +34,8 @@ galaxy_info:
     - mdm
     - provisioning
     - automation
+    - packaging
+    - system
 
 dependencies: []
 

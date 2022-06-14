@@ -47,7 +47,7 @@ homebrew_cask_greedy_mode: false
 # Default: true
 homebrew_collect_analytics: true
 
-# OS user from whom installation will be running.
-# By default ansible_user_id is used.
+# OS user and group from whom installation will be running.
+# By default ansible_user_id and ansible_user_gid are used.
 homebrew_user: "{{ ansible_user_id }}"
 homebrew_group: "{{ ansible_user_gid }}"

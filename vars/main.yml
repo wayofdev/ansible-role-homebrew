@@ -47,3 +47,8 @@ homebrew_linux_reqs:
   apt:
     - build-essential
     - procps  # Sames as procps-ng on yum
+
+homebrew_search_paths:
+  - /usr/local/bin
+  - /opt/homebrew/bin
+  - /home/linuxbrew/.linuxbrew/bin

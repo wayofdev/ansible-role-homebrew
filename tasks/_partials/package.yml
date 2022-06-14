@@ -9,6 +9,7 @@
 
 - name: Homebrew | Deleting packages
   community.general.homebrew:
+    path: "{{ homebrew_search_paths | join(':') }}"
     name: "{{ package_item.name | default(package_item) }}"
     state: absent
   become: "{{ (brew_user != ansible_user_id) | bool }}"
@@ -29,9 +30,9 @@
 
 - name: Homebrew | Installing or updating packages
   community.general.homebrew:
+    path: "{{ homebrew_search_paths | join(':') }}"
     name: "{{ item.name | default(item) }}"
     state: "{{ item.state | default(homebrew_install_state) }}"
-    path: "{{ item.path | default(omit) }}"
     update_homebrew: "{{ item.update_homebrew | default(omit) }}"
   retries: "{{ homebrew_retries }}"
   delay: "{{ homebrew_delay }}"

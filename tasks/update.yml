@@ -10,6 +10,7 @@
 
     - name: Homebrew | Update homebrew itself and upgrade all homebrew packages (if configured)
       community.general.homebrew:
+        path: "{{ homebrew_search_paths | join(':') }}"
         update_homebrew: true
         upgrade_all: true
       when: homebrew_upgrade_all
