@@ -52,3 +52,8 @@ homebrew_search_paths:
   - /usr/local/bin
   - /opt/homebrew/bin
   - /home/linuxbrew/.linuxbrew/bin
+
+# OS user and group from whom installation will be running.
+# By default ansible_user_id and ansible_user_gid are used.
+homebrew_user: "{{ ansible_system == 'Linux' | ternary('linuxbrew', ansible_user_id) }}"
+homebrew_group: "{{ ansible_system == 'Linux' | ternary('linuxbrew', ansible_user_gid) }}"
