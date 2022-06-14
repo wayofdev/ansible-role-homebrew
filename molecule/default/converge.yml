@@ -13,7 +13,7 @@
       - name: ssh-copy-id  # from homebrew/core
       - curl
       - nano
-      - denji/nginx
+      - nginx-full  # from denji/nginx
 
     homebrew_collect_analytics: false
     homebrew_user: linuxbrew
