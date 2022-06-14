@@ -45,13 +45,13 @@ Available variables are listed below, along with example values (see `defaults/m
 
 ### → Structure
 
-Github repository variable for Homebrew core. By default role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
+Github repository variable for Homebrew core. By default, role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
 
 ```yaml
 # From which repository should we install homebrew?
 homebrew_repository: https://github.com/Homebrew/brew
 
-# Set to true if you want to use master branch instead of release auto detect,
+# Set to true if you want to use master branch instead of release auto-detect,
 # or you use custom fork specified in homebrew_repository
 homebrew_repository_use_master: false
 ```
@@ -63,7 +63,7 @@ When set to true, will update Homebrew itself and upgrade all homebrew packages:
 homebrew_upgrade_all: false
 ```
 
-Variables controls retry times and delay to wait between retries, if `homebrew install` task failed:
+Variable controls retry times and delay to wait between retries, if `homebrew install` task failed:
 
 ```yaml
 # How much times to retry, if installation of package / tap / cask fails ?
@@ -97,8 +97,6 @@ Turn off homebrew analytics, which are collected by default.
 ```yaml
 homebrew_collect_analytics: false
 ```
-
-
 
 <br>
 
@@ -193,6 +191,8 @@ homebrew_packages:
 
 ### → Casks: installing, updating and removing
 
+> :warning: **Notice**: Casks are supported only on macOS. See [this post](https://github.com/Linuxbrew/brew/issues/742).
+
 **Adding** casks in simple way:
 
 ```yaml
@@ -226,16 +226,9 @@ homebrew_casks:
 
 <br>
 
-## 📦 Dependencies
-
-Installation handled by `Makefile` and it is defined in `requirements.yml`
-
-  - [elliotweiser.osx-command-line-tools](https://galaxy.ansible.com/elliotweiser/osx-command-line-tools/)
-  - [ansible.community.general](https://docs.ansible.com/ansible/latest/collections/community/general/index.html)
-
-<br>
-
 ## 📗 Example Playbook
+
+### → for macOS machines
 
 ```yaml
 ---
@@ -260,7 +253,33 @@ Installation handled by `Makefile` and it is defined in `requirements.yml`
     homebrew_collect_analytics: false
 
   roles:
-    - elliotweiser.osx-command-line-tools
+    - elliotweiser.osx-command-line-tools  # needed only on macOS machines
+    - wayofdev.homebrew
+```
+
+### → for Linux machines
+
+```yaml
+---
+- hosts: localhost
+
+  vars:
+ 	  homebrew_user: linuxbrew  # FYI: can be skipped, as automatically detected, but linuxbrew user is recommended way for installing Homebrew with Linux
+ 	  homebrew_group: linuxbrew  # same as homebrew_user
+
+    homebrew_taps:
+      - homebrew/core
+      - yt-dlp/taps
+    homebrew_packages:
+      - ssh-copy-id  # from homebrew/core
+      - yt-dlp  # from yt-dlp/taps
+    homebrew_retries: 12
+    homebrew_delay: 3
+    homebrew_clear_cache: false
+    homebrew_collect_analytics: false
+
+  roles:
+    - geerlingguy.git  # required only on linux machines, and can be skipped if machine has git
     - wayofdev.homebrew
 ```
 
@@ -328,9 +347,30 @@ $ make test-update
 $ make test-taps
 $ make test-packages
 $ make test-casks
+
+# run molecule tests
+$ make m-test
 ```
 
 Full list of commands can be seen in `Makefile`.
+
+<br>
+
+## 📦 Dependencies
+
+Installation handled by `Makefile` and requirments are defined in `requirements.yml`
+
+### → All
+
+  - [ansible.community.general](https://docs.ansible.com/ansible/latest/collections/community/general/index.html)
+
+### → only macOS
+
+  - [elliotweiser.osx-command-line-tools](https://galaxy.ansible.com/elliotweiser/osx-command-line-tools/)
+
+### → only Linux
+
+  - [geerlingguy.git](https://galaxy.ansible.com/geerlingguy/git)
 
 <br>
 
@@ -344,6 +384,8 @@ This role has been tested on these systems:
 | macos              | big-sur  |
 | ubuntu             | latest   |
 | debian             | latest   |
+| fedora             | latest   |
+| centos             | latest   |
 
 <br>
 
