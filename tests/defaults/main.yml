@@ -5,7 +5,7 @@ homebrew_repository: https://github.com/Homebrew/brew
 
 # Set to true if you want to use master branch instead of release auto detect,
 # or you use custom fork specified in homebrew_repository
-homebrew_repository_use_master: false
+homebrew_repository_use_master: true
 
 # Run task to upgrade all packages
 homebrew_upgrade_all: false

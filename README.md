@@ -45,13 +45,13 @@ Available variables are listed below, along with example values (see `defaults/m
 
 ### → Structure
 
-Github repository variable for Homebrew core. By default role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
+Github repository variable for Homebrew core. By default, role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
 
 ```yaml
 # From which repository should we install homebrew?
 homebrew_repository: https://github.com/Homebrew/brew
 
-# Set to true if you want to use master branch instead of release auto detect,
+# Set to true if you want to use master branch instead of release auto-detect,
 # or you use custom fork specified in homebrew_repository
 homebrew_repository_use_master: false
 ```
@@ -63,7 +63,7 @@ When set to true, will update Homebrew itself and upgrade all homebrew packages:
 homebrew_upgrade_all: false
 ```
 
-Variables controls retry times and delay to wait between retries, if `homebrew install` task failed:
+Variable controls retry times and delay to wait between retries, if `homebrew install` task failed:
 
 ```yaml
 # How much times to retry, if installation of package / tap / cask fails ?

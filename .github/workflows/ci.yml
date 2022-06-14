@@ -108,7 +108,7 @@ jobs:
           pip3 install ansible molecule[docker] docker
           ansible-galaxy install -r requirements.yml
 
-      - name: Run Molecule tests.
+      - name: Run molecule tests
         run: molecule test -- -v
         env:
           PY_COLORS: '1'
