@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.5.0...v1.6.0) (2022-06-14)
+
+
+### Features
+
+* homebrew user autodetection, readme changes ([#11](https://github.com/wayofdev/ansible-role-homebrew/issues/11)) ([2e2df96](https://github.com/wayofdev/ansible-role-homebrew/commit/2e2df9645621424d120294f4da9220ec10e1b369))
+
 ## [1.5.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.4.0...v1.5.0) (2022-06-14)
 
 
