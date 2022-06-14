@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.4.0...v1.5.0) (2022-06-14)
+
+
+### Features
+
+* add ubuntu support ([#8](https://github.com/wayofdev/ansible-role-homebrew/issues/8)) ([f8857bc](https://github.com/wayofdev/ansible-role-homebrew/commit/f8857bcb8781b662f2dfa90e0ebb13d0199770bf))
+
 ## [1.4.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.3.0...v1.4.0) (2022-06-03)
 
 
