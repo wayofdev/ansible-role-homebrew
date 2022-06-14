@@ -25,10 +25,14 @@ repos:
           - commit-msg
 
   - repo: https://github.com/ansible/ansible-lint
-    rev: v6.2.2
+    rev: v6.3.0
     hooks:
       - id: ansible-lint
-        files: \.(yaml|yml)$
+        entry: ansible-lint . --force-color
+        pass_filenames: false
+        always_run: true
+        additional_dependencies:
+          - .[community]
 
   - repo: https://github.com/robertdebock/pre-commit
     rev: v1.4.5

@@ -46,3 +46,8 @@ homebrew_cask_greedy_mode: false
 # Should we disable analytics collection?
 # Default: true
 homebrew_collect_analytics: true
+
+# OS user and group from whom installation will be running.
+# By default ansible_user_id and ansible_user_gid are used.
+homebrew_user: "{{ ansible_user_id }}"
+homebrew_group: "{{ ansible_user_gid }}"

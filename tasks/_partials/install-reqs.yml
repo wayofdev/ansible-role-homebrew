@@ -1,0 +1,43 @@
+---
+
+- name: Homebrew | Install | Ensure github3.py package is present
+  ansible.builtin.pip:
+    name: github3.py
+  tags:
+    - brew-install
+
+- name: Homebrew (Linuxbrew) | Install | Make sure we have a 'wheel' group
+  ansible.builtin.group:
+    name: wheel
+    state: present
+  when: ansible_system == 'Linux'
+  tags:
+    - brew-install
+
+- name: Homebrew (Linuxbrew) | Install | Create "{{ homebrew_user }}" user and add it to "wheel" group
+  ansible.builtin.user:
+    name: "{{ homebrew_user }}"
+    groups: wheel
+    append: true
+    state: present
+    create_home: true
+    shell: /bin/nologin
+  when: ansible_system == 'Linux'
+  tags:
+    - brew-install
+
+# Without cache update, ansible will raise "The cache has no package named %r' % key" error
+- name: Homebrew (Linuxbrew) | Install | Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 8400
+  when: ansible_os_family == 'Debian'
+
+- name: Homebrew (Linuxbrew) | Install | Required packages for common Linux distros
+  ansible.builtin.package:
+    name: "{{ homebrew_linux_reqs.generic }}"
+    state: present
+  become: true
+  when: ansible_system == 'Linux'
+  tags:
+    - brew-install

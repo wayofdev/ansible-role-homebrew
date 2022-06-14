@@ -9,6 +9,7 @@
 
 - name: Homebrew | Removing casks
   community.general.homebrew_cask:
+    path: "{{ homebrew_search_paths | join(':') }}"
     name: "{{ cask_item.name | default(cask_item) }}"
     state: absent
   become: "{{ (brew_user != ansible_user_id) | bool }}"
@@ -29,6 +30,7 @@
 
 - name: Homebrew | Installing or updating casks
   community.general.homebrew_cask:
+    path: "{{ homebrew_search_paths | join(':') }}"
     name: "{{ cask_item.name | default(cask_item) }}"
     state: "{{ cask_item.state | default(homebrew_cask_install_state) }}"
     options: "{{ cask_item.options | default('appdir=' + homebrew_cask_appdir) }}"

@@ -1,15 +1,20 @@
 ---
-# This is an example playbook to execute Ansible tests.
 
 - name: Verify
   hosts: all
-  gather_facts: false
-  tasks:
-    - name: Molecule | Check if binary is already in place
-      ansible.builtin.stat: "path={{ homebrew_bin_path }}/brew"
-      register: brew_binary
 
-    - name: Fail if brew binary does not exist
-      ansible.builtin.fail:
-        msg: Brew binary does not exist in system!
-      when: not brew_binary.stat.exists
+  vars:
+    homebrew_user: linuxbrew
+    homebrew_search_paths:
+      - /usr/local/bin
+      - /opt/homebrew/bin
+      - /home/linuxbrew/.linuxbrew/bin
+
+  tasks:
+    - name: Install Formulae
+      community.general.homebrew:
+        path: "{{ homebrew_search_paths | join(':') }}"
+        name: run
+        state: present
+      become: "{{ (homebrew_user != ansible_user_id) | bool }}"
+      become_user: "{{ homebrew_user }}"

@@ -11,7 +11,7 @@ on:  # yamllint disable-line rule:truthy
       - master
   workflow_dispatch:
     inputs:
-      shouldPublish:
+      shouldPublishImage:
         description: 'Should publish image to Ansible Galaxy? (yes/no)'
         required: false
         default: 'no'
@@ -24,12 +24,12 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v3
 
-      - name: Set up Python 3
+      - name: Setup python3
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: Install Poetry
+      - name: Install poetry
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install dependencies
@@ -38,10 +38,11 @@ jobs:
       - name: Run linting tasks
         run: set -eux; make lint
 
-  integration:
-    name: Integration.
+  integration-macos:
+    name: Integration check on macOS
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - macos-11
@@ -56,7 +57,7 @@ jobs:
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
-      - name: Install Poetry
+      - name: Install poetry
         uses: gi0baro/setup-poetry-bin@v1
 
       - name: Install test dependencies
@@ -84,15 +85,53 @@ jobs:
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
-    if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
-    needs:
-      - lint
-      - integration
+  integration-molecule:
+    name: Integration check on Linux with Molecule
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out the codebase
+        uses: actions/checkout@v3
 
+      - name: Setup docker
+        uses: docker-practice/actions-setup-docker@master
+
+      - name: Setup python3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install poetry
+        uses: gi0baro/setup-poetry-bin@v1
+
+      - name: Install test dependencies
+        run: |
+          pip3 install ansible molecule[docker] docker
+          ansible-galaxy install -r requirements.yml
+
+      - name: Run Molecule tests.
+        run: molecule test -- -v
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          # - name: Install test dependencies
+          #   run: export INSTALL_POETRY=false; make install
+
+          # - name: Test with molecule
+          #   shell: 'script -q -e -c "bash {0}"'
+          #   run: make m-test
+          #   env:
+          #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    if: github.event.inputs.shouldPublishImage == 'yes' || github.ref == 'refs/heads/master'
+    needs:
+      - lint
+      - integration-macos
+      - integration-molecule
+    runs-on: ubuntu-latest
+    steps:
       - name: Publish to Ansible Galaxy
         uses: robertdebock/galaxy-action@1.2.1
         with:

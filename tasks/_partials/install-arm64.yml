@@ -1,9 +1,12 @@
 ---
 
-- name: Homebrew | Ensure parent directory has correct permissions (M1)
+- name: Homebrew | Ensure parent directory has correct permissions on M1 macOS
   ansible.builtin.file:
     path: "{{ homebrew_prefix }}"
     owner: "{{ brew_user }}"
     state: directory
     mode: 0755
   become: true
+  when: ansible_os_family == 'Darwin'
+  tags:
+    - brew-install

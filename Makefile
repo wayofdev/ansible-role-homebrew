@@ -5,6 +5,11 @@
 export ANSIBLE_FORCE_COLOR = 1
 export ANSIBLE_JINJA2_NATIVE = true
 
+export PY_COLORS = 1
+export PYTHONIOENCODING = UTF-8
+export LC_CTYPE = en_US.UTF-8
+export LANG = en_US.UTF-8
+
 # https://serverfault.com/questions/1031491/display-ansible-playbook-output-properly-formatted
 # https://stackoverflow.com/questions/50009505/ansible-stdout-formatting
 export ANSIBLE_STDOUT_CALLBACK = unixy
@@ -63,6 +68,14 @@ test-casks:  test-tag
 test-tag:
 	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS)
 .PHONY: test-tag
+
+m-test:
+	poetry run molecule test -- -vvv
+.PHONY: m-test
+
+login-deb:
+	molecule login --host debian-based-instance
+.PHONY: login-deb
 
 debug-version:
 	ansible --version

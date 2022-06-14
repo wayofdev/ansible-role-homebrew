@@ -9,6 +9,7 @@
 
 - name: Homebrew | Un-tapping Homebrew repositories
   community.general.homebrew_tap:
+    path: "{{ homebrew_search_paths | join(':') }}"
     name: "{{ tap_item.name | default(tap_item) }}"
     state: absent
   become: "{{ (brew_user != ansible_user_id) | bool }}"
@@ -29,6 +30,7 @@
 
 - name: Homebrew | Tapping Homebrew repositories
   community.general.homebrew_tap:
+    path: "{{ homebrew_search_paths | join(':') }}"
     name: "{{ tap_item.name | default(tap_item) }}"
     state: "{{ tap_item.state | default('present') }}"
     url: "{{ tap_item.url | default(omit) }}"
