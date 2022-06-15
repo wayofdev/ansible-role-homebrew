@@ -36,8 +36,8 @@
       ansible.builtin.uri:
         url: "https://api.github.com/repos/Homebrew/brew/releases"
         body_format: json
-        user: "{{ lookup('env', 'GITHUB_REPOSITORY_OWNER') | default(omit) }}"
-        password: "{{ lookup('env', 'GITHUB_TOKEN') | default(omit) }}"
+        headers:
+          Authorization: "{{ ((lookup('env', 'GITHUB_TOKEN') | length > 0) | ternary('Bearer ' + lookup('env', 'GITHUB_TOKEN'), null)) | default(omit) }}"
       register: brew_releases
       until: brew_releases is not failed
       retries: 9
