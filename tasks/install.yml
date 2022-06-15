@@ -39,7 +39,7 @@
         user: "{{ lookup('env', 'GITHUB_REPOSITORY_OWNER') | default(omit) }}"
         password: "{{ lookup('env', 'GITHUB_TOKEN') | default(omit) }}"
       register: brew_releases
-      until: brew_releases.status == 200
+      until: brew_releases is not failed
       retries: 9
 
     - name: Homebrew | Install | Get latest release from json array
