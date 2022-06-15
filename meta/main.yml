@@ -20,7 +20,7 @@ galaxy_info:
         - buster
     - name: Ubuntu
       versions:
-        - jammy
+        # - jammy
         - focal
         - bionic
 

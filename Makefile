@@ -24,6 +24,7 @@ POETRY ?= poetry run
 MACOS_NATIVE_PY_PATH ?= /usr/bin/python3
 PY_PATH ?= $(shell which python3)
 
+# leave empty to disable
 # -v - verbose;
 # -vvv - more details
 # -vvv - enable connection debugging

@@ -5,8 +5,6 @@
     - name: Homebrew | Update | Fetch the newest version of Homebrew and all formulae from GitHub using git
       ansible.builtin.command: "{{ homebrew_bin_path }}/brew update --force"
       when: not brew_binary.stat.exists
-      tags:
-        - brew-update
 
     - name: Homebrew | Update homebrew itself and upgrade all homebrew packages (if configured)
       community.general.homebrew:
@@ -14,9 +12,9 @@
         update_homebrew: true
         upgrade_all: true
       when: homebrew_upgrade_all
-      tags:
-        - brew-update
       notify:
         - brew-clear-cache
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
+  tags:
+    - brew-update

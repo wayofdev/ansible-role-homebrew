@@ -20,7 +20,9 @@
 <a href="https://galaxy.ansible.com/wayofdev/homebrew">
 <img alt="Ansible Role" src="https://img.shields.io/ansible/role/d/59331?style=flat-square"/></a>
 <a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/ansible-role-homebrew.svg?style=flat-square&color=blue" alt="Software License"/></a>
+<a href="#"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/wayofdev/ansible-role-homebrew/latest?style=flat-square"></a>
 </div>
+
 <br>
 
 # Ansible Role: Homebrew
@@ -33,7 +35,8 @@ If you **like/use** this role, please consider **starring** it. Thanks!
 
 ## 📑 Requirements
 
-None.
+* Compatible OS. See [compatibility](#compatibility) table.
+* `jmespath` library needs to be installed on the host running the playbook (needed for the `json_query` filter).
 
 <br>
 
@@ -382,10 +385,15 @@ This role has been tested on these systems:
 | :----------------- | -------- |
 | macos              | monterey |
 | macos              | big-sur  |
-| ubuntu             | latest   |
-| debian             | latest   |
-| fedora             | latest   |
-| centos             | latest   |
+| ubuntu             | jammy    |
+| ubuntu             | focal    |
+| ubuntu             | bionic   |
+| debian             | bullseye |
+| debian             | buster   |
+| fedora             | 36       |
+| fedora             | 35       |
+| centos             | 8        |
+| centos             | 7        |
 
 <br>
 
