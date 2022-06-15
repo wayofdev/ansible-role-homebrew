@@ -1,11 +1,5 @@
 ---
 
-- name: Homebrew | Install | Ensure github3.py package is present
-  ansible.builtin.pip:
-    name: github3.py
-  tags:
-    - brew-install
-
 - name: Homebrew (Linuxbrew) | Install | Make sure we have a 'wheel' group
   ansible.builtin.group:
     name: wheel
