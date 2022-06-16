@@ -33,10 +33,36 @@ If you **like/use** this role, please consider **starring** it. Thanks!
 
 <br>
 
+## 🗂 Table of contents
+
+* [Requirements](#-requirements)
+* [Role Variables](#-role-variables)
+   * [Structure](#-structure)
+   * [Tapping repositories](#-tapping-repositories)
+   * [Packages: Installing, updating and removing](#-packages-installing-updating-and-removing)
+   * [Casks: installing, updating and removing](#-casks-installing-updating-and-removing)
+* [Example Playbook](#-example-playbook)
+   * [for macOS machines](#-for-macos-machines)
+   * [for Linux machines](#-for-linux-machines)
+* [Development](#️-development)
+* [Testing](#-testing)
+* [Dependencies](#-dependencies)
+   * [for all](#-all)
+   * [only macOS](#-only-macos)
+   * [only Linux](#-only-linux)
+* [Compatibility](#-compatibility)
+* [License](#-license)
+* [Author Information](#️-author-information)
+* [Credits and Resources](#️-credits-and-resources)
+
+<br>
+
 ## 📑 Requirements
 
-* Compatible OS. See [compatibility](#compatibility) table.
+* Up-to-date version of ansible. During maintenance/development, we stick to ansible versions and will use new features if they are available (and update `meta/main.yml` for the minimum version).
+* Compatible OS. See [compatibility](#-compatibility) table.
 * `jmespath` library needs to be installed on the host running the playbook (needed for the `json_query` filter).
+* Role has dependencies on third-party roles on different operating systems. See `requirements.yml` and [dependencies](#-dependencies) section.
 
 <br>
 
@@ -363,7 +389,7 @@ Full list of commands can be seen in `Makefile`.
 
 Installation handled by `Makefile` and requirments are defined in `requirements.yml`
 
-### → All
+### → for all
 
   - [ansible.community.general](https://docs.ansible.com/ansible/latest/collections/community/general/index.html)
 
@@ -407,7 +433,12 @@ This role has been tested on these systems:
 
 This role was created in **2022** by [lotyp / wayofdev](https://github.com/wayofdev).
 
-Inspired by:
+<br>
+
+## 🤫 Credits and Resources
+
+**Inspired by:**
 
 * [role-homebrew-retry](https://github.com/osx-provisioner/role-homebrew-retry) by [@niall-byrne](https://github.com/niall-byrne)
-* homebrew role created by [@geerlingguy](https://github.com/geerlingguy) as a part of [ansible-collection-mac](https://github.com/geerlingguy/ansible-collection-mac).
+* homebrew role created by [@geerlingguy](https://github.com/geerlingguy) as a part of [ansible-collection-mac](https://github.com/geerlingguy/ansible-collection-mac)
+* official Homebrew [installer script](https://github.com/Homebrew/install/blob/master/install.sh)
