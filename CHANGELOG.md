@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.6.0...v1.7.0) (2022-06-16)
+
+
+### Features
+
+* enabling workaround for macos. see: https://github.com/ansible-collections/community.general/issues/4708 ([d87d863](https://github.com/wayofdev/ansible-role-homebrew/commit/d87d863fdb6b72867e58b98dcabfcecb51e52abe))
+* removing github3.py dependency, adding github token ([#15](https://github.com/wayofdev/ansible-role-homebrew/issues/15)) ([069c08d](https://github.com/wayofdev/ansible-role-homebrew/commit/069c08d3a0a0ee235c4b28eb9998610b6baa2aeb))
+
+
+### Bug Fixes
+
+* macos still has issue with homebrew ([#13](https://github.com/wayofdev/ansible-role-homebrew/issues/13)) ([7c45c92](https://github.com/wayofdev/ansible-role-homebrew/commit/7c45c922d571a5973f46f3419dfda51dd0e5f6d0))
+
 ## [1.6.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.5.0...v1.6.0) (2022-06-14)
 
 
