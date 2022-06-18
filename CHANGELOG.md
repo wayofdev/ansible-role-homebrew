@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.7.0...v1.7.1) (2022-06-18)
+
+
+### Bug Fixes
+
+* ansible idempotence failed because of analytics task ([910dfea](https://github.com/wayofdev/ansible-role-homebrew/commit/910dfea40e6065c248705ea16b0454e84eb1ea92))
+
 ## [1.7.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.6.0...v1.7.0) (2022-06-16)
 
 
