@@ -143,7 +143,7 @@
 
 - name: Homebrew | Install | Analytics | Trigger analytics status – set to "{{ homebrew_collect_analytics | ternary('on', 'off') }}"
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics {{ homebrew_collect_analytics | ternary('on', 'off') }}"
-  when: brew_analytics.stdout != homebrew_analytics_vars[homebrew_collect_analytics]
+  when: not homebrew_analytics_vars[homebrew_collect_analytics] in brew_analytics.stdout
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
   tags:

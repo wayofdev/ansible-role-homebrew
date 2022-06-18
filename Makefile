@@ -64,7 +64,7 @@ test-packages: TASK_TAGS="brew-packages"
 test-packages: test-tag
 
 test-casks: TASK_TAGS="brew-casks"
-test-casks:  test-tag
+test-casks: test-tag
 
 test-tag:
 	cd $(WORKDIR) && $(TEST_PLAYBOOK) --tags $(TASK_TAGS)
