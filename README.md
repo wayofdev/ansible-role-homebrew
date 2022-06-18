@@ -44,16 +44,16 @@ If you **like/use** this role, please consider **starring** it. Thanks!
 * [Example Playbook](#-example-playbook)
    * [for macOS machines](#-for-macos-machines)
    * [for Linux machines](#-for-linux-machines)
-* [Development](#️-development)
+* [Development](#-development)
 * [Testing](#-testing)
 * [Dependencies](#-dependencies)
-   * [for all](#-all)
+   * [for all](#-for-all)
    * [only macOS](#-only-macos)
    * [only Linux](#-only-linux)
 * [Compatibility](#-compatibility)
 * [License](#-license)
-* [Author Information](#️-author-information)
-* [Credits and Resources](#️-credits-and-resources)
+* [Author Information](#-author-information)
+* [Credits and Resources](#-credits-and-resources)
 
 <br>
 
