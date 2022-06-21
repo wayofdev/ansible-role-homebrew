@@ -56,4 +56,4 @@ homebrew_cask_greedy_mode: false
 # https://www.macobserver.com/tips/quick-tip/disable-homebrew-analytics/
 # Should we disable analytics collection?
 # Default: true
-homebrew_collect_analytics: false
+homebrew_collect_analytics: true

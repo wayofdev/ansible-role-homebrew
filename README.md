@@ -15,10 +15,8 @@
 <a href="https://actions-badge.atrox.dev/wayofdev/ansible-role-homebrew/goto"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fwayofdev%2Fansible-role-homebrew%2Fbadge&style=flat-square"/></a>
 <a href="https://galaxy.ansible.com/wayofdev/homebrew"><img alt="Ansible Role" src="https://img.shields.io/ansible/role/59331?style=flat-square"/></a>
 <a href="https://github.com/wayofdev/ansible-role-homebrew/tags"><img src="https://img.shields.io/github/v/tag/wayofdev/ansible-role-homebrew?sort=semver&style=flat-square" alt="Latest Version"></a>
-<a href="https://galaxy.ansible.com/wayofdev/homebrew">
-<img alt="Ansible Quality Score" src="https://img.shields.io/ansible/quality/59331?style=flat-square"/></a>
-<a href="https://galaxy.ansible.com/wayofdev/homebrew">
-<img alt="Ansible Role" src="https://img.shields.io/ansible/role/d/59331?style=flat-square"/></a>
+<a href="https://galaxy.ansible.com/wayofdev/homebrew"><img alt="Ansible Quality Score" src="https://img.shields.io/ansible/quality/59331?style=flat-square"/></a>
+<a href="https://galaxy.ansible.com/wayofdev/homebrew"><img alt="Ansible Role" src="https://img.shields.io/ansible/role/d/59331?style=flat-square"/></a>
 <a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/ansible-role-homebrew.svg?style=flat-square&color=blue" alt="Software License"/></a>
 <a href="#"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/wayofdev/ansible-role-homebrew/latest?style=flat-square"></a>
 </div>
@@ -262,6 +260,7 @@ homebrew_casks:
 ```yaml
 ---
 - hosts: localhost
+  connection: local
 
   vars:
     homebrew_taps:
@@ -291,6 +290,7 @@ homebrew_casks:
 ```yaml
 ---
 - hosts: localhost
+  connection: local
 
   vars:
  	  homebrew_user: linuxbrew  # FYI: can be skipped, as automatically detected, but linuxbrew user is recommended way for installing Homebrew with Linux
