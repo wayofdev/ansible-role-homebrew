@@ -20,3 +20,6 @@ homebrew_casks:
   - font-fira-code-nerd-font
   - iterm2-beta # from homebrew/cask-versions
   - 1password
+
+homebrew_repository_use_master: true
+homebrew_collect_analytics: false

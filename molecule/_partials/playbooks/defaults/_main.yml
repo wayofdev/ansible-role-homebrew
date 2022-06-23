@@ -1,0 +1,16 @@
+---
+
+homebrew_repository_use_master: true
+homebrew_taps:
+  - name: denji/nginx
+    url: https://github.com/denji/homebrew-nginx
+
+homebrew_packages:
+  - name: ssh-copy-id  # from homebrew/core
+  - curl
+  - nano
+  - nginx-full  # from denji/nginx
+
+homebrew_collect_analytics: false
+homebrew_user: linuxbrew
+homebrew_group: linuxbrew

@@ -6,29 +6,22 @@ dependency:
     role-file: requirements.yml
     requirements-file: requirements.yml
 
-# Run locally
 driver:
-  name: delegated
-  options:
-    managed: false
-    ansible_connection_options:
-      connection: local
-      ansible_connection: local
-      ansible_sudo_pass: "${ANSIBLE_SUDO_PASSWORD}"
-  become_method: sudo
+  name: docker
 
 platforms:
-  - name: instance
+  - name: debian-based-instance
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2204}-ansible:latest"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    pre_build_image: true
+    privileged: true
 
 provisioner:
   name: ansible
   playbooks:
     converge: "../_partials/playbooks/converge.yml"
     verify: "../_partials/playbooks/verify.yml"
-  options:
-    vvv: true
 
 verifier:
   name: ansible
-  options:
-    vvv: true
