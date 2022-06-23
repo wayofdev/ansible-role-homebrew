@@ -21,7 +21,6 @@ provisioner:
   name: ansible
   playbooks:
     converge: "../_partials/playbooks/converge.yml"
-    verify: "../_partials/playbooks/verify.yml"
 
 verifier:
   name: ansible
