@@ -22,6 +22,8 @@
       ansible.builtin.command: brew tap
       changed_when: true
       register: taps
+      become: "{{ (brew_user != ansible_user_id) | bool }}"
+      become_user: "{{ brew_user }}"
 
     - name: Molecule | Verify | Assert htop was Installed Correctly
       ansible.builtin.assert:
