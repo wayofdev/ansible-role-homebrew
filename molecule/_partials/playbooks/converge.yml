@@ -2,7 +2,6 @@
 
 - name: Molecule | Converge | Default scenario
   hosts: all
-  become: true
 
   vars_files:
     - "../vars/main.yml"
