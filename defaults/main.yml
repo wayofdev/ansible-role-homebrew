@@ -7,6 +7,12 @@ homebrew_repository: https://github.com/Homebrew/brew
 # or you use custom fork specified in homebrew_repository
 homebrew_repository_use_master: false
 
+# When set to true, tries to write homebrew bin dir into global $PATH
+#   On macOS task will create /etc/paths.d/brew.sh
+#   On Debian Linux family it will write into file /etc/environments
+#   On RedHat(Rocky) Linux family task will create /etc/profile.d/brew.sh file
+homebrew_write_global_path: true
+
 # Run task to upgrade all packages
 homebrew_upgrade_all: false
 

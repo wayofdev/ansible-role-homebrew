@@ -259,8 +259,12 @@ homebrew_casks:
 
 ```yaml
 ---
-- hosts: localhost
+- hosts: all
   connection: local
+
+  # is needed when running over SSH
+  environment:
+    - PATH: "{{ homebrew_search_paths | join(':') }}"
 
   vars:
     homebrew_taps:
@@ -281,7 +285,7 @@ homebrew_casks:
     homebrew_collect_analytics: false
 
   roles:
-    - elliotweiser.osx-command-line-tools  # needed only on macOS machines
+    - elliotweiser.osx-command-line-tools  # only on macOS machines
     - wayofdev.homebrew
 ```
 
@@ -289,12 +293,16 @@ homebrew_casks:
 
 ```yaml
 ---
-- hosts: localhost
+- hosts: all
   connection: local
 
+  # is needed when running over SSH
+  environment:
+    - PATH: "{{ homebrew_search_paths | join(':') }}"
+
   vars:
- 	  homebrew_user: linuxbrew  # FYI: can be skipped, as automatically detected, but linuxbrew user is recommended way for installing Homebrew with Linux
- 	  homebrew_group: linuxbrew  # same as homebrew_user
+    homebrew_user: linuxbrew  # FYI: can be skipped, as automatically detected, but linuxbrew user is recommended way for installing Homebrew with Linux
+    homebrew_group: linuxbrew  # same as homebrew_user
 
     homebrew_taps:
       - homebrew/core
@@ -308,7 +316,7 @@ homebrew_casks:
     homebrew_collect_analytics: false
 
   roles:
-    - geerlingguy.git  # required only on linux machines, and can be skipped if machine has git
+    - geerlingguy.git  # only on linux machines, and can be skipped if machine has git
     - wayofdev.homebrew
 ```
 
@@ -346,30 +354,27 @@ $ make lint
 
 ## 🧪 Testing
 
-For local testing you can use these comands to test whole role or separate tasks:
+You can check `Makefile` to get full list of commands for remote and local testing. For local testing you can use these comands to test whole role or separate tasks:
+
+### → on localhost
 
 > :warning: **Notice**: By defaut all tests are ran against your local machine!
 
 ```bash
-# run all tasks in role
+# run all tags with scenario from ./tests/test.yml
 $ make test
-
-# run idempotency check
-$ make test-idempotent
 
 # or test-tag without any parameters
 $ make test-tag
 
-# run tasks that ensures brew installation on macos
-$ export TASK_TAGS="brew-install"; make test-tag
+# run idempotency check
+$ make test-idempotent
 
-# run tasks that tries to update brew
-$ export TASK_TAGS="brew-update"; make test-tag
+# run tasks that validate config file and does installation
+$ export TASK_TAGS="brew-install brew-update"
+$ make test-tag
 
-# run tasks that tries to update brew and then run taps and casks
-$ export TASK_TAGS="brew-update brew-taps brew-casks"; make test-tag
-
-# run by tag
+# run by predefined command that executes only one tag
 $ make test-install
 $ make test-analytics
 $ make test-update
@@ -377,11 +382,28 @@ $ make test-taps
 $ make test-packages
 $ make test-casks
 
-# run molecule tests
-$ make m-test
+# run molecule tests on localhost
+$ poetry run molecule test --scenario-name default-macos-on-localhost -- -vvv
+
+# or with make command
+$ make m-local
 ```
 
-Full list of commands can be seen in `Makefile`.
+<br>
+
+### → over SSH
+
+```bash
+# run molecule scenarios against remote machines over SSH
+# this will need VM setup and configuration
+$ poetry run molecule test --scenario-name default-macos-over-ssh -- -vvv
+
+$ make m-remote
+
+# tags also can be passed
+$ export TASK_TAGS="dock-validate dock-install"
+$ make m-remote
+```
 
 <br>
 
@@ -435,10 +457,20 @@ This role was created in **2022** by [lotyp / wayofdev](https://github.com/wayof
 
 <br>
 
-## 🤫 Credits and Resources
+## 🧱 Credits and Resources
 
 **Inspired by:**
 
 * [role-homebrew-retry](https://github.com/osx-provisioner/role-homebrew-retry) by [@niall-byrne](https://github.com/niall-byrne)
 * homebrew role created by [@geerlingguy](https://github.com/geerlingguy) as a part of [ansible-collection-mac](https://github.com/geerlingguy/ansible-collection-mac)
 * official Homebrew [installer script](https://github.com/Homebrew/install/blob/master/install.sh)
+
+<br>
+
+## 🫡 Contributors
+
+<img align="left" src="https://img.shields.io/github/contributors-anon/wayofdev/ansible-role-homebrew?style=for-the-badge"/>
+
+<a href="https://github.com/wayofdev/ansible-role-homebrew/graphs/contributors">
+  <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false">
+</a>

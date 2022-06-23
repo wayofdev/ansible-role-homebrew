@@ -1,0 +1,22 @@
+---
+
+homebrew_taps:
+  - homebrew/cask-fonts
+  - homebrew/cask-versions
+  - lotyp/homebrew-formulae
+  - name: denji/nginx
+    url: https://github.com/denji/homebrew-nginx
+
+# Homebrew Packages, Installed to the default homebrew location
+# (Usually /usr/local or /opt/homebrew, but depends on your homebrew install configuration.)
+homebrew_packages:
+  - name: ssh-copy-id  # from homebrew/core
+  - curl
+  - nano
+  - htop
+
+# Standard /Applications Installed Brew Casks
+homebrew_casks:
+  - font-fira-code-nerd-font
+  - iterm2-beta # from homebrew/cask-versions
+  - 1password
