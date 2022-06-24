@@ -25,10 +25,6 @@ provisioner:
   playbooks:
     converge: "../_partials/playbooks/converge.yml"
     verify: "../_partials/playbooks/verify.yml"
-  options:
-    vvv: true
 
 verifier:
   name: ansible
-  options:
-    vvv: true
