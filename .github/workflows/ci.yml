@@ -58,22 +58,9 @@ jobs:
         with:
           virtualenvs-in-project: true
 
-      - name: Set default python binary for poetry
-        run: poetry env use /usr/bin/python3
-
-      - name: Poetry - Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies (cached)
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
-
       - name: Install dependencies
         run: |
+          poetry env use /usr/bin/python3
           poetry ansible-galaxy install -r requirements.yml
           poetry install --no-interaction
 
