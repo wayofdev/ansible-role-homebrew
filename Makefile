@@ -109,7 +109,8 @@ check-syntax:
 .PHONY: check-syntax
 
 ### Install ansible dependencies
-install: update-pip install-poetry install-deps
+# update-pip
+install: install-poetry install-deps
 .PHONY: install
 
 install-deps:
