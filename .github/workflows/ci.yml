@@ -103,7 +103,6 @@ jobs:
     if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
     needs:
       - lint
-      - integration-macos
       - integration-macos-molecule
       - integration-linux-molecule
     runs-on: ubuntu-latest
