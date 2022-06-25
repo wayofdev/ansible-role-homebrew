@@ -67,18 +67,31 @@ jobs:
         with:
           virtualenvs-in-project: true
 
+      - name: Load cached .venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install dependencies
-        run: make install-deps
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+
+      - name: Install library
+        run: |
+          poetry install --no-interaction
+          poetry run ansible-galaxy install -r requirements.yml
 
       - name: Test the playbook
-        run: make test
-        # working-directory: ./tests
-        # run: poetry run ansible-playbook test.yml -i inventory.yml -vvv --ask-become
-        # env:
-        #   PY_COLORS: '1'
-        #   ANSIBLE_FORCE_COLOR: '1'
-        #   ANSIBLE_STDOUT_CALLBACK: 'unixy'
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ./tests
+        run: |
+          poetry run ansible-playbook test.yml -i inventory.yml -vvv --ask-become
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          ANSIBLE_STDOUT_CALLBACK: 'unixy'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Idempotence check
         run: |
