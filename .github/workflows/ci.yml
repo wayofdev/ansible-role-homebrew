@@ -53,11 +53,14 @@ jobs:
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
-      - name: Install poetry
-        uses: gi0baro/setup-poetry-bin@v1
+      # - name: Install poetry
+      #   uses: gi0baro/setup-poetry-bin@v1
+
+      # - name: Install test dependencies
+      #   run: export INSTALL_POETRY=false; make install
 
       - name: Install test dependencies
-        run: export INSTALL_POETRY=false; make install
+        run: make install
 
       - name: Test the playbook
         run: make test
@@ -96,11 +99,14 @@ jobs:
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
-      - name: Install poetry
-        uses: gi0baro/setup-poetry-bin@v1
+      # - name: Install poetry
+      #   uses: gi0baro/setup-poetry-bin@v1
+
+      # - name: Install test dependencies
+      #   run: export INSTALL_POETRY=false; make install
 
       - name: Install test dependencies
-        run: export INSTALL_POETRY=false; make install
+        run: make install
 
       - name: Run molecule tests
         run: poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
