@@ -7,7 +7,7 @@
     - "../vars/main.yml"
 
   environment:
-    - PATH: "{{ homebrew_search_paths | join(':') }}"
+    - PATH: "{{ homebrew_search_paths | join(':') }}:{{ ansible_env.PATH }}"
 
   tasks:
     - name: Molecule | Verify | Include setup tasks

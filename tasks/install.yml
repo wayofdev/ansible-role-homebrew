@@ -99,6 +99,11 @@
   check_mode: false
   tags:
     - brew-install
+    - brew-analytics
+    - brew-taps
+    - brew-packages
+    - brew-casks
+    - brew-update
 
 - name: Homebrew | Install | Symlink brew to {{ homebrew_bin_path }}
   ansible.builtin.file:

@@ -3,12 +3,12 @@
 - name: Homebrew | Update block
   block:
     - name: Homebrew | Update | Fetch the newest version of Homebrew and all formulae from GitHub using git
-      ansible.builtin.command: "{{ homebrew_bin_path }}/brew update --force"
+      ansible.builtin.command: "{{ homebrew_bin_path }}/brew update --auto-update --force"
       when: not brew_binary.stat.exists
 
     - name: Homebrew | Update homebrew itself and upgrade all homebrew packages (if configured)
       community.general.homebrew:
-        path: "{{ homebrew_search_paths | join(':') }}"
+        path: "{{ homebrew_bin_path }}"
         update_homebrew: true
         upgrade_all: true
       when: homebrew_upgrade_all

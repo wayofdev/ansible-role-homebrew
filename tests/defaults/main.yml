@@ -8,7 +8,7 @@ homebrew_repository: https://github.com/Homebrew/brew
 homebrew_repository_use_master: false
 
 # Run task to upgrade all packages
-homebrew_upgrade_all: false
+homebrew_upgrade_all: true
 
 homebrew_taps:
   - homebrew/cask-fonts

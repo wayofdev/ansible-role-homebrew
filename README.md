@@ -87,7 +87,7 @@ When set to true, will update Homebrew itself and upgrade all homebrew packages:
 
 ```yaml
 # Run task to upgrade all packages
-homebrew_upgrade_all: false
+homebrew_upgrade_all: true
 ```
 
 Variable controls retry times and delay to wait between retries, if `homebrew install` task failed:
@@ -264,7 +264,7 @@ homebrew_casks:
 
   # is needed when running over SSH
   environment:
-    - PATH: "{{ homebrew_search_paths | join(':') }}"
+    - PATH: "{{ homebrew_search_paths | join(':') }}:{{ ansible_env.PATH }}"
 
   vars:
     homebrew_taps:
@@ -298,7 +298,7 @@ homebrew_casks:
 
   # is needed when running over SSH
   environment:
-    - PATH: "{{ homebrew_search_paths | join(':') }}"
+    - PATH: "{{ homebrew_search_paths | join(':') }}:{{ ansible_env.PATH }}"
 
   vars:
     homebrew_user: linuxbrew  # FYI: can be skipped, as automatically detected, but linuxbrew user is recommended way for installing Homebrew with Linux

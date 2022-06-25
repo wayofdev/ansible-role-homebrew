@@ -14,7 +14,7 @@ homebrew_repository_use_master: false
 homebrew_write_global_path: true
 
 # Run task to upgrade all packages
-homebrew_upgrade_all: false
+homebrew_upgrade_all: true
 
 homebrew_taps: []
 
@@ -27,7 +27,7 @@ homebrew_casks: []
 
 # How much times to retry, if installation of package / tap / cask fails ?
 # This can happen during network problems.
-homebrew_retries: 32
+homebrew_retries: 3
 
 # Delay between each retry attempt.
 homebrew_delay: 3

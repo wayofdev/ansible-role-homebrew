@@ -54,7 +54,6 @@ homebrew_search_paths:
   - /opt/homebrew/bin
   - /home/linuxbrew/.linuxbrew/bin
   - /usr/bin
-  - "{{ ansible_env.PATH }}"
 
 # OS user and group from whom installation will be running.
 # By default ansible_user_id and ansible_user_gid are used.
