@@ -56,16 +56,16 @@ jobs:
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
-      - name: Install poetry into system
-        uses: gi0baro/setup-poetry-bin@v1
-        with:
-          virtualenvs-in-project: true
+      # - name: Install poetry into system
+      #   uses: gi0baro/setup-poetry-bin@v1
+      #   with:
+      #     virtualenvs-in-project: true
 
       - name: Install dependencies
         run: |
-          poetry env use /usr/bin/python3
-          poetry ansible-galaxy install -r requirements.yml
-          poetry install --no-interaction
+          make update-pip
+          make install-poetry
+          make install-deps
 
       - name: Test the playbook
         working-directory: ./tests
