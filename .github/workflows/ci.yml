@@ -39,7 +39,7 @@ jobs:
         run: set -eux; make lint
 
   integration-macos-native:
-    name: Integration on macOS
+    name: Integration on macOS (native)
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
