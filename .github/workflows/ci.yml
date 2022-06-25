@@ -53,11 +53,27 @@ jobs:
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
-      - name: Install poetry
+      - name: Poetry - installation
         uses: gi0baro/setup-poetry-bin@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
 
-      - name: Install test dependencies
-        run: export INSTALL_POETRY=false; make install
+      - name: Poetry - Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+
+      - name: Install dependencies
+        run: |
+          poetry ansible-galaxy install -r requirements.yml
+          poetry install --no-interaction
 
       - name: Test the playbook
         run: make test
