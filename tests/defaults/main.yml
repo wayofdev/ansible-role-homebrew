@@ -21,8 +21,7 @@ homebrew_taps:
 # (Usually /usr/local or /opt/homebrew, but depends on your homebrew install configuration.)
 homebrew_packages:
   - name: ssh-copy-id  # from homebrew/core
-  - curl
-  - nano
+  - htop
 
 # Standard /Applications Installed Brew Casks
 homebrew_casks:
