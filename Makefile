@@ -20,7 +20,8 @@ WORKDIR ?= ./tests
 INVENTORY ?= inventory.yml
 REQS ?= requirements.yml
 INSTALL_POETRY ?= true
-POETRY ?= poetry run
+POETRY_BIN ?= poetry
+POETRY_RUNNER ?= poetry run
 MACOS_NATIVE_PY_PATH ?= /usr/bin/python3
 PY_PATH ?= $(shell which python3)
 
@@ -30,13 +31,13 @@ PY_PATH ?= $(shell which python3)
 # -vvv - enable connection debugging
 DEBUG_VERBOSITY ?= -vvv
 
-TEST_PLAYBOOK = $(POETRY) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY) --ask-become
+TEST_PLAYBOOK = $(POETRY_RUNNER) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(DEBUG_VERBOSITY) --ask-become
 TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | tee /dev/tty | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
 
 ### Lint yaml files
 lint: check-syntax
-	$(POETRY) yamllint .
-	cd $(WORKDIR) && $(POETRY) ansible-lint $(PLAYBOOK) -c ../.ansible-lint
+	$(POETRY_RUNNER) yamllint .
+	cd $(WORKDIR) && $(POETRY_RUNNER) ansible-lint $(PLAYBOOK) -c ../.ansible-lint
 .PHONY: lint
 
 ### Run tests
@@ -71,21 +72,21 @@ test-tag:
 .PHONY: test-tag
 
 m-local:
-	poetry run molecule test --scenario-name defaults-restored-on-localhost -- -vvv --tags $(TASK_TAGS)
+	$(POETRY_RUNNER) molecule test --scenario-name defaults-restored-on-localhost -- -vvv --tags $(TASK_TAGS)
 .PHONY: m-local
 
 m-remote:
-	poetry run molecule test --scenario-name defaults-restored-over-ssh -- -vvv --tags $(TASK_TAGS)
+	$(POETRY_RUNNER) molecule test --scenario-name defaults-restored-over-ssh -- -vvv --tags $(TASK_TAGS)
 .PHONY: m-remote
 
 login-mac:
-	molecule login \
+	$(POETRY_RUNNER) molecule login \
 		--host macos-12-vm \
 		--scenario-name default-macos-over-ssh
 .PHONY: login-mac
 
 login-deb:
-	molecule login \
+	$(POETRY_RUNNER) molecule login \
 		--host debian-based-instance \
 		--scenario-name default
 .PHONY: login-deb
@@ -100,7 +101,7 @@ check:
 
 ### List all hostnames
 ls-host:
-	cd $(WORKDIR) && $(POETRY) ansible all -i $(INVENTORY) -m shell -a "hostname;"
+	cd $(WORKDIR) && $(POETRY_RUNNER) ansible all -i $(INVENTORY) -m shell -a "hostname;"
 .PHONY: ls-host
 
 ### Check playbook syntax
@@ -110,12 +111,12 @@ check-syntax:
 
 ### Install ansible dependencies
 # update-pip
-install: install-poetry install-deps
+install: update-pip install-poetry install-deps
 .PHONY: install
 
 install-deps:
-	poetry install
-	$(POETRY) ansible-galaxy install -r $(REQS)
+	$(POETRY_BIN) install
+	$(POETRY_RUNNER) ansible-galaxy install -r $(REQS)
 .PHONY: install-deps
 
 install-poetry:

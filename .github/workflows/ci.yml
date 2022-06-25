@@ -50,14 +50,17 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v3
 
+      # Uncomment for debugging over SSH
       # - name: Setup upterm.dev session for SSH debugging
       #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
 
-      - name: Install dependencies
+      - name: Update built-in macOS pip
         run: make update-pip
+        env:
+          PY_COLORS: '1'
 
       - name: Install poetry into system
         uses: gi0baro/setup-poetry-bin@v1
@@ -65,15 +68,17 @@ jobs:
           virtualenvs-in-project: true
 
       - name: Install dependencies
-        run: |
-          poetry install
-          poetry run ansible-galaxy install -r requirements.yml
+        run: make install-deps
 
       - name: Test the playbook
-        working-directory: ./tests
-        run: poetry run ansible-playbook ./test.yml -i inventory.yml -vvv --ask-become
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make test
+        # working-directory: ./tests
+        # run: poetry run ansible-playbook test.yml -i inventory.yml -vvv --ask-become
+        # env:
+        #   PY_COLORS: '1'
+        #   ANSIBLE_FORCE_COLOR: '1'
+        #   ANSIBLE_STDOUT_CALLBACK: 'unixy'
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Idempotence check
         run: |
@@ -84,6 +89,7 @@ jobs:
             && (echo 'Idempotence test: pass' && exit 0) \
             || (echo 'Idempotence test: fail' && exit 1)
         env:
+          PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
