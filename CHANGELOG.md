@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.7.1...v2.0.0) (2022-06-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* molecule tests for macos, linux with support over ssh and localhost (#18)
+
+### Features
+
+* molecule tests for macos, linux with support over ssh and localhost ([#18](https://github.com/wayofdev/ansible-role-homebrew/issues/18)) ([caf3e09](https://github.com/wayofdev/ansible-role-homebrew/commit/caf3e0993e4c957a380a6ede1b128f53bfe46308))
+
 ## [1.7.1](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.7.0...v1.7.1) (2022-06-18)
 
 
