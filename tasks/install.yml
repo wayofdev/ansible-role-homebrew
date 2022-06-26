@@ -99,6 +99,11 @@
   check_mode: false
   tags:
     - brew-install
+    - brew-analytics
+    - brew-taps
+    - brew-packages
+    - brew-casks
+    - brew-update
 
 - name: Homebrew | Install | Symlink brew to {{ homebrew_bin_path }}
   ansible.builtin.file:
@@ -110,8 +115,9 @@
   tags:
     - brew-install
 
-- name: Homebrew | Include | Install Homebrew on x86_64 (Intel) machines
+- name: Homebrew | Include | Add bin dir to system-wide $PATH
   ansible.builtin.include_tasks: _partials/configure-path.yml
+  when: homebrew_write_global_path | bool
   tags:
     - brew-install
 

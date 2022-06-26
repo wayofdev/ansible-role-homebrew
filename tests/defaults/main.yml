@@ -8,7 +8,7 @@ homebrew_repository: https://github.com/Homebrew/brew
 homebrew_repository_use_master: false
 
 # Run task to upgrade all packages
-homebrew_upgrade_all: false
+homebrew_upgrade_all: true
 
 homebrew_taps:
   - homebrew/cask-fonts
@@ -21,8 +21,7 @@ homebrew_taps:
 # (Usually /usr/local or /opt/homebrew, but depends on your homebrew install configuration.)
 homebrew_packages:
   - name: ssh-copy-id  # from homebrew/core
-  - curl
-  - nano
+  - htop
 
 # Standard /Applications Installed Brew Casks
 homebrew_casks:
@@ -56,4 +55,4 @@ homebrew_cask_greedy_mode: false
 # https://www.macobserver.com/tips/quick-tip/disable-homebrew-analytics/
 # Should we disable analytics collection?
 # Default: true
-homebrew_collect_analytics: false
+homebrew_collect_analytics: true

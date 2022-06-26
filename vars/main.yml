@@ -33,8 +33,8 @@ homebrew_folders:
   - var
 
 homebrew_analytics_vars:
-  true: Analytics are enabled.
-  false: Analytics are disabled.
+  true: "enabled"
+  false: "disabled"
 
 homebrew_linux_reqs:
   generic:
@@ -50,8 +50,10 @@ homebrew_linux_reqs:
 
 homebrew_search_paths:
   - /usr/local/bin
+  - /usr/local/sbin
   - /opt/homebrew/bin
   - /home/linuxbrew/.linuxbrew/bin
+  - /usr/bin
 
 # OS user and group from whom installation will be running.
 # By default ansible_user_id and ansible_user_gid are used.

@@ -1,0 +1,39 @@
+---
+
+- name: Molecule | Verify | Default scenario
+  hosts: all
+
+  vars_files:
+    - "../vars/main.yml"
+
+  environment:
+    - PATH: "{{ homebrew_search_paths | join(':') }}:{{ ansible_env.PATH }}"
+
+  tasks:
+    - name: Molecule | Verify | Include setup tasks
+      ansible.builtin.include_tasks: "../tasks/setup.yml"
+
+    - name: Molecule | Verify | Check htop was installed
+      ansible.builtin.stat:
+        path: "/usr/local/bin/htop"
+      register: htop_binary
+
+    - name: Molecule | Verify | Check which taps are present
+      ansible.builtin.command: brew tap
+      changed_when: true
+      register: taps
+      become: "{{ (brew_user != ansible_user_id) | bool }}"
+      become_user: "{{ brew_user }}"
+
+    - name: Molecule | Verify | Assert htop was Installed Correctly
+      ansible.builtin.assert:
+        that:
+          - htop_binary.stat.exists
+          - htop_binary.stat.executable
+        msg: "The htop binary must exist and be executable."
+
+    - name: Molecule | Verify | Assert Homebrew Taps were Installed Correctly
+      ansible.builtin.assert:
+        that:
+          - homebrew_taps[0] in taps.stdout
+        msg: "The configured homebrew taps be present."
