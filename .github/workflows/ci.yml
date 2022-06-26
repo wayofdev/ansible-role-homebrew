@@ -111,66 +111,66 @@ jobs:
           ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  integration-macos-molecule:
-    name: Integration on macOS (molecule)
-    runs-on: macos-${{ matrix.os }}
-    # continue-on-error: true
-    strategy:
-      # fail-fast: false
-      max-parallel: 4
-      matrix:
-        os: ["12"]
-        scenario: ["default-macos-on-localhost"]
-    steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v3
-
-      # Uncomment for debugging over SSH
-      # - name: Setup upterm.dev session for SSH debugging
-      #   uses: lhotari/action-upterm@v1
-
-      - name: Uninstall built-in homebrew
-        run: sh tests/uninstall-homebrew.sh
-
-      - name: Update built-in macOS pip
-        run: make update-pip
-        env:
-          PY_COLORS: '1'
-
-      - name: Install poetry into system
-        uses: gi0baro/setup-poetry-bin@v1
-        with:
-          virtualenvs-in-project: true
-
-      - name: Load cached .venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies (cached)
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
-        env:
-          PY_COLORS: '1'
-
-      - name: Install dependencies
-        run: |
-          poetry install --no-interaction
-          poetry run ansible-galaxy install -r requirements.yml
-        env:
-          PY_COLORS: '1'
-
-      - name: Test the playbook with molecule
-        run: |
-          poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
-        env:
-          SCENARIO: ${{ matrix.scenario }}
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #  integration-macos-molecule:
+  #    name: Integration on macOS (molecule)
+  #    runs-on: macos-${{ matrix.os }}
+  #    # continue-on-error: true
+  #    strategy:
+  #      # fail-fast: false
+  #      max-parallel: 4
+  #      matrix:
+  #        os: ["12"]
+  #        scenario: ["default-macos-on-localhost"]
+  #    steps:
+  #      - name: Check out the codebase
+  #        uses: actions/checkout@v3
+  #
+  #      # Uncomment for debugging over SSH
+  #      # - name: Setup upterm.dev session for SSH debugging
+  #      #   uses: lhotari/action-upterm@v1
+  #
+  #      - name: Uninstall built-in homebrew
+  #        run: sh tests/uninstall-homebrew.sh
+  #
+  #      - name: Update built-in macOS pip
+  #        run: make update-pip
+  #        env:
+  #          PY_COLORS: '1'
+  #
+  #      - name: Install poetry into system
+  #        uses: gi0baro/setup-poetry-bin@v1
+  #        with:
+  #          virtualenvs-in-project: true
+  #
+  #      - name: Load cached .venv
+  #        id: cached-poetry-dependencies
+  #        uses: actions/cache@v3
+  #        with:
+  #          path: .venv
+  #          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+  #
+  #      - name: Install dependencies (cached)
+  #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+  #        run: poetry install --no-interaction --no-root
+  #        env:
+  #          PY_COLORS: '1'
+  #
+  #      - name: Install dependencies
+  #        run: |
+  #          poetry install --no-interaction
+  #          poetry run ansible-galaxy install -r requirements.yml
+  #        env:
+  #          PY_COLORS: '1'
+  #
+  #      - name: Test the playbook with molecule
+  #        run: |
+  #          poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
+  #        env:
+  #          SCENARIO: ${{ matrix.scenario }}
+  #          PY_COLORS: '1'
+  #          ANSIBLE_FORCE_COLOR: '1'
+  #          ANSIBLE_STDOUT_CALLBACK: 'unixy'
+  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   integration-linux-molecule:
     name: Integration on Linux
