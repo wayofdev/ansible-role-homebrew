@@ -229,7 +229,7 @@ jobs:
     needs:
       - lint
       - integration-macos-native
-      - integration-macos-molecule
+      # - integration-macos-molecule
       - integration-linux-molecule
     runs-on: ubuntu-latest
     steps:
