@@ -114,7 +114,9 @@ jobs:
   integration-macos-molecule:
     name: Integration on macOS (molecule)
     runs-on: macos-${{ matrix.os }}
+    # continue-on-error: true
     strategy:
+      # fail-fast: false
       max-parallel: 4
       matrix:
         os: ["12"]
@@ -122,6 +124,10 @@ jobs:
     steps:
       - name: Check out the codebase
         uses: actions/checkout@v3
+
+      # Uncomment for debugging over SSH
+      # - name: Setup upterm.dev session for SSH debugging
+      #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
         run: sh tests/uninstall-homebrew.sh
@@ -155,10 +161,6 @@ jobs:
           poetry run ansible-galaxy install -r requirements.yml
         env:
           PY_COLORS: '1'
-
-      # Uncomment for debugging over SSH
-      - name: Setup upterm.dev session for SSH debugging
-        uses: lhotari/action-upterm@v1
 
       - name: Test the playbook with molecule
         run: |
