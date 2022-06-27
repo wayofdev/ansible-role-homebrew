@@ -38,73 +38,6 @@ jobs:
       - name: Run linting tasks
         run: make lint
 
-  #  integration-macos-native:
-  #    name: Integration on macOS (native)
-  #    runs-on: ${{ matrix.os }}
-  #    strategy:
-  #      matrix:
-  #        os: ["macos-12"]
-  #    steps:
-  #      - name: Check out the codebase
-  #        uses: actions/checkout@v3
-  #
-  #      # Uncomment for debugging over SSH
-  #      # - name: Setup upterm.dev session for SSH debugging
-  #      #   uses: lhotari/action-upterm@v1
-  #
-  #      - name: Uninstall built-in homebrew
-  #        run: sh tests/uninstall-homebrew.sh
-  #
-  #      - name: Update built-in macOS pip
-  #        run: make update-pip
-  #
-  #      - name: Install poetry into system
-  #        uses: gi0baro/setup-poetry-bin@v1
-  #        with:
-  #          virtualenvs-in-project: true
-  #
-  #      - name: Load cached .venv
-  #        id: cached-poetry-dependencies
-  #        uses: actions/cache@v3
-  #        with:
-  #          path: .venv
-  #          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-  #
-  #      - name: Install dependencies (cached)
-  #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-  #        run: poetry install --no-interaction --no-root
-  #        env:
-  #          PY_COLORS: '1'
-  #
-  #      - name: Install dependencies
-  #        run: |
-  #          poetry install --no-interaction
-  #          poetry run ansible-galaxy install -r requirements.yml
-  #        env:
-  #          PY_COLORS: '1'
-  #
-  #      - name: Test the playbook
-  #        working-directory: ./tests
-  #        run: |
-  #          poetry run ansible-playbook test.yml -i inventory.yml -vvv --ask-become
-  #        env:
-  #          PY_COLORS: '1'
-  #          ANSIBLE_FORCE_COLOR: '1'
-  #          ANSIBLE_STDOUT_CALLBACK: 'unixy'
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #
-  #      - name: Idempotence check
-  #        run: |
-  #          IDEMPOTENCE=$(mktemp)
-  #          cd tests && poetry run ansible-playbook test.yml | tee -a ${IDEMPOTENCE}
-  #          tail ${IDEMPOTENCE} \
-  #            | grep -q 'changed=0.*failed=0' \
-  #            && (echo 'Idempotence test: pass' && exit 0) \
-  #            || (echo 'Idempotence test: fail' && exit 1)
-  #        env:
-  #          PY_COLORS: '1'
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   integration-macos-molecule:
     name: Integration check on macOS (molecule)
     runs-on: ${{ matrix.os }}
@@ -123,7 +56,9 @@ jobs:
       #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
-        run: sh tests/uninstall-homebrew.sh
+        run: |
+          brew uninstall --force bash-completion
+          sh tests/uninstall-homebrew.sh
 
       - name: Update built-in macOS pip
         run: make update-pip
