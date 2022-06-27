@@ -56,9 +56,7 @@ jobs:
       #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
-        run: |
-          brew uninstall --force bash-completion
-          sh tests/uninstall-homebrew.sh
+        run: sh .github/scripts/uninstall-homebrew.sh
 
       - name: Update built-in macOS pip
         run: make update-pip
