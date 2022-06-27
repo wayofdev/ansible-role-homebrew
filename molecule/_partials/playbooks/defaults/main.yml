@@ -21,4 +21,3 @@ homebrew_casks:
 
 homebrew_upgrade_all: true
 homebrew_repository_use_master: true
-homebrew_collect_analytics: false
