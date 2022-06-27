@@ -6,7 +6,7 @@
 # curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
 # chmod +x ./uninstall.sh
 # sudo ./uninstall.sh --force
-sudo ../../contrib/homebrew-install/uninstall.sh --force
+sudo ./../contrib/homebrew-install/uninstall.sh --force
 
 ### Clean up Homebrew directories.
 sudo rm -rf /usr/local/Homebrew
