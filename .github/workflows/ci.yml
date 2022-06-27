@@ -44,12 +44,8 @@ jobs:
       - name: Install dependencies (cached)
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: make install-deps
-        # run: poetry install --no-interaction --no-root
         env:
           PY_COLORS: '1'
-
-      # - name: Install dependencies
-      #   run: make install-deps
 
       - name: Run linting tasks
         run: make lint
