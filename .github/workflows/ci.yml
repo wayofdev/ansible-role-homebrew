@@ -29,98 +29,21 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install poetry
-        uses: gi0baro/setup-poetry-bin@v1
-
-      - name: Install dependencies
-        run: set -eux; make install-deps
-
-      - name: Run linting tasks
-        run: set -eux; make lint
-
-  integration-macos-native:
-    name: Integration on macOS (native)
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - macos-12
-    steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v3
-
-      # Uncomment for debugging over SSH
-      # - name: Setup upterm.dev session for SSH debugging
-      #   uses: lhotari/action-upterm@v1
-
-      - name: Uninstall built-in homebrew
-        run: sh tests/uninstall-homebrew.sh
-
-      - name: Update built-in macOS pip
-        run: make update-pip
-        env:
-          PY_COLORS: '1'
-
       - name: Install poetry into system
         uses: gi0baro/setup-poetry-bin@v1
-        with:
-          virtualenvs-in-project: true
-
-      - name: Load cached .venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies (cached)
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
-        env:
-          PY_COLORS: '1'
 
       - name: Install dependencies
-        run: |
-          poetry install --no-interaction
-          poetry run ansible-galaxy install -r requirements.yml
-        env:
-          PY_COLORS: '1'
+        run: make install-deps
 
-      - name: Test the playbook
-        working-directory: ./tests
-        run: |
-          poetry run ansible-playbook test.yml -i inventory.yml -vvv --ask-become
-        env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run linting tasks
+        run: make lint
 
-      - name: Idempotence check
-        run: |
-          IDEMPOTENCE=$(mktemp)
-          cd tests && poetry run ansible-playbook test.yml | tee -a ${IDEMPOTENCE}
-          tail ${IDEMPOTENCE} \
-            | grep -q 'changed=0.*failed=0' \
-            && (echo 'Idempotence test: pass' && exit 0) \
-            || (echo 'Idempotence test: fail' && exit 1)
-        env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  #  integration-macos-molecule:
-  #    name: Integration on macOS (molecule)
-  #    runs-on: macos-${{ matrix.os }}
-  #    # continue-on-error: true
+  #  integration-macos-native:
+  #    name: Integration on macOS (native)
+  #    runs-on: ${{ matrix.os }}
   #    strategy:
-  #      # fail-fast: false
-  #      max-parallel: 4
   #      matrix:
-  #        os: ["12"]
-  #        scenario: ["default-macos-on-localhost"]
+  #        os: ["macos-12"]
   #    steps:
   #      - name: Check out the codebase
   #        uses: actions/checkout@v3
@@ -134,8 +57,6 @@ jobs:
   #
   #      - name: Update built-in macOS pip
   #        run: make update-pip
-  #        env:
-  #          PY_COLORS: '1'
   #
   #      - name: Install poetry into system
   #        uses: gi0baro/setup-poetry-bin@v1
@@ -162,15 +83,78 @@ jobs:
   #        env:
   #          PY_COLORS: '1'
   #
-  #      - name: Test the playbook with molecule
+  #      - name: Test the playbook
+  #        working-directory: ./tests
   #        run: |
-  #          poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
+  #          poetry run ansible-playbook test.yml -i inventory.yml -vvv --ask-become
   #        env:
-  #          SCENARIO: ${{ matrix.scenario }}
   #          PY_COLORS: '1'
   #          ANSIBLE_FORCE_COLOR: '1'
   #          ANSIBLE_STDOUT_CALLBACK: 'unixy'
   #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #
+  #      - name: Idempotence check
+  #        run: |
+  #          IDEMPOTENCE=$(mktemp)
+  #          cd tests && poetry run ansible-playbook test.yml | tee -a ${IDEMPOTENCE}
+  #          tail ${IDEMPOTENCE} \
+  #            | grep -q 'changed=0.*failed=0' \
+  #            && (echo 'Idempotence test: pass' && exit 0) \
+  #            || (echo 'Idempotence test: fail' && exit 1)
+  #        env:
+  #          PY_COLORS: '1'
+  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  integration-macos-molecule:
+    name: Integration check on macOS (molecule)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 4
+      matrix:
+        os: ["macos-12"]
+        python-version: ["3.9"]
+        scenario: ["default-macos-on-localhost"]
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v3
+
+      # Uncomment for debugging over SSH
+      # - name: Setup upterm.dev session for SSH debugging
+      #   uses: lhotari/action-upterm@v1
+
+      - name: Uninstall built-in homebrew
+        run: sh tests/uninstall-homebrew.sh
+
+      - name: Update built-in macOS pip
+        run: make update-pip
+
+      - name: Install poetry into system
+        uses: gi0baro/setup-poetry-bin@v1
+        with:
+          virtualenvs-in-project: true
+
+      - name: Load cached .venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies (cached)
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+        env:
+          PY_COLORS: '1'
+
+      - name: Install dependencies
+        run: make install-deps
+
+      - name: Run molecule tests
+        run: poetry run molecule test --scenario-name "${SCENARIO}" -- -v
+        env:
+          SCENARIO: ${{ matrix.scenario }}
+          PY_COLORS: '1'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   integration-linux-molecule:
     name: Integration on Linux
@@ -215,21 +199,19 @@ jobs:
         env:
           PY_COLORS: '1'
 
-      - name: Test the playbook with molecule
-        run: poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
+      - name: Run molecule tests
+        run: poetry run molecule test --scenario-name "${SCENARIO}" -- -v
         env:
           SCENARIO: ${{ matrix.scenario }}
           PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
     needs:
       - lint
-      - integration-macos-native
-      # - integration-macos-molecule
+      # - integration-macos-native
+      - integration-macos-molecule
       - integration-linux-molecule
     runs-on: ubuntu-latest
     steps:
@@ -237,3 +219,5 @@ jobs:
         uses: robertdebock/galaxy-action@1.2.1
         with:
           galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
+
+...

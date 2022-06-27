@@ -8,7 +8,7 @@
     name: elliotweiser.osx-command-line-tools
   when: ansible_os_family == 'Darwin'
 
-- name: Include elliotweiser.osx-command-line-tools (Linux only)
+- name: Include geerlingguy.git (Linux only)
   ansible.builtin.include_role:
     name: geerlingguy.git
   when: ansible_system == 'Linux'
