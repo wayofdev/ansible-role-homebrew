@@ -41,7 +41,7 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
-      - name: Install dependencies (cached)
+      - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: make install-deps
         env:
@@ -60,11 +60,6 @@ jobs:
         python-version: ["3.9"]
         scenario: ["default-macos-on-localhost"]
     steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-
       - name: Check out the codebase
         uses: actions/checkout@v3
         with:
