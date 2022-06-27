@@ -36,7 +36,7 @@ TEST_PLAYBOOK = $(POETRY_RUNNER) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(
 TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | tee /dev/tty | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
 
 ### Lint yaml files
-lint: check-syntax
+lint:
 	$(POETRY_RUNNER) yamllint .
 	cd $(WORKDIR) && $(POETRY_RUNNER) ansible-lint $(PLAYBOOK) -c ../.ansible-lint
 .PHONY: lint
@@ -108,11 +108,6 @@ check:
 ls-host:
 	cd $(WORKDIR) && $(POETRY_RUNNER) ansible all -i $(INVENTORY) -m shell -a "hostname;"
 .PHONY: ls-host
-
-### Check playbook syntax
-check-syntax:
-	cd $(WORKDIR) && $(TEST_PLAYBOOK) --syntax-check
-.PHONY: check-syntax
 
 later:
 	$(ANSIBLE_LATER_BIN) **/*.yml

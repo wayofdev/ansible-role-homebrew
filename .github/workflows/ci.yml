@@ -54,8 +54,8 @@ jobs:
           submodules: true
 
       # Uncomment for debugging over SSH
-      - name: Setup upterm.dev session for SSH debugging
-        uses: lhotari/action-upterm@v1
+      # - name: Setup upterm.dev session for SSH debugging
+      #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
         run: sh .github/scripts/uninstall-homebrew.sh
