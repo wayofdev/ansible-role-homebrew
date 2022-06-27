@@ -38,7 +38,7 @@ TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | tee /dev/tty | grep -q 'changed=0.*failed=0
 ### Lint yaml files
 lint:
 	$(POETRY_RUNNER) yamllint .
-	cd $(WORKDIR) && $(POETRY_RUNNER) ansible-lint $(PLAYBOOK) -c ../.ansible-lint
+	$(POETRY_RUNNER) ansible-lint . --force-color
 .PHONY: lint
 
 ### Run tests
@@ -73,11 +73,11 @@ test-tag:
 .PHONY: test-tag
 
 m-local:
-	$(POETRY_RUNNER) molecule test --scenario-name default-macos-on-localhost -- $(DEBUG_VERBOSITY)
+	$(POETRY_RUNNER) molecule test --scenario-name default-macos-on-localhost -- $(DEBUG_VERBOSITY) --ask-become
 .PHONY: m-local
 
 m-remote:
-	$(POETRY_RUNNER) molecule test --scenario-name default-macos-over-ssh -- $(DEBUG_VERBOSITY)
+	$(POETRY_RUNNER) molecule test --scenario-name default-macos-over-ssh -- $(DEBUG_VERBOSITY) --ask-become
 .PHONY: m-remote
 
 m-linux:
