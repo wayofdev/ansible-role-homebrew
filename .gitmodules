@@ -1,3 +1,6 @@
 [submodule "contrib/poetry-bin"]
 	path = contrib/poetry-bin
 	url = https://github.com/gi0baro/poetry-bin
+[submodule "contrib/homebrew-install"]
+	path = contrib/homebrew-install
+	url = https://github.com/Homebrew/install

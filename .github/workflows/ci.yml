@@ -39,7 +39,7 @@ jobs:
         run: make lint
 
   integration-macos-molecule:
-    name: Integration check on macOS (molecule)
+    name: Integration on macOS
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 4
@@ -50,10 +50,12 @@ jobs:
     steps:
       - name: Check out the codebase
         uses: actions/checkout@v3
+        with:
+          submodules: true
 
       # Uncomment for debugging over SSH
-      # - name: Setup upterm.dev session for SSH debugging
-      #   uses: lhotari/action-upterm@v1
+      - name: Setup upterm.dev session for SSH debugging
+        uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
         run: sh .github/scripts/uninstall-homebrew.sh
@@ -143,7 +145,6 @@ jobs:
     if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
     needs:
       - lint
-      # - integration-macos-native
       - integration-macos-molecule
       - integration-linux-molecule
     runs-on: ubuntu-latest
