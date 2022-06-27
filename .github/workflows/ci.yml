@@ -63,11 +63,11 @@ jobs:
           sed -i -e '/ post-if: /d' .tmp/actions/cache/action.yml
 
       # Uncomment for debugging over SSH
-      - name: Setup upterm.dev session for SSH debugging
-        uses: lhotari/action-upterm@v1
+      # - name: Setup upterm.dev session for SSH debugging
+      #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
-        run: sh .github/scripts/uninstall-homebrew.sh
+        run: sh ./files/uninstall-homebrew.sh
 
       - name: Update built-in macOS pip
         run: make update-pip
