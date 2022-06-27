@@ -20,7 +20,7 @@ platforms:
 provisioner:
   name: ansible
   playbooks:
-    converge: "../_partials/playbooks/converge.yml"
+    converge: "../_partials/playbooks/converge-local.yml"
 
 verifier:
   name: ansible

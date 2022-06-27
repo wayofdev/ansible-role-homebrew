@@ -24,7 +24,7 @@ platforms:
 provisioner:
   name: ansible
   playbooks:
-    converge: "../_partials/playbooks/converge.yml"
+    converge: "../_partials/playbooks/converge-ssh.yml"
     verify: "../_partials/playbooks/verify.yml"
 
 verifier:
