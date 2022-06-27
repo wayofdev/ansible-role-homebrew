@@ -4,8 +4,8 @@
   ansible.builtin.include_tasks: pre-facts.yml
   tags:
     - brew-install
-    - brew-analytics
     - brew-taps
+    - brew-analytics
     - brew-packages
     - brew-casks
     - brew-update
@@ -14,21 +14,21 @@
   ansible.builtin.include_tasks: install.yml
   tags:
     - brew-install
-    - brew-analytics
     - brew-taps
+    - brew-analytics
     - brew-packages
     - brew-casks
-    - brew-update
-
-- name: Homebrew | Include | Update homebrew packages
-  ansible.builtin.include_tasks: update.yml
-  tags:
     - brew-update
 
 - name: Homebrew | Include | Tap custom repositories
   ansible.builtin.include_tasks: _partials/tap.yml
   tags:
     - brew-taps
+
+- name: Homebrew | Include | Configure analytics
+  ansible.builtin.include_tasks: _partials/analytics.yml
+  tags:
+    - brew-analytics
 
 - name: Homebrew | Include | Install packages
   ansible.builtin.include_tasks: _partials/package.yml
@@ -40,3 +40,8 @@
   when: ansible_os_family == 'Darwin'
   tags:
     - brew-casks
+
+- name: Homebrew | Include | Update homebrew packages
+  ansible.builtin.include_tasks: update.yml
+  tags:
+    - brew-update
