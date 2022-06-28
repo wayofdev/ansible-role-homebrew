@@ -17,10 +17,15 @@ driver:
       ansible_sudo_pass: "${ANSIBLE_SUDO_PASSWORD}"
 
 platforms:
-  - name: instance
+  - name: Local-Connection
 
 provisioner:
   name: ansible
+  inventory:
+    group_vars:
+      all:
+        ansible_become_password: "${ANSIBLE_SUDO_PASSWORD}"
+        ansible_user: "${USER}"
   playbooks:
     converge: "../_partials/playbooks/converge-local.yml"
     verify: "../_partials/playbooks/verify.yml"
