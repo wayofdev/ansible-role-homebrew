@@ -76,9 +76,6 @@ jobs:
         run: |
           sed -i -e '/ post-if: /d' .tmp/actions/cache/action.yml
 
-      - name: Uninstall built-in homebrew
-        run: sh .github/scripts/uninstall-homebrew.sh
-
       - name: Update built-in macOS pip
         run: |
           make update-pip
@@ -89,8 +86,11 @@ jobs:
         with:
           virtualenvs-in-project: true
 
-      # - name: Setup upterm.dev session for SSH debugging
-      #   uses: lhotari/action-upterm@v1
+      - name: Setup upterm.dev session for SSH debugging
+        uses: lhotari/action-upterm@v1
+
+      - name: Uninstall built-in homebrew
+        run: sh .github/scripts/uninstall-homebrew.sh
 
       - name: Load cached .venv
         id: cached-poetry-dependencies
