@@ -82,11 +82,18 @@ jobs:
 
       - name: Install poetry into system
         uses: gi0baro/setup-poetry-bin@v1
-        with:
-          virtualenvs-in-project: true
+        # with:
+        #   virtualenvs-in-project: true
 
       - name: Setup upterm.dev session for SSH debugging
         uses: lhotari/action-upterm@v1
+
+      - name: Uninstall built-in homebrew
+        run: |
+          brew uninstall bash-completion --force
+          sh .github/scripts/uninstall-homebrew.sh
+          rm /Users/runner/.bashrc
+          bash;exit
 
       - name: Uninstall built-in homebrew
         run: |
@@ -108,7 +115,7 @@ jobs:
         run: make install-deps
 
       - name: Run molecule tests
-        run: poetry run molecule test --scenario-name "${SCENARIO}" -- -v
+        run: poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv
         env:
           SCENARIO: ${{ matrix.scenario }}
           PY_COLORS: '1'
