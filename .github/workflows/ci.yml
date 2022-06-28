@@ -24,19 +24,29 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v3
 
-      - name: Setup python3
+      - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install poetry
+      - name: Install poetry into system
         uses: gi0baro/setup-poetry-bin@v1
+        with:
+          virtualenvs-in-project: true
+
+      - name: Load cached .venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/requirements.yml') }}
 
       - name: Install dependencies
-        run: set -eux; make install-deps
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: make install-deps
 
       - name: Run linting tasks
-        run: set -eux; make lint
+        run: make lint
 
   integration-macos-native:
     name: Integration on macOS (native)
@@ -49,6 +59,8 @@ jobs:
     steps:
       - name: Check out the codebase
         uses: actions/checkout@v3
+        with:
+          submodules: true
 
       - name: Uninstall built-in homebrew
         run: sh .github/scripts/uninstall-homebrew.sh
@@ -66,7 +78,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/requirements.yml') }}
 
       - name: Install dependencies (cached)
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
@@ -118,6 +130,8 @@ jobs:
   #    steps:
   #      - name: Check out the codebase
   #        uses: actions/checkout@v3
+  #        with:
+  #          submodules: true
   #
   #      # Uncomment for debugging over SSH
   #      # - name: Setup upterm.dev session for SSH debugging
@@ -141,7 +155,7 @@ jobs:
   #        uses: actions/cache@v3
   #        with:
   #          path: .venv
-  #          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+  #          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/requirements.yml') }}
   #
   #      - name: Install dependencies (cached)
   #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
@@ -178,8 +192,10 @@ jobs:
     steps:
       - name: Check out the codebase
         uses: actions/checkout@v3
+        with:
+          submodules: true
 
-      - name: Setup python3
+      - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
@@ -194,17 +210,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies (cached)
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
-        env:
-          PY_COLORS: '1'
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/requirements.yml') }}
 
       - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
-          poetry install --no-interaction
+          poetry install --no-interaction --no-root
           poetry run ansible-galaxy install -r requirements.yml
         env:
           PY_COLORS: '1'

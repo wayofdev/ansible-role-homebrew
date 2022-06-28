@@ -31,7 +31,7 @@ If you **like/use** this role, please consider **starring** it. Thanks!
 
 <br>
 
-## 🗂 Table of contents
+## 🗂 Table of Contents
 
 * [Requirements](#-requirements)
 * [Role Variables](#-role-variables)
@@ -72,7 +72,7 @@ Available variables are listed below, along with example values (see `defaults/m
 
 ### → Structure
 
-Github repository variable for Homebrew core. By default, role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
+GitHub repository variable for Homebrew core. By default, role checks for latest release from official Homebrew repository, if you are changing `homebrew_repository` to your  fork and want to use `master` branch and turn off latest release autodetect, then set `homebrew_repository_use_master` variable to `true`
 
 ```yaml
 # From which repository should we install homebrew?
@@ -101,7 +101,7 @@ homebrew_retries: 32
 homebrew_delay: 3
 ```
 
-Set to `true` to remove the Hombrew cache after any new software is installed or updated.
+Set to `true` to remove the Homebrew cache after any new software is installed or updated.
 
 ```yaml
 homebrew_clear_cache: false
@@ -198,7 +198,7 @@ homebrew_packages:
     state: present
     update_homebrew: true
 
-  # update homebrew first and upgrade formula curl to latest available with 'brew' in default path
+  # update homebrew first and upgrade formula curl to the latest available with 'brew' in default path
   - name: curl
     state: latest
     update_homebrew: true
@@ -269,7 +269,7 @@ homebrew_casks:
   vars:
     homebrew_taps:
       - homebrew/core
-      - hombrew/cask
+      - homebrew/cask
       - homebrew/cask-fonts
       - yt-dlp/taps
     homebrew_packages:
@@ -358,7 +358,7 @@ You can check `Makefile` to get full list of commands for remote and local testi
 
 ### → on localhost
 
-> :warning: **Notice**: By defaut all tests are ran against your local machine!
+> :warning: **Notice**: By defaut all tests are running against your local machine!
 
 ```bash
 # run all tags with scenario from ./tests/test.yml
@@ -409,7 +409,7 @@ $ make m-remote
 
 ## 📦 Dependencies
 
-Installation handled by `Makefile` and requirments are defined in `requirements.yml`
+Installation handled by `Makefile` and requirements are defined in `requirements.yml`
 
 ### → for all
 
@@ -474,3 +474,5 @@ This role was created in **2022** by [lotyp / wayofdev](https://github.com/wayof
 <a href="https://github.com/wayofdev/ansible-role-homebrew/graphs/contributors">
   <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false">
 </a>
+
+<br>
