@@ -3,8 +3,6 @@
 ###
 
 export ANSIBLE_FORCE_COLOR = 1
-export ANSIBLE_JINJA2_NATIVE = true
-
 export PY_COLORS = 1
 export PYTHONIOENCODING = UTF-8
 export LC_CTYPE = en_US.UTF-8
@@ -14,7 +12,7 @@ export LANG = en_US.UTF-8
 # https://stackoverflow.com/questions/50009505/ansible-stdout-formatting
 export ANSIBLE_STDOUT_CALLBACK = unixy
 
-TASK_TAGS ?= "brew-install brew-analytics brew-update brew-taps brew-packages brew-casks"
+TASK_TAGS ?= "brew-install,brew-analytics,brew-update,brew-taps,brew-packages,brew-casks"
 PLAYBOOK ?= test.yml
 WORKDIR ?= ./tests
 INVENTORY ?= inventory.yml
@@ -36,7 +34,7 @@ TEST_PLAYBOOK = $(POETRY_RUNNER) ansible-playbook $(PLAYBOOK) -i $(INVENTORY) $(
 TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | tee /dev/tty | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
 
 ### Lint yaml files
-lint: check-syntax
+lint: check-syntax later
 	$(POETRY_RUNNER) yamllint .
 	$(POETRY_RUNNER) ansible-lint . --force-color
 .PHONY: lint
@@ -73,15 +71,15 @@ test-tag:
 .PHONY: test-tag
 
 m-local:
-	$(POETRY_RUNNER) molecule test --scenario-name default-macos-on-localhost -- $(DEBUG_VERBOSITY)
+	$(POETRY_RUNNER) molecule test --scenario-name default-macos-on-localhost -- $(DEBUG_VERBOSITY) --tags $(TASK_TAGS)
 .PHONY: m-local
 
 m-remote:
-	$(POETRY_RUNNER) molecule test --scenario-name default-macos-over-ssh -- $(DEBUG_VERBOSITY)
+	$(POETRY_RUNNER) molecule test --scenario-name default-macos-over-ssh -- $(DEBUG_VERBOSITY) --tags $(TASK_TAGS)
 .PHONY: m-remote
 
 m-linux:
-	$(POETRY_RUNNER) molecule test --scenario-name default -- $(DEBUG_VERBOSITY)
+	$(POETRY_RUNNER)  run molecule test --scenario-name default -- $(DEBUG_VERBOSITY) --tags $(TASK_TAGS)
 .PHONY: m-linux
 
 login-mac:
