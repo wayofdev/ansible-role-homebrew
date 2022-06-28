@@ -90,7 +90,9 @@ jobs:
       #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
-        run: sh .github/scripts/uninstall-homebrew.sh
+        run: |
+          sh .github/scripts/uninstall-homebrew.sh
+          sh .github/scripts/clean-instance.sh
 
       - name: Load cached .venv
         id: cached-poetry-dependencies
@@ -109,6 +111,7 @@ jobs:
           SCENARIO: ${{ matrix.scenario }}
           PY_COLORS: '1'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PATH: '/usr/local/bin:/usr/local/sbin:/usr/bin'
 
   integration-linux-molecule:
     name: Integration on Linux
