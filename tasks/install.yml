@@ -58,7 +58,7 @@
 - name: Homebrew | Install | Cloning latest release to "{{ homebrew_install_path }}"
   ansible.builtin.git:
     repo: "{{ homebrew_repository }}"
-    version: "{{ brew_latest_release if homebrew_repository_use_master == false else 'master' }}"
+    version: "{{ (homebrew_repository_use_master) | ternary('master', brew_latest_release) }}"
     dest: "{{ homebrew_install_path }}"
     update: false
     depth: 1
@@ -173,3 +173,5 @@
   changed_when: false
   tags:
     - brew-install
+
+...

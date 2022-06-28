@@ -45,4 +45,6 @@
   tags:
     - brew-packages
   notify:
-    - brew-clear-cache
+    - Brew-clear-cache
+
+...

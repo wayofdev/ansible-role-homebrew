@@ -52,3 +52,5 @@ homebrew_cask_greedy_mode: false
 # Should we disable analytics collection?
 # Default: true
 homebrew_collect_analytics: true
+
+...

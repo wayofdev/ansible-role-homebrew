@@ -13,8 +13,10 @@
         upgrade_all: true
       when: homebrew_upgrade_all
       notify:
-        - brew-clear-cache
+        - Brew-clear-cache
   become: "{{ (brew_user != ansible_user_id) | bool }}"
   become_user: "{{ brew_user }}"
   tags:
     - brew-update
+
+...

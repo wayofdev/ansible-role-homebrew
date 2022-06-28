@@ -45,3 +45,5 @@
   when: ansible_os_family == 'Darwin'
   tags:
     - brew-casks
+
+...

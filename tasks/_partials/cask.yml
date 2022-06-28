@@ -52,4 +52,6 @@
   tags:
     - brew-casks
   notify:
-    - brew-clear-cache
+    - Brew-clear-cache
+
+...

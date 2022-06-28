@@ -24,3 +24,5 @@ homebrew_delay: 3
 homebrew_clear_cache: false
 homebrew_cask_greedy_mode: false
 homebrew_collect_analytics: true
+
+...
