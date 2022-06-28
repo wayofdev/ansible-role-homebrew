@@ -106,7 +106,7 @@ jobs:
         run: make install-deps
 
       - name: Run molecule tests
-        run: poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
+        run: poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv
         env:
           SCENARIO: ${{ matrix.scenario }}
           PY_COLORS: '1'
