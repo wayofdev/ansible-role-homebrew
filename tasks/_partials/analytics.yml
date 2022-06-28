@@ -1,0 +1,34 @@
+---
+
+- name: debug Variables
+  ansible.builtin.debug:
+    msg:
+      - "User: {{ brew_user }}"
+  tags:
+    - brew-analytics
+
+- name: debug Variables output
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew doctor"
+  changed_when: false
+  register: brew_doctor
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-analytics
+
+- name: Homebrew | Install | Analytics | Get current status
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics"
+  register: brew_analytics
+  changed_when: false
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-analytics
+
+- name: Homebrew | Install | Analytics | Trigger analytics status – set to "{{ homebrew_collect_analytics | ternary('on', 'off') }}"
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics {{ homebrew_collect_analytics | ternary('on', 'off') }}"
+  when: not homebrew_analytics_vars[homebrew_collect_analytics] in brew_analytics.stdout
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-analytics
