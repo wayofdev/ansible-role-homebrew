@@ -137,6 +137,20 @@
   tags:
     - brew-install
 
+- name: Homebrew | Install | Tap core repository
+  community.general.homebrew_tap:
+    path: "{{ homebrew_bin_path }}"
+    name: "homebrew/core"
+    state: "present"
+  retries: "{{ homebrew_retries }}"
+  delay: "{{ homebrew_delay }}"
+  register: install_core_tap
+  until: install_core_tap is not failed
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-install
+
 - name: Homebrew | Install | Register cache location
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --cache"
   register: brew_cache_path
