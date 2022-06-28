@@ -45,3 +45,35 @@
   ansible.builtin.include_tasks: update.yml
   tags:
     - brew-update
+
+- name: debug Variables
+  ansible.builtin.debug:
+    msg:
+      - "User: {{ brew_user }}"
+  tags:
+    - brew-install
+
+- name: debug Variables output
+  ansible.builtin.command: "ls -lah /ussr/local/"
+  changed_when: false
+  register: brew_ls
+  tags:
+    - brew-install
+
+- name: debug Variables output
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew config"
+  changed_when: false
+  register: brew_doctor
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-install
+
+- name: debug Variables output
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew doctor"
+  changed_when: false
+  register: brew_doctor
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
+  tags:
+    - brew-install
