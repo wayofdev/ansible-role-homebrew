@@ -22,13 +22,19 @@
   tags:
     - brew-install
 
+- name: Homebrew | Install | Check if brew.sh $PATH file exists on macOS
+  ansible.builtin.stat:
+    path: /etc/paths.d/brew.sh
+  register: brewsh_file
+
 - name: Homebrew | Install | Add bin dir to system-wide $PATH on macOS
   ansible.builtin.copy:
     content: 'export PATH=$PATH:{{ homebrew_bin_path }}'
     # https://stackoverflow.com/a/51218283/1392749https://stackoverflow.com/a/51218283/1392749
     dest: /etc/paths.d/brew.sh
   when:
-    - ansible_env.PATH is not search(homebrew_bin_path)
+    # - ansible_env.PATH is not search(homebrew_bin_path)
+    - not brewsh_file.stat.exists
     - ansible_os_family == 'Darwin'
   become: true
   tags:
