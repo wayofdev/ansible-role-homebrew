@@ -1,21 +1,5 @@
 ---
 
-- name: debug Variables
-  ansible.builtin.debug:
-    msg:
-      - "User: {{ brew_user }}"
-  tags:
-    - brew-analytics
-
-- name: debug Variables output
-  ansible.builtin.command: "{{ homebrew_bin_path }}/brew doctor"
-  changed_when: false
-  register: brew_doctor
-  become: "{{ (brew_user != ansible_user_id) | bool }}"
-  become_user: "{{ brew_user }}"
-  tags:
-    - brew-analytics
-
 - name: Homebrew | Install | Analytics | Get current status
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew analytics"
   register: brew_analytics

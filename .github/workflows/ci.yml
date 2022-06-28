@@ -17,38 +17,38 @@ on:  # yamllint disable-line rule:truthy
         default: 'no'
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v3
-
-      - name: Setup python3
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-
-      - name: Install poetry into system
-        uses: gi0baro/setup-poetry-bin@v1
-        with:
-          virtualenvs-in-project: true
-
-      - name: Load cached .venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: make install-deps
-        env:
-          PY_COLORS: '1'
-
-      - name: Run linting tasks
-        run: make lint
+  #  lint:
+  #    name: Lint
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: Check out the codebase
+  #        uses: actions/checkout@v3
+  #
+  #      - name: Setup python3
+  #        uses: actions/setup-python@v4
+  #        with:
+  #          python-version: '3.9'
+  #
+  #      - name: Install poetry into system
+  #        uses: gi0baro/setup-poetry-bin@v1
+  #        with:
+  #          virtualenvs-in-project: true
+  #
+  #      - name: Load cached .venv
+  #        id: cached-poetry-dependencies
+  #        uses: actions/cache@v3
+  #        with:
+  #          path: .venv
+  #          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+  #
+  #      - name: Install dependencies
+  #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+  #        run: make install-deps
+  #        env:
+  #          PY_COLORS: '1'
+  #
+  #      - name: Run linting tasks
+  #        run: make lint
 
   integration-macos-molecule:
     name: Integration on macOS
@@ -65,7 +65,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Check out the codebase
+      - name: Check out the actions/cache source
         uses: actions/checkout@v3
         with:
           repository: actions/cache
@@ -73,8 +73,6 @@ jobs:
           path: .tmp/actions/cache
 
       - name: Check out fix - make actions/cache@v3 run always, not only when job succeeds
-        # Tweak `action.yml` of `actions/cache@v3` to remove its `post-if`
-        # condition, making it default to `post-if: always()`.
         run: |
           sed -i -e '/ post-if: /d' .tmp/actions/cache/action.yml
 
