@@ -1,7 +1,7 @@
 ---
 
 - name: Molecule | Converge | Default scenario
-  hosts: all
+  hosts: localhost
 
   vars_files:
     - "../vars/main.yml"
