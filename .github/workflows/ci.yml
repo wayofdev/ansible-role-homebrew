@@ -65,6 +65,17 @@ jobs:
         with:
           submodules: true
 
+      - name: Check out the actions/cache source
+        uses: actions/checkout@v3
+        with:
+          repository: actions/cache
+          ref: v3
+          path: .tmp/actions/cache
+
+      - name: Check out fix - make actions/cache@v3 run always, not only when job succeeds
+        run: |
+          sed -i -e '/ post-if: /d' .tmp/actions/cache/action.yml
+
       - name: Uninstall built-in homebrew
         run: sh .github/scripts/uninstall-homebrew.sh
 
@@ -73,8 +84,21 @@ jobs:
 
       - name: Install poetry into system
         uses: gi0baro/setup-poetry-bin@v1
+        with:
+          virtualenvs-in-project: true
+
+      # - name: Setup upterm.dev session for SSH debugging
+      #   uses: lhotari/action-upterm@v1
+
+      - name: Load cached .venv
+        id: cached-poetry-dependencies
+        uses: ./.tmp/actions/cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: make install-deps
 
       - name: Run molecule tests
