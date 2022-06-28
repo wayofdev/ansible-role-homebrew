@@ -54,7 +54,7 @@
     - brew-install
 
 - name: debug Variables output
-  ansible.builtin.command: "ls -lah /ussr/local/"
+  ansible.builtin.command: "ls -lah /usr/local/"
   changed_when: false
   register: brew_ls
   when: ansible_os_family == 'Darwin'

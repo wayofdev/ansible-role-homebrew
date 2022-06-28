@@ -80,6 +80,15 @@ jobs:
       # - name: Setup upterm.dev session for SSH debugging
       #   uses: lhotari/action-upterm@v1
 
+      - name: Update built-in macOS pip
+        # run: make update-pip
+        run: sudo pip3 install --upgrade pip
+
+      - name: Install poetry into system
+        uses: gi0baro/setup-poetry-bin@v1
+        with:
+          virtualenvs-in-project: true
+
       - name: Uninstall built-in homebrew
         run: |
           brew uninstall bash-completion --force
@@ -87,14 +96,6 @@ jobs:
           rm /Users/runner/.bashrc
           bash;exit
           # sed -i -e '/export PATH=\/usr\/local\/bin/d' /Users/runner/.bashrc
-
-      - name: Update built-in macOS pip
-        run: make update-pip
-
-      - name: Install poetry into system
-        uses: gi0baro/setup-poetry-bin@v1
-        with:
-          virtualenvs-in-project: true
 
       - name: Load cached .venv
         id: cached-poetry-dependencies
