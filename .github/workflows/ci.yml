@@ -81,7 +81,9 @@ jobs:
       #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
-        run: sh .github/scripts/uninstall-homebrew.sh
+        run: |
+          sh .github/scripts/uninstall-homebrew.sh
+          sed -i -e '/export PATH=\/usr\/local\/bin/d' /Users/runner/.bashrc
 
       - name: Update built-in macOS pip
         run: make update-pip
