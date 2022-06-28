@@ -37,9 +37,7 @@
     # https://stackoverflow.com/a/51218283/139274
     dest: /etc/paths.d/brew.sh
   when:
-    # - ansible_env.PATH is not search(homebrew_bin_path)
-    - not brewsh_file.stat.exists
-    - ansible_os_family == 'Darwin'
+    - ansible_os_family == 'Darwin' and not brewsh_file.stat.exists
   become: true
   tags:
     - brew-install
