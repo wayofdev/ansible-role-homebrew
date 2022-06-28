@@ -18,15 +18,10 @@ driver:
   become_method: sudo
 
 platforms:
-  - name: Local-Connection
+  - name: instance
 
 provisioner:
   name: ansible
-  inventory:
-    group_vars:
-      all:
-        ansible_become_password: "${ANSIBLE_SUDO_PASSWORD}"
-        ansible_user: "${USER}"
   playbooks:
     converge: "../_partials/playbooks/converge-local.yml"
     verify: "../_partials/playbooks/verify.yml"
