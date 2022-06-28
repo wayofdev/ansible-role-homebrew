@@ -72,7 +72,7 @@ jobs:
           ref: v3
           path: .tmp/actions/cache
 
-      - name: Check out fix - make actions/cache@v3 run always, not only when job succeeds
+      - name: Make actions/cache@v3 run always, not only when job succeeds
         run: |
           sed -i -e '/ post-if: /d' .tmp/actions/cache/action.yml
 
@@ -86,8 +86,8 @@ jobs:
         with:
           virtualenvs-in-project: true
 
-      - name: Setup upterm.dev session for SSH debugging
-        uses: lhotari/action-upterm@v1
+      # - name: Setup upterm.dev session for SSH debugging
+      #   uses: lhotari/action-upterm@v1
 
       - name: Uninstall built-in homebrew
         run: sh .github/scripts/uninstall-homebrew.sh
