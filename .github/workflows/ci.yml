@@ -82,9 +82,9 @@ jobs:
 
       - name: Uninstall built-in homebrew
         run: |
+          brew uninstall bash-completion --force
           sh .github/scripts/uninstall-homebrew.sh
           sed -i -e '/export PATH=\/usr\/local\/bin/d' /Users/runner/.bashrc
-          brew uninstall --force bash-completion
 
       - name: Update built-in macOS pip
         run: make update-pip

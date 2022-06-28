@@ -86,7 +86,7 @@
     state: directory
     mode: 0755
     recurse: true
-  # fix idempotence and remove changed_when: false
+  #  fix idempotence and remove changed_when: false
   changed_when: false
   become: true
   tags:
@@ -132,7 +132,7 @@
   loop: "{{ homebrew_folders }}"
   loop_control:
     loop_var: folder_item
-  # fix idempotence and remove changed_when: false
+  #  fix idempotence and remove changed_when: false
   changed_when: false
   tags:
     - brew-install
@@ -141,6 +141,15 @@
   ansible.builtin.debug:
     msg:
       - "User: {{ brew_user }}"
+  tags:
+    - brew-install
+
+- name: debug Variables output
+  ansible.builtin.command: "{{ homebrew_bin_path }}/brew config"
+  changed_when: false
+  register: brew_doctor
+  become: "{{ (brew_user != ansible_user_id) | bool }}"
+  become_user: "{{ brew_user }}"
   tags:
     - brew-install
 
@@ -160,19 +169,19 @@
   tags:
     - brew-install
 
-- name: Homebrew | Install | Tap core repository
-  community.general.homebrew_tap:
-    path: "{{ homebrew_bin_path }}"
-    name: "homebrew/core"
-    state: "present"
-  retries: "{{ homebrew_retries }}"
-  delay: "{{ homebrew_delay }}"
-  register: install_core_tap
-  until: install_core_tap is not failed
-  become: "{{ (brew_user != ansible_user_id) | bool }}"
-  become_user: "{{ brew_user }}"
-  tags:
-    - brew-install
+# - name: Homebrew | Install | Tap core repository
+#   community.general.homebrew_tap:
+#     path: "{{ homebrew_bin_path }}"
+#     name: "homebrew/core"
+#     state: "present"
+#   retries: "{{ homebrew_retries }}"
+#   delay: "{{ homebrew_delay }}"
+#   register: install_core_tap
+#   until: install_core_tap is not failed
+#   become: "{{ (brew_user != ansible_user_id) | bool }}"
+#   become_user: "{{ brew_user }}"
+#   tags:
+#     - brew-install
 
 - name: Homebrew | Install | Register cache location
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --cache"
