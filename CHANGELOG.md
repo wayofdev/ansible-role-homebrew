@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.1.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v2.0.0...v2.1.0) (2022-06-28)
+
+
+### Features
+
+* refactoring tests ([#21](https://github.com/wayofdev/ansible-role-homebrew/issues/21)) ([729e66b](https://github.com/wayofdev/ansible-role-homebrew/commit/729e66b4444488fc4354b0a398713f8aed4daeca))
+
+
+### Bug Fixes
+
+* ansible variable prevented from running make tests, fixes in tags ([f63320a](https://github.com/wayofdev/ansible-role-homebrew/commit/f63320a33bff69512c9b119a0669181825c6ffc1))
+* missing ansible-later in lock file ([95c3701](https://github.com/wayofdev/ansible-role-homebrew/commit/95c370190d9d26ac16f1f4c42cff4e9025c4a5d5))
+* wrong ansible-later call, applied best practices ([d51ddaf](https://github.com/wayofdev/ansible-role-homebrew/commit/d51ddafd12b65c3c2cbcb3d16c5ec5ed87b76b05))
+
 ## [2.0.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v1.7.1...v2.0.0) (2022-06-26)
 
 
