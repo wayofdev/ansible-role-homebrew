@@ -22,6 +22,8 @@ platforms:
 
 provisioner:
   name: ansible
+  connection_options:
+    ansible_become: true
   playbooks:
     converge: "../_partials/playbooks/converge-local.yml"
     verify: "../_partials/playbooks/verify.yml"
