@@ -22,12 +22,13 @@ REQS ?= requirements.yml
 INSTALL_POETRY ?= true
 POETRY_BIN ?= poetry
 POETRY_RUNNER ?= poetry run
+ANSIBLE_LATER_BIN = ansible-later
 MACOS_NATIVE_PY_PATH ?= /usr/bin/python3
 PY_PATH ?= $(shell which python3)
 
 # leave empty to disable
 # -v - verbose;
-# -vvv - more details
+# -vv - more details
 # -vvv - enable connection debugging
 DEBUG_VERBOSITY ?= -vvv
 
@@ -37,7 +38,7 @@ TEST_IDEMPOTENT = $(TEST_PLAYBOOK) | tee /dev/tty | grep -q 'changed=0.*failed=0
 ### Lint yaml files
 lint: check-syntax
 	$(POETRY_RUNNER) yamllint .
-	cd $(WORKDIR) && $(POETRY_RUNNER) ansible-lint $(PLAYBOOK) -c ../.ansible-lint
+	$(POETRY_RUNNER) ansible-lint . --force-color
 .PHONY: lint
 
 ### Run tests
@@ -72,12 +73,16 @@ test-tag:
 .PHONY: test-tag
 
 m-local:
-	$(POETRY_RUNNER) molecule test --scenario-name defaults-restored-on-localhost -- -vvv --tags $(TASK_TAGS)
+	$(POETRY_RUNNER) molecule test --scenario-name default-macos-on-localhost -- $(DEBUG_VERBOSITY)
 .PHONY: m-local
 
 m-remote:
-	$(POETRY_RUNNER) molecule test --scenario-name defaults-restored-over-ssh -- -vvv --tags $(TASK_TAGS)
+	$(POETRY_RUNNER) molecule test --scenario-name default-macos-over-ssh -- $(DEBUG_VERBOSITY)
 .PHONY: m-remote
+
+m-linux:
+	$(POETRY_RUNNER) molecule test --scenario-name default -- $(DEBUG_VERBOSITY)
+.PHONY: m-linux
 
 login-mac:
 	$(POETRY_RUNNER) molecule login \
@@ -92,7 +97,7 @@ login-deb:
 .PHONY: login-deb
 
 debug-version:
-	ansible --version
+	$(POETRY_RUNNER) ansible --version
 .PHONY: debug-version
 
 check:
@@ -109,8 +114,11 @@ check-syntax:
 	cd $(WORKDIR) && $(TEST_PLAYBOOK) --syntax-check
 .PHONY: check-syntax
 
+later:
+	$(ANSIBLE_LATER_BIN) **/*.yml
+.PHONY: later
+
 ### Install ansible dependencies
-# update-pip
 install: update-pip install-poetry install-deps
 .PHONY: install
 
@@ -140,5 +148,6 @@ endif
 
 ### Git
 hooks:
-	pre-commit install
+	$(POETRY_RUNNER) pre-commit install
+	$(POETRY_RUNNER) pre-commit autoupdate
 .PHONY: install-hooks

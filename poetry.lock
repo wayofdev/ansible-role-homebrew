@@ -1,13 +1,13 @@
 [[package]]
 name = "ansible"
-version = "5.9.0"
+version = "5.10.0"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 
 [package.dependencies]
-ansible-core = ">=2.12.6,<2.13.0"
+ansible-core = ">=2.12.7,<2.13.0"
 
 [[package]]
 name = "ansible-compat"
@@ -752,7 +752,7 @@ content-hash = "16c3f3f8e0c89b63d97704221130ba080c7fc5e0b4d116b90567c54faffdd76f
 
 [metadata.files]
 ansible = [
-    {file = "ansible-5.9.0.tar.gz", hash = "sha256:6f2f762fca6cff0401a6d2119b8ba3b2f111ea1a93fd203c86df09bc75570f18"},
+    {file = "ansible-5.10.0.tar.gz", hash = "sha256:c77f556a7c3d9948f86639c5742aa885be25a7cdbda3bfb41a8314b60a3341e8"},
 ]
 ansible-compat = [
     {file = "ansible-compat-2.1.0.tar.gz", hash = "sha256:62bae1bb5c20663d5ee1bfec04f073c08be721040af9ef5bddc7904e6678d184"},

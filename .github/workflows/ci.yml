@@ -50,17 +50,11 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v3
 
-      # Uncomment for debugging over SSH
-      # - name: Setup upterm.dev session for SSH debugging
-      #   uses: lhotari/action-upterm@v1
-
       - name: Uninstall built-in homebrew
-        run: sh tests/uninstall-homebrew.sh
+        run: sh .github/scripts/uninstall-homebrew.sh
 
       - name: Update built-in macOS pip
         run: make update-pip
-        env:
-          PY_COLORS: '1'
 
       - name: Install poetry into system
         uses: gi0baro/setup-poetry-bin@v1

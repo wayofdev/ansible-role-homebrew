@@ -3,9 +3,8 @@
 # Uninstalls Homebrew using the official uninstallation script.
 
 ### Download and run the uninstallation script.
-curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
-chmod +x ./uninstall.sh
-sudo ./uninstall.sh --force
+chmod +x ./contrib/homebrew-install/uninstall.sh
+sudo ./contrib/homebrew-install/uninstall.sh --force
 
 ### Clean up Homebrew directories.
 sudo rm -rf /usr/local/Homebrew
