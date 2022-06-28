@@ -371,7 +371,7 @@ $ make test-tag
 $ make test-idempotent
 
 # run tasks that validate config file and does installation
-$ export TASK_TAGS="brew-install brew-update"
+$ export TASK_TAGS="brew-install,brew-update"
 $ make test-tag
 
 # run by predefined command that executes only one tag
@@ -387,6 +387,12 @@ $ poetry run molecule test --scenario-name default-macos-on-localhost -- -vvv
 
 # or with make command
 $ make m-local
+
+# runs molecule with docker driver
+$ poetry run molecule test --scenario-name default -- -vvv
+
+# or with make file
+$ make m-linux
 ```
 
 <br>
@@ -401,7 +407,7 @@ $ poetry run molecule test --scenario-name default-macos-over-ssh -- -vvv
 $ make m-remote
 
 # tags also can be passed
-$ export TASK_TAGS="dock-validate dock-install"
+$ export TASK_TAGS="brew-install,brew-update"
 $ make m-remote
 ```
 
@@ -435,7 +441,6 @@ This role has been tested on these systems:
 | macos              | big-sur  |
 | ubuntu             | jammy    |
 | ubuntu             | focal    |
-| ubuntu             | bionic   |
 | debian             | bullseye |
 | debian             | buster   |
 | fedora             | 36       |
