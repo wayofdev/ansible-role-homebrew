@@ -5,6 +5,7 @@
 skip_list:
   - no-handler
   - experimental
+  - deprecated-command-syntax
 
 exclude_paths:
   - ./contrib

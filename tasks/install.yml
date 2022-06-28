@@ -137,6 +137,13 @@
   tags:
     - brew-install
 
+- name: Exec shell
+  ansible.builtin.shell: chown -R $USER:admin /usr/local
+  become: true
+  changed_when: false
+  tags:
+    - brew-install
+
 - name: Homebrew | Install | Register cache location
   ansible.builtin.command: "{{ homebrew_bin_path }}/brew --cache"
   register: brew_cache_path
