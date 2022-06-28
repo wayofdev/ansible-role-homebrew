@@ -5,3 +5,7 @@
 skip_list:
   - no-handler
   - experimental
+
+exclude_paths:
+  - ./contrib
+  - ./venv

@@ -5,20 +5,25 @@
   tags:
     - brew-install
     - brew-analytics
+    - brew-update
     - brew-taps
     - brew-packages
     - brew-casks
-    - brew-update
 
 - name: Homebrew | Include | Install homebrew itself on system
   ansible.builtin.include_tasks: install.yml
   tags:
     - brew-install
     - brew-analytics
+    - brew-update
     - brew-taps
     - brew-packages
     - brew-casks
-    - brew-update
+
+- name: Homebrew | Include | Configure analytics
+  ansible.builtin.include_tasks: _partials/analytics.yml
+  tags:
+    - brew-analytics
 
 - name: Homebrew | Include | Update homebrew packages
   ansible.builtin.include_tasks: update.yml

@@ -24,43 +24,10 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v3
 
-      - name: Setup python3
+      - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-
-      - name: Install poetry
-        uses: gi0baro/setup-poetry-bin@v1
-
-      - name: Install dependencies
-        run: set -eux; make install-deps
-
-      - name: Run linting tasks
-        run: set -eux; make lint
-
-  integration-macos-native:
-    name: Integration on macOS (native)
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - macos-12
-    steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v3
-
-      # Uncomment for debugging over SSH
-      # - name: Setup upterm.dev session for SSH debugging
-      #   uses: lhotari/action-upterm@v1
-
-      - name: Uninstall built-in homebrew
-        run: sh tests/uninstall-homebrew.sh
-
-      - name: Update built-in macOS pip
-        run: make update-pip
-        env:
-          PY_COLORS: '1'
 
       - name: Install poetry into system
         uses: gi0baro/setup-poetry-bin@v1
@@ -72,20 +39,59 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies (cached)
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
-        env:
-          PY_COLORS: '1'
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/requirements.yml') }}
 
       - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: make install-deps
+
+      - name: Run linting tasks
+        run: make lint
+
+  integration-macos-native:
+    name: Integration on macOS (native)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ["macos-12"]
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Check out the actions/cache source
+        uses: actions/checkout@v3
+        with:
+          repository: actions/cache
+          ref: v3
+          path: .tmp/actions/cache
+
+      - name: Check out fix - make actions/cache@v3 run always, not only when job succeeds
         run: |
-          poetry install --no-interaction
-          poetry run ansible-galaxy install -r requirements.yml
-        env:
-          PY_COLORS: '1'
+          sed -i -e '/ post-if: /d' .tmp/actions/cache/action.yml
+
+      - name: Uninstall built-in homebrew
+        run: sh .github/scripts/uninstall-homebrew.sh
+
+      - name: Update built-in macOS pip
+        run: make update-pip
+
+      - name: Install poetry into system
+        uses: gi0baro/setup-poetry-bin@v1
+        with:
+          virtualenvs-in-project: true
+
+      - name: Load cached .venv
+        id: cached-poetry-dependencies
+        uses: ./.tmp/actions/cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/requirements.yml') }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: make install-deps
 
       - name: Test the playbook
         working-directory: ./tests
@@ -93,8 +99,6 @@ jobs:
           poetry run ansible-playbook test.yml -i inventory.yml -vvv --ask-become
         env:
           PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Idempotence check
@@ -107,70 +111,7 @@ jobs:
             || (echo 'Idempotence test: fail' && exit 1)
         env:
           PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  #  integration-macos-molecule:
-  #    name: Integration on macOS (molecule)
-  #    runs-on: macos-${{ matrix.os }}
-  #    # continue-on-error: true
-  #    strategy:
-  #      # fail-fast: false
-  #      max-parallel: 4
-  #      matrix:
-  #        os: ["12"]
-  #        scenario: ["default-macos-on-localhost"]
-  #    steps:
-  #      - name: Check out the codebase
-  #        uses: actions/checkout@v3
-  #
-  #      # Uncomment for debugging over SSH
-  #      # - name: Setup upterm.dev session for SSH debugging
-  #      #   uses: lhotari/action-upterm@v1
-  #
-  #      - name: Uninstall built-in homebrew
-  #        run: sh tests/uninstall-homebrew.sh
-  #
-  #      - name: Update built-in macOS pip
-  #        run: make update-pip
-  #        env:
-  #          PY_COLORS: '1'
-  #
-  #      - name: Install poetry into system
-  #        uses: gi0baro/setup-poetry-bin@v1
-  #        with:
-  #          virtualenvs-in-project: true
-  #
-  #      - name: Load cached .venv
-  #        id: cached-poetry-dependencies
-  #        uses: actions/cache@v3
-  #        with:
-  #          path: .venv
-  #          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-  #
-  #      - name: Install dependencies (cached)
-  #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-  #        run: poetry install --no-interaction --no-root
-  #        env:
-  #          PY_COLORS: '1'
-  #
-  #      - name: Install dependencies
-  #        run: |
-  #          poetry install --no-interaction
-  #          poetry run ansible-galaxy install -r requirements.yml
-  #        env:
-  #          PY_COLORS: '1'
-  #
-  #      - name: Test the playbook with molecule
-  #        run: |
-  #          poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
-  #        env:
-  #          SCENARIO: ${{ matrix.scenario }}
-  #          PY_COLORS: '1'
-  #          ANSIBLE_FORCE_COLOR: '1'
-  #          ANSIBLE_STDOUT_CALLBACK: 'unixy'
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   integration-linux-molecule:
     name: Integration on Linux
@@ -184,8 +125,21 @@ jobs:
     steps:
       - name: Check out the codebase
         uses: actions/checkout@v3
+        with:
+          submodules: true
 
-      - name: Setup python3
+      - name: Check out the actions/cache source
+        uses: actions/checkout@v3
+        with:
+          repository: actions/cache
+          ref: v3
+          path: .tmp/actions/cache
+
+      - name: Check out fix - make actions/cache@v3 run always, not only when job succeeds
+        run: |
+          sed -i -e '/ post-if: /d' .tmp/actions/cache/action.yml
+
+      - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
@@ -197,31 +151,20 @@ jobs:
 
       - name: Load cached .venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: ./.tmp/actions/cache
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install dependencies (cached)
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
-        env:
-          PY_COLORS: '1'
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/requirements.yml') }}
 
       - name: Install dependencies
-        run: |
-          poetry install --no-interaction
-          poetry run ansible-galaxy install -r requirements.yml
-        env:
-          PY_COLORS: '1'
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: make install-deps
 
       - name: Test the playbook with molecule
         run: poetry run molecule test --scenario-name "${SCENARIO}" -- -vvv --become
         env:
           SCENARIO: ${{ matrix.scenario }}
           PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          ANSIBLE_STDOUT_CALLBACK: 'unixy'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
@@ -229,7 +172,6 @@ jobs:
     needs:
       - lint
       - integration-macos-native
-      # - integration-macos-molecule
       - integration-linux-molecule
     runs-on: ubuntu-latest
     steps:
