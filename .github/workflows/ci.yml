@@ -165,7 +165,7 @@ jobs:
   publish:
     if: github.event.inputs.shouldPublish == 'yes' || github.ref == 'refs/heads/master'
     needs:
-      - lint
+      # - lint
       - integration-macos-molecule
       - integration-linux-molecule
     runs-on: ubuntu-latest
