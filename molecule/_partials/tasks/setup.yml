@@ -12,15 +12,17 @@
   tags:
     - always
 
-- name: Include geerlingguy.git (Linux only)
+- name: Molecule | Setup | Include geerlingguy.git (Linux only)
   ansible.builtin.include_role:
     name: geerlingguy.git
   when: ansible_system == 'Linux'
   tags:
     - always
 
-- name: Include ansible-role-homebrew
+- name: Molecule | Setup | Include ansible-role-homebrew
   ansible.builtin.include_role:
     name: ansible-role-homebrew
   tags:
     - always
+
+...

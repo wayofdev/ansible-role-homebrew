@@ -12,6 +12,11 @@ ansible:
 # Global settings for all defined rules
 rules:
   # List of files to exclude
-  exclude_files: []
+  exclude_files:
+    - ./contrib
+    - ./.venv
+
+  exclude_filter:
+    - "ANSIBLE0015"
 
 ...

@@ -21,3 +21,5 @@ homebrew_casks:
 
 homebrew_repository_use_master: true
 homebrew_collect_analytics: false
+
+...

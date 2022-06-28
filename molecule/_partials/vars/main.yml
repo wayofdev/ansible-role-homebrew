@@ -6,3 +6,5 @@ homebrew_search_paths:
   - /opt/homebrew/bin
   - /home/linuxbrew/.linuxbrew/bin
   - /usr/bin
+
+...

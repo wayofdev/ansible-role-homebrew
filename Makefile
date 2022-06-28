@@ -79,7 +79,7 @@ m-remote:
 .PHONY: m-remote
 
 m-linux:
-	$(POETRY_RUNNER)  run molecule test --scenario-name default -- $(DEBUG_VERBOSITY) --tags $(TASK_TAGS)
+	$(POETRY_RUNNER) run molecule test --scenario-name default -- $(DEBUG_VERBOSITY) --tags $(TASK_TAGS)
 .PHONY: m-linux
 
 login-mac:
