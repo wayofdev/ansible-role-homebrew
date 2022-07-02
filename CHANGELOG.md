@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/wayofdev/ansible-role-homebrew/compare/v2.1.0...v2.1.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* minor style fixes, added pre-commit ([d35ee71](https://github.com/wayofdev/ansible-role-homebrew/commit/d35ee712a24808bd20f32969a2f50039a9b898c8))
+
 ## [2.1.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v2.0.0...v2.1.0) (2022-06-28)
 
 
