@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.0](https://github.com/wayofdev/ansible-role-homebrew/compare/v2.1.1...v2.2.0) (2022-07-12)
+
+
+### Features
+
+* adding sponsors, fixes in homebrew path ([fa8b4dc](https://github.com/wayofdev/ansible-role-homebrew/commit/fa8b4dc02784ae4b522bae2c7a5f4a541bd1e22e))
+* adding sponsors, fixes in homebrew path ([16b90b5](https://github.com/wayofdev/ansible-role-homebrew/commit/16b90b5f52741bda5a2a9a0abb91a7d0a2604129))
+
 ## [2.1.1](https://github.com/wayofdev/ansible-role-homebrew/compare/v2.1.0...v2.1.1) (2022-06-28)
 
 
