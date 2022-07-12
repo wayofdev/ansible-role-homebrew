@@ -6,7 +6,6 @@
 </div>
 
 
-
 <br>
 
 <br>
@@ -20,7 +19,6 @@
 <a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/ansible-role-homebrew.svg?style=flat-square&color=blue" alt="Software License"/></a>
 <a href="#"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/wayofdev/ansible-role-homebrew/latest?style=flat-square"></a>
 </div>
-
 <br>
 
 # Ansible Role: Homebrew
@@ -52,6 +50,7 @@ If you **like/use** this role, please consider **starring** it. Thanks!
 * [License](#-license)
 * [Author Information](#-author-information)
 * [Credits and Resources](#-credits-and-resources)
+* [Sponsors](#-sponsors)
 
 <br>
 
@@ -479,5 +478,19 @@ This role was created in **2022** by [lotyp / wayofdev](https://github.com/wayof
 <a href="https://github.com/wayofdev/ansible-role-homebrew/graphs/contributors">
   <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false">
 </a>
+
+<br>
+
+## 🤑 Sponsors
+
+Role development and testing was done on [Parallels Desktop Pro Edition](https://www.parallels.com/products/desktop/pro/) and License was provided by [Parallels](https://www.parallels.com/eu/)
+
+<div>
+<a href="https://www.parallels.com/products/desktop/pro/">
+<img width="180" src="assets/pr-full-color-on-white.jpeg#gh-light-mode-only"><img width="180" src="assets/pr-full-color-on-black.jpeg#gh-dark-mode-only">
+</a>
+</div>
+
+
 
 <br>

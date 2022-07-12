@@ -33,9 +33,9 @@
 
 - name: Homebrew | Install | Add bin dir to system-wide $PATH on macOS
   ansible.builtin.copy:
-    content: 'export PATH=$PATH:{{ homebrew_bin_path }}'
+    content: '{{ homebrew_bin_path }}'
     # https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently/51218283#51218283
-    dest: /etc/paths.d/brew.sh
+    dest: /etc/paths.d/Homebrew
   when:
     - ansible_os_family == 'Darwin' and not brewsh_file.stat.exists
   become: true
