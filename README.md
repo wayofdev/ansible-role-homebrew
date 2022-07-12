@@ -487,10 +487,6 @@ Role development and testing was done on [Parallels Desktop Pro Edition](https:/
 
 <div>
 <a href="https://www.parallels.com/products/desktop/pro/">
-<img width="180" src="assets/pr-full-color-on-white.jpeg#gh-light-mode-only"><img width="180" src="assets/pr-full-color-on-black.jpeg#gh-dark-mode-only">
+<img width="180" src="assets/pr-full-color-on-white.jpeg#gh-light-mode-only">
 </a>
 </div>
-
-
-
-<br>
